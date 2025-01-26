@@ -42,8 +42,68 @@ class Home extends BaseController
             }
             else
             {
+                session()->set('loggedUser', $account['accountID']);
+                session()->set('fullname', $account['Fullname']);
+                session()->set('role',$account['Role']);
                 
+                switch($account['Role'])
+                {
+                    case "Administrator":
+                    return redirect()->to('/admin');
+
+                    case "Manager":
+                    return redirect()->to('/manager');
+
+                    case "User":
+                    return redirect()->to('/user');
+
+                    default:
+                    $this->logout();
+                    break;
+                }
             }
         }
+    }
+
+    public function logout()
+    {
+        if(session()->has('loggedUser'))
+        {
+            session()->remove('loggedUser');
+            session()->destroy();
+            return redirect()->to('/?access=out')->with('fail', 'You are logged out!');
+        }
+    }
+
+    // pages
+    /// admin
+    public function adminDashboard()
+    {
+        if(session()->get('role')=="Administrator")
+        {
+            return view('admin/index');
+        }
+        return redirect()->back();
+    }
+
+    /// manager
+    public function managerDashboard()
+    {
+        if(session()->get('role')=="Manager")
+        {
+            return view('manager/index');
+        }
+        return redirect()->back();
+    }
+
+
+    /// user
+    public function userDashboard()
+    {
+        if(session()->get('role')=="User")
+        {
+            return view('user/index');
+        }
+        return redirect()->back();
     }
 }

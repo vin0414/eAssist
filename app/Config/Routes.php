@@ -31,6 +31,7 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 // functions
 $routes->post('auth','Home::Auth');
+$routes->get('logout','Home::logout');
 // other pages
 $routes->get('sign-up','Home::signUp');
 $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
@@ -40,7 +41,12 @@ $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
 
 $routes->group('',['filter'=>'AuthCheck'],function($routes)
 {
-
+    //admin
+    $routes->get('/admin','Home::adminDashboard');
+    //manager
+    $routes->get('/manager','Home::managerDashboard');
+    //user
+    $routes->get('/user','Home::userDashboard');
 });
 /*
  * --------------------------------------------------------------------
