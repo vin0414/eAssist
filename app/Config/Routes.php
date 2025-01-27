@@ -42,11 +42,16 @@ $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
 $routes->group('',['filter'=>'AuthCheck'],function($routes)
 {
     //admin
-    $routes->get('/admin','Home::adminDashboard');
+    $routes->get('/overview','Home::adminDashboard');
+    $routes->get('/technical-assistance','Home::techAssistance');
+    $routes->get('/user-accounts','Home::userAccounts');
+    $routes->get('/cluster-and-schools','Home::clusterAndSchools');
+    $routes->get('/reports','Home::reports');
+    $routes->get('/account','Home::myAccount');
     //manager
-    $routes->get('/manager','Home::managerDashboard');
+    $routes->get('/manager/overview','Home::managerDashboard');
     //user
-    $routes->get('/user','Home::userDashboard');
+    $routes->get('/user/overview','Home::userDashboard');
 });
 /*
  * --------------------------------------------------------------------

@@ -49,13 +49,13 @@ class Home extends BaseController
                 switch($account['Role'])
                 {
                     case "Administrator":
-                    return redirect()->to('/admin');
+                    return redirect()->to('/overview');
 
                     case "Manager":
-                    return redirect()->to('/manager');
+                    return redirect()->to('/manager/overview');
 
                     case "User":
-                    return redirect()->to('/user');
+                    return redirect()->to('/user/overview');
 
                     default:
                     $this->logout();
@@ -81,7 +81,58 @@ class Home extends BaseController
     {
         if(session()->get('role')=="Administrator")
         {
-            return view('admin/index');
+            $title = "Dashboard";
+            $data = ['title'=>$title];
+            return view('admin/index',$data);
+        }
+        return redirect()->back();
+    }
+
+    public function techAssistance()
+    {
+        if(session()->get('role')=="Administrator")
+        {
+            $title = "Technical Assistance";
+            $data = ['title'=>$title];
+            return view('admin/technical-assistance',$data);
+        }
+        return redirect()->back();
+    }
+
+    public function userAccounts()
+    {
+        if(session()->get('role')=="Administrator")
+        {
+            return view('admin/manage-account');
+        }
+        return redirect()->back();
+    }
+
+    public function clusterAndSchools()
+    {
+        if(session()->get('role')=="Administrator")
+        {
+            $title = "Cluster & Schools";
+            $data = ['title'=>$title];
+            return view('admin/manage-schools',$data);
+        }
+        return redirect()->back();
+    }
+
+    public function reports()
+    {
+        if(session()->get('role')=="Administrator")
+        {
+            return view('admin/report');
+        }
+        return redirect()->back();
+    }
+
+    public function myAccount()
+    {
+        if(session()->get('role')=="Administrator")
+        {
+            return view('admin/account');
         }
         return redirect()->back();
     }
