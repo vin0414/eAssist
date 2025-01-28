@@ -34,6 +34,10 @@ $routes->post('auth','Home::Auth');
 $routes->get('logout','Home::logout');
 // other pages
 $routes->get('sign-up','Home::signUp');
+// ajax
+$routes->get('fetch-cluster','FetchController::fetchCluster');
+$routes->get('fetch-subject','FetchController::fetchSubject');
+
 $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
 {
     $routes->get('/', 'Home::index');
