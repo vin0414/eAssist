@@ -103,7 +103,9 @@ class Home extends BaseController
     {
         if(session()->get('role')=="Administrator")
         {
-            return view('admin/manage-account');
+            $title = "User Accounts";
+            $data = ['title'=>$title];
+            return view('admin/manage-account',$data);
         }
         return redirect()->back();
     }
@@ -123,7 +125,9 @@ class Home extends BaseController
     {
         if(session()->get('role')=="Administrator")
         {
-            return view('admin/report');
+            $title = "Reports";
+            $data = ['title'=>$title];
+            return view('admin/report',$data);
         }
         return redirect()->back();
     }
@@ -132,7 +136,9 @@ class Home extends BaseController
     {
         if(session()->get('role')=="Administrator")
         {
-            return view('admin/account');
+            $title = "My Account";
+            $data = ['title'=>$title];
+            return view('admin/account',$data);
         }
         return redirect()->back();
     }
