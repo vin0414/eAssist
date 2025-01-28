@@ -104,7 +104,9 @@ class Home extends BaseController
         if(session()->get('role')=="Administrator")
         {
             $title = "User Accounts";
-            $data = ['title'=>$title];
+            $accountModel = new \App\Models\accountModel();
+            $account = $accountModel->findAll();
+            $data = ['title'=>$title,'account'=>$account];
             return view('admin/manage-account',$data);
         }
         return redirect()->back();

@@ -12,6 +12,7 @@
   <!-- Nucleo Icons -->
   <link href="<?=base_url('assets/css/nucleo-icons.css')?>" rel="stylesheet" />
   <link href="<?=base_url('assets/css/nucleo-svg.css')?>" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.dataTables.css" />
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css" integrity="sha512-v8QQ0YQ3H4K6Ic3PJkym91KoeNT5S3PnDKvqnwqFD1oiqIl653crGZplPdU5KKtHjO0QKcQ2aUlQZYjHczkmGw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -21,7 +22,6 @@
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
 </head>
-
 <body class="g-sidenav-show  bg-gray-100">
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
     <div class="sidenav-header">
@@ -144,7 +144,66 @@
     <?= $this->include('admin/templates/header'); ?>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-      
+      <div class="row g-2">
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-header p-3 pb-0">
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">
+                  Users
+                </h6>
+                <button class="btn btn-sm bg-primary text-white ms-auto mb-0">
+                  <i class="fa-solid fa-user-plus"></i> New Account
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-flush" id="datatable-search" style="font-size:12px;">
+                  <thead class="thead-light">
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email Address</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fullname</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Role</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cluster</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Subject</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                  </thead>
+                  <tbody>
+                  <?php foreach($account as $row): ?>
+                    <tr>
+                      <td><?php echo $row['Email'] ?></td>
+                      <td><?php echo $row['Fullname'] ?></td>
+                      <td><?php echo $row['Role'] ?></td>
+                      <td><?php echo $row['clusterID'] ?></td>
+                      <td><?php echo $row['subjectID'] ?></td>
+                      <td><?php echo $row['Status'] ?></td>
+                      <td></td>
+                    </tr>
+                  <?php endforeach; ?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-header p-3 pb-0">
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">
+                  Type of Users
+                </h6>
+                <button class="btn btn-sm bg-primary text-white ms-auto mb-0">
+                  <i class="fa-solid fa-circle-plus"></i> New
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
   <div class="fixed-plugin">
@@ -205,7 +264,14 @@
   <script src="<?=base_url('assets/js/core/bootstrap.min.js')?>"></script>
   <script src="<?=base_url('assets/js/plugins/perfect-scrollbar.min.js')?>"></script>
   <script src="<?=base_url('assets/js/plugins/smooth-scrollbar.min.js')?>"></script>
-  <script src="<?=base_url('assets/js/plugins/chartjs.min.js')?>"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
+  <script>
+    $(document).ready( function () {
+      $('#datatable-search').DataTable();
+    });
+  </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
