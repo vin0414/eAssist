@@ -45,6 +45,8 @@ $routes->group('',['filter'=>'AuthCheck'],function($routes)
     $routes->get('/overview','Home::adminDashboard');
     $routes->get('/technical-assistance','Home::techAssistance');
     $routes->get('/user-accounts','Home::userAccounts');
+    $routes->get('/new-account','Home::newAccount');
+    $routes->get('/edit-account/(:any)','Home::editAccount/$1');
     $routes->get('/cluster-and-schools','Home::clusterAndSchools');
     $routes->get('/reports','Home::reports');
     $routes->get('/account','Home::myAccount');

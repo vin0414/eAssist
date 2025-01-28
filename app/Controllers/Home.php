@@ -104,12 +104,32 @@ class Home extends BaseController
         if(session()->get('role')=="Administrator")
         {
             $title = "User Accounts";
-            $accountModel = new \App\Models\accountModel();
-            $account = $accountModel->findAll();
+            $builder = $this->db->table('tblaccount a');
+            $builder->select('a.*,b.clusterName,c.subjectName');
+            $builder->join('tblcluster b','b.clusterID=a.clusterID','LEFT');
+            $builder->join('tblsubject c','c.subjectID=a.subjectID','LEFT');
+            $builder->groupBy('a.accountID');
+            $account = $builder->get()->getResult();
             $data = ['title'=>$title,'account'=>$account];
             return view('admin/manage-account',$data);
         }
         return redirect()->back();
+    }
+
+    public function newAccount()
+    {
+        if(session()->get('role')=="Administrator")
+        {
+            $title = "New Account";
+            $data = ['title'=>$title];
+            return view('admin/new-account',$data);
+        }
+        return redirect()->back();
+    }
+
+    public function editAccount($id)
+    {
+
     }
 
     public function clusterAndSchools()

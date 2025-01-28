@@ -12,7 +12,6 @@
   <!-- Nucleo Icons -->
   <link href="<?=base_url('assets/css/nucleo-icons.css')?>" rel="stylesheet" />
   <link href="<?=base_url('assets/css/nucleo-svg.css')?>" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.dataTables.css" />
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css" integrity="sha512-v8QQ0YQ3H4K6Ic3PJkym91KoeNT5S3PnDKvqnwqFD1oiqIl653crGZplPdU5KKtHjO0QKcQ2aUlQZYjHczkmGw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -22,6 +21,7 @@
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
 </head>
+
 <body class="g-sidenav-show  bg-gray-100">
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
     <div class="sidenav-header">
@@ -75,7 +75,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="<?=site_url('/user-accounts')?>">
+          <a class="nav-link" href="<?=site_url('/user-accounts')?>">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                 <svg fill="#000000" width="18px" height="18px" viewBox="-6 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
                 <title>users</title>
@@ -86,7 +86,18 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link  " href="<?=site_url('/reports')?>">
+          <a class="nav-link active" href="<?=site_url('/new-account')?>">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                <svg fill="#000000" width="18px" height="18px" viewBox="-6 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <title>users</title>
+                <path d="M17 11.8c-0.28-1.4-1.4-2.52-2.84-2.84-0.36-1.68-1.84-2.92-3.6-2.92h-6.88c-2.040 0-3.68 1.64-3.68 3.68v6.88c0 1.76 1.24 3.24 2.92 3.6 0.28 1.4 1.4 2.52 2.84 2.84 0.36 1.68 1.84 2.92 3.6 2.92h6.88c2.040 0 3.68-1.64 3.68-3.68v-6.88c0-1.76-1.24-3.24-2.92-3.6zM18.24 15.4v6.88c0 0.080 0 0.16 0 0.24-0.48-1.12-1.32-2.080-2.4-2.72 0.24-0.48 0.36-1 0.36-1.56 0-1.88-1.52-3.4-3.4-3.4s-3.4 1.52-3.4 3.4c0 0.56 0.12 1.080 0.36 1.56-1.080 0.64-1.88 1.6-2.4 2.72 0-0.080 0-0.16 0-0.24v-6.88c0-1.12 0.88-2 2-2h6.88c1.12 0 2 0.88 2 2zM11.040 18.28c0-0.96 0.76-1.72 1.72-1.72s1.72 0.76 1.72 1.72c0 0.96-0.76 1.72-1.72 1.72-0.92 0-1.72-0.76-1.72-1.72zM1.68 16.6v-6.88c0-1.12 0.88-2 2-2h6.88c0.8 0 1.48 0.48 1.8 1.16h-5.84c-2.040 0-3.68 1.64-3.68 3.68v5.88c-0.68-0.32-1.16-1.040-1.16-1.84zM4.52 19.44v-6.88c0-1.12 0.88-2 2-2h6.88c0.8 0 1.48 0.48 1.8 1.16h-5.84c-2.040 0-3.68 1.64-3.68 3.68v5.88c-0.68-0.32-1.16-1.040-1.16-1.84zM9.36 24.28c-0.28 0-0.52-0.040-0.76-0.16 0-0.040 0.040-0.080 0.040-0.12 0.28-1.24 1.12-2.32 2.28-2.92 0.56 0.36 1.2 0.56 1.88 0.56s1.36-0.2 1.88-0.56c1.16 0.6 2 1.64 2.28 2.92 0 0.040 0.040 0.080 0.040 0.12-0.24 0.080-0.48 0.16-0.76 0.16h-6.88z"></path>
+                </svg>
+            </div>
+            <span class="nav-link-text ms-1">New Account</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?=site_url('/reports')?>">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                 <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <title>report-barchart</title>
@@ -105,7 +116,7 @@
           <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link  " href="<?=site_url('account')?>">
+          <a class="nav-link" href="<?=site_url('account')?>">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
               <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <title>customer-support</title>
@@ -144,59 +155,7 @@
     <?= $this->include('admin/templates/header'); ?>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-      <div class="row g-2">
-        <div class="col-lg-12">
-          <div class="card">
-            <div class="card-header p-3 pb-0">
-              <div class="d-flex align-items-center">
-                <h6 class="mb-0">
-                  User Accounts
-                </h6>
-                <a href="<?=site_url('new-account')?>" class="btn btn-sm bg-primary text-white ms-auto mb-0">
-                  <i class="fa-solid fa-user-plus"></i> New Account
-                </a>
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-flush" id="datatable-search" style="font-size:12px;">
-                  <thead class="thead-light">
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email Address</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fullname</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Role</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cluster</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Subject</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
-                  </thead>
-                  <tbody>
-                  <?php foreach($account as $row): ?>
-                    <tr>
-                      <td><?php echo $row->Email ?></td>
-                      <td><?php echo $row->Fullname ?></td>
-                      <td><?php echo $row->Role ?></td>
-                      <td><?php echo $row->clusterName ?></td>
-                      <td><?php echo $row->subjectName ?></td>
-                      <td><?php 
-                            if ($row->Status == 1) {
-                                echo '<span class="badge bg-success">Active</span>';
-                            } else {
-                                echo '<span class="badge bg-danger">Inactive</span>';
-                            }
-                        ?>
-                      </td>
-                      <td>
-                        <a href="<?=site_url('edit-account/')?><?php echo $row->Fullname ?>"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Edit</a>
-                      </td>
-                    </tr>
-                  <?php endforeach; ?>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      
     </div>
   </main>
   <div class="fixed-plugin">
@@ -257,14 +216,7 @@
   <script src="<?=base_url('assets/js/core/bootstrap.min.js')?>"></script>
   <script src="<?=base_url('assets/js/plugins/perfect-scrollbar.min.js')?>"></script>
   <script src="<?=base_url('assets/js/plugins/smooth-scrollbar.min.js')?>"></script>
-  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
-  <script>
-    $(document).ready( function () {
-      $('#datatable-search').DataTable();
-    });
-  </script>
+  <script src="<?=base_url('assets/js/plugins/chartjs.min.js')?>"></script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
