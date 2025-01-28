@@ -4,14 +4,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('assets/img/apple-icon.png')?>">
-  <link rel="icon" type="image/png" href="<?=base_url('assets/img/favicon.png')?>">
-  <title>e-Assist</title>
+  <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('assets/img/logo.png')?>">
+  <link rel="icon" type="image/png" href="<?=base_url('assets/img/logo.png')?>">
+  <title>Assist</title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
   <!-- Nucleo Icons -->
   <link href="<?=base_url('assets/css/nucleo-icons.css')?>" rel="stylesheet" />
   <link href="<?=base_url('assets/css/nucleo-svg.css')?>" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.dataTables.css" />
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css" integrity="sha512-v8QQ0YQ3H4K6Ic3PJkym91KoeNT5S3PnDKvqnwqFD1oiqIl653crGZplPdU5KKtHjO0QKcQ2aUlQZYjHczkmGw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -27,8 +28,8 @@
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href="<?=site_url('/')?>" target="_blank">
-        <img src="<?=base_url('assets/img/logo-ct-dark.png')?>" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold">e-Assist</span>
+        <img src="<?=base_url('assets/img/logo.png')?>" class="navbar-brand-img h-100" alt="main_logo">
+        <span class="ms-1 font-weight-bold">Assist</span>
       </a>
     </div>
     <hr class="horizontal dark mt-0">
@@ -144,7 +145,109 @@
     <?= $this->include('admin/templates/header'); ?>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-      
+      <ul class="nav nav-tabs" id="myTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Cluster and Subject</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Schools</a>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabsContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+          <br/>
+          <div class="row g-2">
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-header p-3 pb-0">
+                  <div class="d-flex align-items-center">
+                    <h6 class="mb-0">
+                      Cluster
+                    </h6>
+                    <button type="button" class="btn btn-sm btn-info text-white ms-auto mb-0">
+                      <i class="fa-solid fa-plus"></i> New
+                    </button>
+                  </div>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                  <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                      <thead>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cluster</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-header p-3 pb-0">
+                  <div class="d-flex align-items-center">
+                    <h6 class="mb-0">
+                      Subjects
+                    </h6>
+                    <button type="button" class="btn btn-sm btn-info text-white ms-auto mb-0">
+                      <i class="fa-solid fa-plus"></i> New
+                    </button>
+                  </div>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                  <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                      <thead>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Subjects</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <br/>
+          <div class="card">
+            <div class="card-header p-3 pb-0">
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">
+                School
+                </h6>
+                <button type="button" class="btn btn-sm btn-info text-white ms-auto mb-0" style="margin-right:5px;">
+                  <i class="fa-solid fa-plus"></i> New
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm add mb-0"><i class="fa-solid fa-download"></i>&nbsp;Export</button>
+              </div>
+            </div>
+            <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-flush" id="tblschools" style="font-size:12px;">
+                  <thead class="thead-light">
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Created</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">School</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Address</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cluster</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                  </thead>
+                  <tbody>
+                  <?php foreach($school as $row): ?>
+                    <tr>
+                      <td><?php echo $row->DateCreated ?></td>
+                      <td><?php echo $row->schoolName ?></td>
+                      <td><?php echo $row->address ?></td>
+                      <td><?php echo $row->clusterName ?></td>
+                      <td></td>
+                    </tr>
+                  <?php endforeach; ?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> 
     </div>
   </main>
   <div class="fixed-plugin">
@@ -206,6 +309,14 @@
   <script src="<?=base_url('assets/js/plugins/perfect-scrollbar.min.js')?>"></script>
   <script src="<?=base_url('assets/js/plugins/smooth-scrollbar.min.js')?>"></script>
   <script src="<?=base_url('assets/js/plugins/chartjs.min.js')?>"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
+  <script>
+    $(document).ready( function () {
+      $('#tblschools').DataTable();
+    });
+  </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

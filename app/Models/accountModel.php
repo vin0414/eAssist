@@ -14,5 +14,5 @@ class accountModel extends Model
     protected $returnType     = 'array';
     protected $useSoftDeletes = false;
 
-    protected $allowedFields = ['Email', 'Password','Fullname','Role','clusterID','subjectID','Status','Token','DateCreated'];
+    protected $allowedFields = ['Email', 'Password','Fullname','Role','clusterID','schoolID','subjectID','Status','Token','DateCreated'];
 }

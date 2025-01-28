@@ -4,8 +4,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('assets/img/apple-icon.png')?>">
-  <link rel="icon" type="image/png" href="<?=base_url('assets/img/favicon.png')?>">
+  <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('assets/img/logo.png')?>">
+  <link rel="icon" type="image/png" href="<?=base_url('assets/img/logo.png')?>">
   <title>Assist</title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
@@ -30,8 +30,8 @@
             <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
               <div class="card card-plain mt-8">
                 <div class="card-header pb-0 text-left bg-transparent">
-                  <h3 class="font-weight-bolder text-info text-gradient">Welcome to Assign</h3>
-                  <p class="mb-0">Enter your email and password to sign in</p>
+                  <h3 class="font-weight-bolder text-info text-center text-gradient">Welcome to Assign</h3>
+                  <p class="mb-0 text-center">Advanced Support System for Improving Schools and Teachers Performance</p>
                 </div>
                 <div class="card-body">
                   <?php if(!empty(session()->getFlashdata('fail'))) : ?>

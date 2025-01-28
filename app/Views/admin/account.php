@@ -4,9 +4,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('assets/img/apple-icon.png')?>">
-  <link rel="icon" type="image/png" href="<?=base_url('assets/img/favicon.png')?>">
-  <title>e-Assist</title>
+  <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('assets/img/logo.png')?>">
+  <link rel="icon" type="image/png" href="<?=base_url('assets/img/logo.png')?>">
+  <title>Assist</title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
   <!-- Nucleo Icons -->
@@ -27,8 +27,8 @@
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href="<?=site_url('/')?>" target="_blank">
-        <img src="<?=base_url('assets/img/logo-ct-dark.png')?>" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold">e-Assist</span>
+        <img src="<?=base_url('assets/img/logo.png')?>" class="navbar-brand-img h-100" alt="main_logo">
+        <span class="ms-1 font-weight-bold">Assist</span>
       </a>
     </div>
     <hr class="horizontal dark mt-0">
