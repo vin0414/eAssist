@@ -156,26 +156,27 @@
       <div class="tab-content" id="myTabsContent">
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
           <br/>
-          <div class="row g-2">
+          <div class="row g-3">
             <div class="col-lg-6">
               <div class="card">
                 <div class="card-header p-3 pb-0">
                   <div class="d-flex align-items-center">
                     <h6 class="mb-0">
-                      Cluster
+                    <i class="fa-solid fa-layer-group"></i> &nbsp;Clusters
                     </h6>
-                    <button type="button" class="btn btn-sm btn-info text-white ms-auto mb-0">
+                    <button type="button" class="btn btn-sm btn-info text-white ms-auto mb-0" data-bs-toggle="modal" data-bs-target="#addClusterModal">
                       <i class="fa-solid fa-plus"></i> New
                     </button>
                   </div>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                   <div class="table-responsive p-0">
-                    <table class="table align-items-center mb-0">
+                    <table class="table align-items-center mb-0" style="font-size:12px;">
                       <thead>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cluster</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 w-500">Cluster Name</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                       </thead>
+                      <tbody id="tblcluster"></tbody>
                     </table>
                   </div>
                 </div>
@@ -186,20 +187,21 @@
                 <div class="card-header p-3 pb-0">
                   <div class="d-flex align-items-center">
                     <h6 class="mb-0">
-                      Subjects
+                    <i class="fa-solid fa-swatchbook"></i>&nbsp;Subjects
                     </h6>
-                    <button type="button" class="btn btn-sm btn-info text-white ms-auto mb-0">
+                    <button type="button" class="btn btn-sm btn-info text-white ms-auto mb-0" data-bs-toggle="modal" data-bs-target="#addSubjectModal">
                       <i class="fa-solid fa-plus"></i> New
                     </button>
                   </div>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                   <div class="table-responsive p-0">
-                    <table class="table align-items-center mb-0">
+                    <table class="table align-items-center mb-0" style="font-size:12px;">
                       <thead>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Subjects</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 w-500">Subjects</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                       </thead>
+                      <tbody id="tblsubject"></tbody>
                     </table>
                   </div>
                 </div>
@@ -213,7 +215,7 @@
             <div class="card-header p-3 pb-0">
               <div class="d-flex align-items-center">
                 <h6 class="mb-0">
-                School
+                <i class="fa-solid fa-school"></i>&nbsp;Schools
                 </h6>
                 <button type="button" class="btn btn-sm btn-info text-white ms-auto mb-0" style="margin-right:5px;">
                   <i class="fa-solid fa-plus"></i> New
@@ -238,7 +240,9 @@
                       <td><?php echo $row->schoolName ?></td>
                       <td><?php echo $row->address ?></td>
                       <td><?php echo $row->clusterName ?></td>
-                      <td></td>
+                      <td>
+                      <a href="<?=site_url('edit-school/')?><?php echo $row->School ?>"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Edit</a>
+                      </td>
                     </tr>
                   <?php endforeach; ?>
                   </tbody>
@@ -303,6 +307,58 @@
       </div>
     </div>
   </div>
+  <div class="modal fade" id="addClusterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New Cluster</h5>
+          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" id="frmCluster">
+            <?= csrf_field(); ?>
+            <div class="row">
+              <div class="col-12 form-group">
+                <label>Cluster Name</label>
+                <input type="text" class="form-control" name="cluster_name" required/>
+              </div>
+              <div class="col-12 form-group">
+                <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Save</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="addSubjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New Subject</h5>
+          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" id="frmSubject">
+            <?= csrf_field(); ?>
+            <div class="row">
+              <div class="col-12 form-group">
+                <label>Subject Name</label>
+                <input type="text" class="form-control" name="subject_name" required/>
+              </div>
+              <div class="col-12 form-group">
+                <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Save</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   <!--   Core JS Files   -->
   <script src="<?=base_url('assets/js/core/popper.min.js')?>"></script>
   <script src="<?=base_url('assets/js/core/bootstrap.min.js')?>"></script>
@@ -315,7 +371,70 @@
   <script>
     $(document).ready( function () {
       $('#tblschools').DataTable();
+      fetchCluster();fetchSubject();
+      $('#frmCluster').on('submit',function(e){
+        e.preventDefault();
+        let data = $(this).serialize();
+        $.ajax({
+          url:"<?=site_url('save-cluster')?>",method:"POST",
+          data:data,
+          success:function(response)
+          {
+            if(response==="success"){fetchCluster();$('#frmCluster')[0].reset();$('#addClusterModal').modal('hide');}else{alert(response);}
+          }
+        });
+      });
+      $('#frmSubject').on('submit',function(e){
+        e.preventDefault();
+        let data = $(this).serialize();
+        $.ajax({
+          url:"<?=site_url('save-subject')?>",method:"POST",
+          data:data,
+          success:function(response)
+          {
+            if(response==="success"){fetchSubject();$('#frmSubject')[0].reset();$('#addSubjectModal').modal('hide');}else{alert(response);}
+          }
+        });
+      });
     });
+
+    function fetchCluster()
+    {
+      $('#tblcluster').html("<tr><td colspan='2'><center>Loading...</center></td></tr>");
+      $.ajax({
+        url:"<?=site_url('fetch-cluster')?>",method:"GET",
+        success:function(response)
+        {
+          if(response==="")
+          {
+            $('#tblcluster').html("<tr><td colspan='2'><center>No Available Record(s)</center></td></tr>");
+          }
+          else
+          {
+            $('#tblcluster').html(response);
+          }
+        }
+      });
+    }
+
+    function fetchSubject()
+    {
+      $('#tblsubject').html("<tr><td colspan='2'><center>Loading...</center></td></tr>");
+      $.ajax({
+        url:"<?=site_url('fetch-subject')?>",method:"GET",
+        success:function(response)
+        {
+          if(response==="")
+          {
+            $('#tblsubject').html("<tr><td colspan='2'><center>No Available Record(s)</center></td></tr>");
+          }
+          else
+          {
+            $('#tblsubject').html(response);
+          }
+        }
+      });
+    }
   </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;

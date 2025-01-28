@@ -150,7 +150,7 @@
             <div class="card-header p-3 pb-0">
               <div class="d-flex align-items-center">
                 <h6 class="mb-0">
-                  User Accounts
+                <i class="fa-solid fa-users-gear"></i>&nbsp;User Accounts
                 </h6>
                 <a href="<?=site_url('new-account')?>" class="btn btn-sm btn-info text-white ms-auto mb-0">
                   <i class="fa-solid fa-user-plus"></i> New Account

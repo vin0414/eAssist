@@ -150,6 +150,18 @@ class Home extends BaseController
         return redirect()->back();
     }
 
+    public function editSchool($id)
+    {
+        if(session()->get('role')=="Administrator")
+        {
+            $title = "Edit School";
+
+            $data = ['title'=>$title];
+            return view('admin/edit-school',$data);
+        }
+        return redirect()->back();
+    }
+
     public function reports()
     {
         if(session()->get('role')=="Administrator")

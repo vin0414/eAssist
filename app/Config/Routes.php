@@ -34,9 +34,12 @@ $routes->post('auth','Home::Auth');
 $routes->get('logout','Home::logout');
 // other pages
 $routes->get('sign-up','Home::signUp');
-// ajax
-$routes->get('fetch-cluster','FetchController::fetchCluster');
-$routes->get('fetch-subject','FetchController::fetchSubject');
+// fetch using ajax
+$routes->get('fetch-cluster','ActionController::fetchCluster');
+$routes->get('fetch-subject','ActionController::fetchSubject');
+// save using ajax
+$routes->post('save-cluster','ActionController::saveCluster');
+$routes->post('save-subject','ActionController::saveSubject');
 
 $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
 {
@@ -52,6 +55,7 @@ $routes->group('',['filter'=>'AuthCheck'],function($routes)
     $routes->get('/new-account','Home::newAccount');
     $routes->get('/edit-account/(:any)','Home::editAccount/$1');
     $routes->get('/cluster-and-schools','Home::clusterAndSchools');
+    $routes->get('/edit-school/(:any)','Home::editSchool/$1');
     $routes->get('/reports','Home::reports');
     $routes->get('/account','Home::myAccount');
     //manager
