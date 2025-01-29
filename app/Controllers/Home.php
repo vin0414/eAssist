@@ -137,14 +137,10 @@ class Home extends BaseController
         if(session()->get('role')=="Administrator")
         {
             $title = "Cluster & Schools";
-            //schools
-            $builder = $this->db->table('tblschool a');
-            $builder->select('a.*,b.clusterName');
-            $builder->join('tblcluster b','b.clusterID=a.clusterID','LEFT');
-            $builder->groupBy('a.schoolID');
-            $school = $builder->get()->getResult();
-
-            $data = ['title'=>$title,'school'=>$school];
+            //cluster
+            $clusterModel = new \App\Models\clusterModel();
+            $cluster = $clusterModel->findAll();
+            $data = ['title'=>$title,'cluster'=>$cluster];
             return view('admin/manage-schools',$data);
         }
         return redirect()->back();

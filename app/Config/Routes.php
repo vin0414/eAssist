@@ -37,9 +37,13 @@ $routes->get('sign-up','Home::signUp');
 // fetch using ajax
 $routes->get('fetch-cluster','ActionController::fetchCluster');
 $routes->get('fetch-subject','ActionController::fetchSubject');
+$routes->get('fetch-school-data','ActionController::fetchSchoolData');
 // save using ajax
 $routes->post('save-cluster','ActionController::saveCluster');
+$routes->post('edit-cluster','ActionController::editCluster');
 $routes->post('save-subject','ActionController::saveSubject');
+$routes->post('edit-subject','ActionController::editSubject');
+$routes->post('save-school','ActionController::saveSchool');
 
 $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
 {

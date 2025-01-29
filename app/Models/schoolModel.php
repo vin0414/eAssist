@@ -15,4 +15,9 @@ class schoolModel extends Model
     protected $useSoftDeletes = false;
 
     protected $allowedFields = ['schoolName','address','clusterID','Status','DateCreated'];
+
+    public function getTotalRecords()
+    {
+        return $this->db->table($this->table)->countAllResults();
+    }
 }

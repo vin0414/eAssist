@@ -217,10 +217,10 @@
                 <h6 class="mb-0">
                 <i class="fa-solid fa-school"></i>&nbsp;Schools
                 </h6>
-                <button type="button" class="btn btn-sm btn-info text-white ms-auto mb-0" style="margin-right:5px;">
+                <button type="button" class="btn btn-sm btn-info text-white ms-auto mb-0" style="margin-right:5px;" data-bs-toggle="modal" data-bs-target="#addSchoolModal">
                   <i class="fa-solid fa-plus"></i> New
                 </button>
-                <button type="button" class="btn btn-secondary btn-sm add mb-0"><i class="fa-solid fa-download"></i>&nbsp;Export</button>
+                <button type="button" class="btn btn-secondary btn-sm add mb-0" id="btnExport"><i class="fa-solid fa-download"></i>&nbsp;Export</button>
               </div>
             </div>
             <div class="card-body">
@@ -234,17 +234,6 @@
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                   </thead>
                   <tbody>
-                  <?php foreach($school as $row): ?>
-                    <tr>
-                      <td><?php echo $row->DateCreated ?></td>
-                      <td><?php echo $row->schoolName ?></td>
-                      <td><?php echo $row->address ?></td>
-                      <td><?php echo $row->clusterName ?></td>
-                      <td>
-                      <a href="<?=site_url('edit-school/')?><?php echo $row->School ?>"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Edit</a>
-                      </td>
-                    </tr>
-                  <?php endforeach; ?>
                   </tbody>
                 </table>
               </div>
@@ -321,8 +310,9 @@
             <?= csrf_field(); ?>
             <div class="row">
               <div class="col-12 form-group">
-                <label>Cluster Name</label>
+                <label>Cluster Name <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" name="cluster_name" required/>
+                <div id="cluster_name-error" class="error-message text-danger text-sm"></div>
               </div>
               <div class="col-12 form-group">
                 <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Save</button>
@@ -347,11 +337,110 @@
             <?= csrf_field(); ?>
             <div class="row">
               <div class="col-12 form-group">
-                <label>Subject Name</label>
+                <label>Subject Name <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" name="subject_name" required/>
+                <div id="subject_name-error" class="error-message text-danger text-sm"></div>
               </div>
               <div class="col-12 form-group">
                 <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Save</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="addSchoolModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New School</h5>
+          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" id="frmSchool">
+            <?= csrf_field(); ?>
+            <div class="row">
+              <div class="col-12 form-group">
+                <label>School Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" name="school_name" required/>
+                <div id="school_name-error" class="error-message text-danger text-sm"></div>
+              </div>
+              <div class="col-12 form-group">
+                <label>School Address <span class="text-danger">*</span></label>
+                <textarea class="form-control" name="address" required></textarea>
+                <div id="address-error" class="error-message text-danger text-sm"></div>
+              </div>
+              <div class="col-12 form-group">
+                <label>Cluster <span class="text-danger">*</span></label>
+                <select class="form-control" name="cluster" required>
+                  <option value="">Choose</option>
+                  <?php foreach($cluster as $row): ?>
+                    <option value="<?php echo $row['clusterID'] ?>"><?php echo $row['clusterName'] ?></option>
+                  <?php endforeach; ?>
+                </select>
+                <div id="cluster-error" class="error-message text-danger text-sm"></div>
+              </div>
+              <div class="col-12 form-group">
+                <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Save</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="editClusterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Rename Cluster</h5>
+          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" id="frmEditCluster">
+            <?= csrf_field(); ?>
+            <input type="hidden" name="clusterID" id="clusterID"/>
+            <div class="row">
+              <div class="col-12 form-group">
+                <label>New Cluster Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" name="new_cluster_name" required/>
+                <div id="new_cluster_name-error" class="error-message text-danger text-sm"></div>
+              </div>
+              <div class="col-12 form-group">
+                <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Save Changes</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="editSubjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Rename Subject</h5>
+          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" id="frmEditSubject">
+            <?= csrf_field(); ?>
+            <input type="hidden" name="subjectID" id="subjectID"/>
+            <div class="row">
+              <div class="col-12 form-group">
+                <label>New Subject Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" name="new_subject_name" required/>
+                <div id="new_subject_name-error" class="error-message text-danger text-sm"></div>
+              </div>
+              <div class="col-12 form-group">
+                <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Save Changes</button>
               </div>
             </div>
           </form>
@@ -370,32 +459,147 @@
   <script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
   <script>
     $(document).ready( function () {
-      $('#tblschools').DataTable();
+      var table = $('#tblschools').DataTable({
+          "processing": true,
+          "serverSide": true,
+          "ajax": {
+              "url": "<?=site_url('fetch-school-data')?>",
+              "type": "GET",
+              "dataSrc": function (json) {
+                  // Handle the data if needed
+                  return json.data;
+              },
+              "error": function (xhr, error, code) {
+                  console.error("AJAX Error: " + error);
+                  alert("Error occurred while loading data.");
+              }
+          },
+          "columns": [
+              { "data": "DateCreated" },
+              { "data": "schoolName" },
+              { "data": "address" },
+              { "data": "clusterName" },
+              { "data": "actions" }
+          ]
+      });
       fetchCluster();fetchSubject();
       $('#frmCluster').on('submit',function(e){
         e.preventDefault();
+        $('.error-message').html('');
         let data = $(this).serialize();
         $.ajax({
           url:"<?=site_url('save-cluster')?>",method:"POST",
           data:data,
           success:function(response)
           {
-            if(response==="success"){fetchCluster();$('#frmCluster')[0].reset();$('#addClusterModal').modal('hide');}else{alert(response);}
+            if(response.success){fetchCluster();$('#frmCluster')[0].reset();$('#addClusterModal').modal('hide');}
+            else{
+              var errors = response.error;
+              // Iterate over each error and display it under the corresponding input field
+              for (var field in errors) {
+                  $('#' + field + '-error').html('<p>' + errors[field]+ '</p>'); // Show the first error message
+                  $('#' + field).addClass('text-danger'); // Highlight the input field with an error
+              }
+            }
+          }
+        });
+      });
+      $('#frmEditCluster').on('submit',function(e){
+        e.preventDefault();
+        $('.error-message').html('');
+        let data = $(this).serialize();
+        $.ajax({
+          url:"<?=site_url('edit-cluster')?>",method:"POST",
+          data:data,
+          success:function(response)
+          {
+            if(response.success){fetchCluster();$('#frmEditCluster')[0].reset();$('#editClusterModal').modal('hide');}
+            else{
+              var errors = response.error;
+              // Iterate over each error and display it under the corresponding input field
+              for (var field in errors) {
+                  $('#' + field + '-error').html('<p>' + errors[field]+ '</p>'); // Show the first error message
+                  $('#' + field).addClass('text-danger'); // Highlight the input field with an error
+              }
+            }
           }
         });
       });
       $('#frmSubject').on('submit',function(e){
         e.preventDefault();
+        $('.error-message').html('');
         let data = $(this).serialize();
         $.ajax({
           url:"<?=site_url('save-subject')?>",method:"POST",
           data:data,
           success:function(response)
           {
-            if(response==="success"){fetchSubject();$('#frmSubject')[0].reset();$('#addSubjectModal').modal('hide');}else{alert(response);}
+            if(response.success){fetchSubject();$('#frmSubject')[0].reset();$('#addSubjectModal').modal('hide');}
+            else{
+              var errors = response.error;
+              // Iterate over each error and display it under the corresponding input field
+              for (var field in errors) {
+                  $('#' + field + '-error').html('<p>' + errors[field]+ '</p>'); // Show the first error message
+                  $('#' + field).addClass('text-danger'); // Highlight the input field with an error
+              }
+            }
           }
         });
       });
+      $('#frmEditSubject').on('submit',function(e){
+        e.preventDefault();
+        $('.error-message').html('');
+        let data = $(this).serialize();
+        $.ajax({
+          url:"<?=site_url('edit-subject')?>",method:"POST",
+          data:data,
+          success:function(response)
+          {
+            if(response.success){fetchSubject();$('#frmEditSubject')[0].reset();$('#editSubjectModal').modal('hide');}
+            else{
+              var errors = response.error;
+              // Iterate over each error and display it under the corresponding input field
+              for (var field in errors) {
+                  $('#' + field + '-error').html('<p>' + errors[field]+ '</p>'); // Show the first error message
+                  $('#' + field).addClass('text-danger'); // Highlight the input field with an error
+              }
+            }
+          }
+        });
+      });
+      $('#frmSchool').on('submit',function(e){
+        e.preventDefault();
+        $('.error-message').html('');
+        let data = $(this).serialize();
+        $.ajax({
+          url:"<?=site_url('save-school')?>",method:"POST",
+          data:data,
+          success:function(response)
+          {
+            if(response.success){table.ajax.reload();$('#frmSchool')[0].reset();$('#addSchoolModal').modal('hide');}
+            else{
+              var errors = response.error;
+              // Iterate over each error and display it under the corresponding input field
+              for (var field in errors) {
+                  $('#' + field + '-error').html('<p>' + errors[field]+ '</p>'); // Show the first error message
+                  $('#' + field).addClass('text-danger'); // Highlight the input field with an error
+              }
+            }
+          }
+        });
+      });
+    });
+
+    $(document).on('click','.editCluster',function(){
+      let val = $(this).val();
+      $('#clusterID').attr("value",val);
+      $('#editClusterModal').modal('show');
+    });
+
+    $(document).on('click','.editSubject',function(){
+      let val = $(this).val();
+      $('#subjectID').attr("value",val);
+      $('#editSubjectModal').modal('show');
     });
 
     function fetchCluster()
@@ -435,6 +639,16 @@
         }
       });
     }
+
+    document.getElementById('btnExport').addEventListener('click', function () {
+      const table = document.getElementById('tblschools');
+      let html = table.outerHTML;
+      let blob = new Blob([html], { type: 'application/vnd.ms-excel' });
+      let link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'schools.xls';
+      link.click();
+    });
   </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
