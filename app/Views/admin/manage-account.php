@@ -152,9 +152,12 @@
                 <h6 class="mb-0">
                 <i class="fa-solid fa-users-gear"></i>&nbsp;User Accounts
                 </h6>
-                <a href="<?=site_url('new-account')?>" class="btn btn-sm btn-info text-white ms-auto mb-0">
+                <a href="<?=site_url('new-account')?>" class="btn btn-sm btn-info text-white ms-auto mb-0" style="margin-right:5px;">
                   <i class="fa-solid fa-user-plus"></i> New Account
                 </a>
+                <button type="button" class="btn btn-sm btn-secondary text-white mb-0" data-bs-toggle="modal" data-bs-target="#addPasswordModal">
+                  <i class="fa-solid fa-plus"></i> Set Password
+                </button>
               </div>
             </div>
             <div class="card-body">
@@ -186,7 +189,8 @@
                         ?>
                       </td>
                       <td>
-                        <a href="<?=site_url('edit-account/')?><?php echo $row->Fullname ?>"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Edit</a>
+                        <a href="<?=site_url('edit-account/')?><?php echo $row->Token ?>"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Edit</a>&nbsp;
+                        <button type="button" class="badge bg-info reset" value="<?php echo $row->accountID ?>"><i class="fa-solid fa-arrows-rotate"></i>&nbsp;Reset</button>
                       </td>
                     </tr>
                   <?php endforeach; ?>
@@ -252,6 +256,39 @@
       </div>
     </div>
   </div>
+  <div class="modal fade" id="addPasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Password</h5>
+          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" id="frmPassword">
+            <?= csrf_field(); ?>
+            <div class="row">
+              <div class="col-12 form-group">
+                <label>Default Password <span class="text-danger">*</span></label>
+                <input type="password" class="form-control" name="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required/>
+                <div id="password-error" class="error-message text-danger text-sm"></div>
+              </div>
+              <div class="col-12 form-group">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="customCheck1" onclick="showPassword()">
+                    <label class="form-check-label" for="customCheck1">Show Password</label>
+                </div>
+              </div>
+              <div class="col-12 form-group">
+                <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Save</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   <!--   Core JS Files   -->
   <script src="<?=base_url('assets/js/core/popper.min.js')?>"></script>
   <script src="<?=base_url('assets/js/core/bootstrap.min.js')?>"></script>
@@ -260,9 +297,65 @@
   <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
   <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     $(document).ready( function () {
       $('#datatable-search').DataTable();
+    });
+    function showPassword() {
+        var x = document.getElementById("password");
+        if (x.type === "password") {
+        x.type = "text";
+        } else {
+        x.type = "password";
+        }
+    }
+    $('#frmPassword').on('submit',function(e){
+      e.preventDefault();
+      $('.error-message').html('');
+      let data = $(this).serialize();
+      $.ajax({
+          url:"<?=site_url('save-password')?>",method:"POST",
+          data:data,
+          success:function(response)
+          {
+            if(response.success){
+              $('#frmPassword')[0].reset();
+              $('#addPasswordModal').modal('hide');
+              Swal.fire({
+                title: "Great!",
+                text: "Successfully saved",
+                icon: "success"
+              });
+            }
+            else{
+              var errors = response.error;
+              // Iterate over each error and display it under the corresponding input field
+              for (var field in errors) {
+                  $('#' + field + '-error').html('<p>' + errors[field]+ '</p>'); // Show the first error message
+                  $('#' + field).addClass('text-danger'); // Highlight the input field with an error
+              }
+            }
+          }
+        });
+    });
+    $(document).on('click','.reset',function(){
+      var confirmation = confirm("Would you like to reset his/her password?");
+      if(confirmation)
+      {
+        $.ajax({
+          url:"<?=site_url('reset-password')?>",method:"POST",
+          data:{value:$(this).val()},
+          success:function(response)
+          {
+              Swal.fire({
+                title: "Great!",
+                text: response,
+                icon: "success"
+              });
+          }
+        });
+      } 
     });
   </script>
   <script>

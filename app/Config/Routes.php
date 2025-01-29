@@ -38,12 +38,18 @@ $routes->get('sign-up','Home::signUp');
 $routes->get('fetch-cluster','ActionController::fetchCluster');
 $routes->get('fetch-subject','ActionController::fetchSubject');
 $routes->get('fetch-school-data','ActionController::fetchSchoolData');
+$routes->get('school-data','ActionController::schoolData');
 // save using ajax
 $routes->post('save-cluster','ActionController::saveCluster');
 $routes->post('edit-cluster','ActionController::editCluster');
 $routes->post('save-subject','ActionController::saveSubject');
 $routes->post('edit-subject','ActionController::editSubject');
 $routes->post('save-school','ActionController::saveSchool');
+$routes->post('edit-school','ActionController::editSchool');
+$routes->post('save','ActionController::save');
+$routes->post('edit','ActionController::edit');
+$routes->post('save-password','ActionController::savePassword');
+$routes->post('reset-password','ActionController::resetPassword');
 
 $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
 {
@@ -59,7 +65,6 @@ $routes->group('',['filter'=>'AuthCheck'],function($routes)
     $routes->get('/new-account','Home::newAccount');
     $routes->get('/edit-account/(:any)','Home::editAccount/$1');
     $routes->get('/cluster-and-schools','Home::clusterAndSchools');
-    $routes->get('/edit-school/(:any)','Home::editSchool/$1');
     $routes->get('/reports','Home::reports');
     $routes->get('/account','Home::myAccount');
     //manager

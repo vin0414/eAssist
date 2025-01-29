@@ -392,6 +392,21 @@
       </div>
     </div>
   </div>
+  <div class="modal fade" id="editSchoolModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit School</h5>
+          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="result"></div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="modal fade" id="editClusterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -588,6 +603,28 @@
           }
         });
       });
+
+      $(document).on('click','.save',function(e){
+        e.preventDefault();
+        let data = $('#frmEditSchool').serialize();
+        $('.error-message').html('');
+        $.ajax({
+          url:"<?=site_url('edit-school')?>",method:"POST",
+          data:data,
+          success:function(response)
+          {
+            if(response.success){table.ajax.reload();$('#frmEditSchool')[0].reset();$('#editSchoolModal').modal('hide');}
+            else{
+              var errors = response.error;
+              // Iterate over each error and display it under the corresponding input field
+              for (var field in errors) {
+                  $('#' + field + '-error').html('<p>' + errors[field]+ '</p>'); // Show the first error message
+                  $('#' + field).addClass('text-danger'); // Highlight the input field with an error
+              }
+            }
+          }
+        });
+      });
     });
 
     $(document).on('click','.editCluster',function(){
@@ -600,6 +637,19 @@
       let val = $(this).val();
       $('#subjectID').attr("value",val);
       $('#editSubjectModal').modal('show');
+    });
+
+    $(document).on('click','.view',function(){
+      var val = $(this).val();
+      $.ajax({
+        url:"<?=site_url('school-data')?>",method:"GET",
+        data:{value:val},
+        success:function(response)
+        {
+          $('#editSchoolModal').modal('show');
+          $('#result').html(response);
+        }
+      });
     });
 
     function fetchCluster()

@@ -155,7 +155,88 @@
     <?= $this->include('admin/templates/header'); ?>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-      
+      <div class="row g-3">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+          <div class="card">
+            <div class="card-header p-3 pb-0">
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">
+                <i class="fa-solid fa-user-plus"></i>&nbsp;New Account
+                </h6>
+                <a href="<?=site_url('user-accounts')?>" class="btn btn-sm btn-info text-white ms-auto mb-0">
+                  <i class="fa-solid fa-arrow-left"></i>&nbsp;Back
+                </a>
+              </div>
+            </div>
+            <div class="card-body">
+              <form method="POST" class="row" id="frmAccount">
+                <?= csrf_field(); ?>
+                <div class="col-lg-12 form-group">
+                  <label>Fullname</label>
+                  <input type="text" class="form-control" name="fullname" required/>
+                  <div id="fullname-error" class="error-message text-danger text-sm"></div>
+                </div>
+                <div class="col-lg-12 form-group">
+                  <div class="row g-3">
+                    <div class="col-lg-6">
+                      <label>Email Address</label>
+                      <input type="email" class="form-control" name="email" required/>
+                      <div id="email-error" class="error-message text-danger text-sm"></div>
+                    </div>
+                    <div class="col-lg-6">
+                      <label>System Role</label>
+                      <select class="form-control" name="role" required>
+                        <option value="">Choose</option>
+                        <option>Administrator</option>
+                        <option>Manager</option>
+                        <option>User</option>
+                      </select>
+                      <div id="role-error" class="error-message text-danger text-sm"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12 form-group">
+                  <div class="row g-3">
+                    <div class="col-lg-2">
+                      <label>Cluster</label>
+                      <select class="form-control" name="cluster">
+                        <option value="0">Choose</option>
+                        <?php foreach($cluster as $row): ?>
+                          <option value="<?php echo $row['clusterID'] ?>"><?php echo $row['clusterName'] ?></option>
+                        <?php endforeach; ?>
+                      </select>
+                    </div>
+                    <div class="col-lg-6">
+                      <label>Name of School</label>
+                      <select class="form-control" name="school">
+                        <option value="0">Choose</option>
+                        <?php foreach($school as $row): ?>
+                          <option value="<?php echo $row['schoolID'] ?>"><?php echo $row['schoolName'] ?></option>
+                        <?php endforeach; ?>
+                      </select>
+                    </div>
+                    <div class="col-lg-4">
+                      <label>Subject</label>
+                      <select class="form-control" name="subject">
+                        <option value="0">Choose</option>
+                        <?php foreach($subject as $row): ?>
+                          <option value="<?php echo $row['subjectID'] ?>"><?php echo $row['subjectName'] ?></option>
+                        <?php endforeach; ?>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <hr/>
+                <div class="col-lg-12 form-group">
+                    <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Register</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+      </div>
     </div>
   </main>
   <div class="fixed-plugin">
@@ -217,6 +298,38 @@
   <script src="<?=base_url('assets/js/plugins/perfect-scrollbar.min.js')?>"></script>
   <script src="<?=base_url('assets/js/plugins/smooth-scrollbar.min.js')?>"></script>
   <script src="<?=base_url('assets/js/plugins/chartjs.min.js')?>"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    $('#frmAccount').on('submit',function(e){
+      e.preventDefault();
+      $('.error-message').html('');
+      let data = $(this).serialize();
+      $.ajax({
+          url:"<?=site_url('save')?>",method:"POST",
+          data:data,
+          success:function(response)
+          {
+            if(response.success){
+              $('#frmAccount')[0].reset();
+              Swal.fire({
+                title: "Great!",
+                text: "Successfully registered",
+                icon: "success"
+              });
+            }
+            else{
+              var errors = response.error;
+              // Iterate over each error and display it under the corresponding input field
+              for (var field in errors) {
+                  $('#' + field + '-error').html('<p>' + errors[field]+ '</p>'); // Show the first error message
+                  $('#' + field).addClass('text-danger'); // Highlight the input field with an error
+              }
+            }
+          }
+        });
+    });
+  </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

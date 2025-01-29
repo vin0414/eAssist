@@ -121,7 +121,17 @@ class Home extends BaseController
         if(session()->get('role')=="Administrator")
         {
             $title = "New Account";
-            $data = ['title'=>$title];
+            //cluster
+            $clusterModel = new \App\Models\clusterModel();
+            $cluster = $clusterModel->findAll();
+            //school
+            $schoolModel = new \App\Models\schoolModel();
+            $school = $schoolModel->findAll();
+            //subject
+            $subjectModel = new \App\Models\subjectModel();
+            $subject = $subjectModel->findAll();
+
+            $data = ['title'=>$title,'cluster'=>$cluster,'school'=>$school,'subject'=>$subject];
             return view('admin/new-account',$data);
         }
         return redirect()->back();
@@ -129,7 +139,26 @@ class Home extends BaseController
 
     public function editAccount($id)
     {
+        if(session()->get('role')=="Administrator")
+        {
+            $title = "Edit Account";
+            //cluster
+            $clusterModel = new \App\Models\clusterModel();
+            $cluster = $clusterModel->findAll();
+            //school
+            $schoolModel = new \App\Models\schoolModel();
+            $school = $schoolModel->findAll();
+            //subject
+            $subjectModel = new \App\Models\subjectModel();
+            $subject = $subjectModel->findAll();
+            //account
+            $accountModel = new \App\Models\accountModel();
+            $account = $accountModel->where('Token',$id)->first();
 
+            $data = ['title'=>$title,'cluster'=>$cluster,'school'=>$school,'subject'=>$subject,'account'=>$account];
+            return view('admin/edit-account',$data);
+        }
+        return redirect()->back();
     }
 
     public function clusterAndSchools()
