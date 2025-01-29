@@ -214,7 +214,9 @@ class Home extends BaseController
     {
         if(session()->get('role')=="Manager")
         {
-            return view('manager/index');
+            $title = "Dashboard";
+            $data = ['title'=>$title];
+            return view('manager/index',$data);
         }
         return redirect()->back();
     }
