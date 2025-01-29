@@ -166,9 +166,10 @@
                   <thead class="thead-light">
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email Address</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fullname</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type of User</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Role</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cluster</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Subject</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Area of Concerns</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                   </thead>
@@ -177,6 +178,7 @@
                     <tr>
                       <td><?php echo $row->Email ?></td>
                       <td><?php echo $row->Fullname ?></td>
+                      <td><?php echo $row->userType ?></td>
                       <td><?php echo $row->Role ?></td>
                       <td><?php echo $row->clusterName ?></td>
                       <td><?php echo $row->subjectName ?></td>

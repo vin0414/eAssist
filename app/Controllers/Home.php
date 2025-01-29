@@ -221,6 +221,17 @@ class Home extends BaseController
         return redirect()->back();
     }
 
+    public function managerTechnicalAssistance()
+    {
+        if(session()->get('role')=="Manager")
+        {
+            $title = "Technical Assistance";
+            $data = ['title'=>$title];
+            return view('manager/technical-assistance',$data);
+        }
+        return redirect()->back();
+    }
+
 
     /// user
     public function userDashboard()

@@ -147,7 +147,7 @@
     <div class="container-fluid py-4">
       <ul class="nav nav-tabs" id="myTabs" role="tablist">
         <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Cluster and Subject</a>
+          <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Cluster and Area of Concerns</a>
         </li>
         <li class="nav-item" role="presentation">
           <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Schools</a>
@@ -187,7 +187,7 @@
                 <div class="card-header p-3 pb-0">
                   <div class="d-flex align-items-center">
                     <h6 class="mb-0">
-                    <i class="fa-solid fa-swatchbook"></i>&nbsp;Subjects
+                    <i class="fa-solid fa-swatchbook"></i>&nbsp;Area of Concerns
                     </h6>
                     <button type="button" class="btn btn-sm btn-info text-white ms-auto mb-0" data-bs-toggle="modal" data-bs-target="#addSubjectModal">
                       <i class="fa-solid fa-plus"></i> New
@@ -198,7 +198,7 @@
                   <div class="table-responsive p-0">
                     <table class="table align-items-center mb-0" style="font-size:12px;">
                       <thead>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 w-500">Subjects</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 w-500">Area of Concerns</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                       </thead>
                       <tbody id="tblsubject"></tbody>
@@ -327,7 +327,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">New Subject</h5>
+          <h5 class="modal-title" id="exampleModalLabel">New Area of Concern</h5>
           <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -337,7 +337,7 @@
             <?= csrf_field(); ?>
             <div class="row">
               <div class="col-12 form-group">
-                <label>Subject Name <span class="text-danger">*</span></label>
+                <label>Subject <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" name="subject_name" required/>
                 <div id="subject_name-error" class="error-message text-danger text-sm"></div>
               </div>

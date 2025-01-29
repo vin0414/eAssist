@@ -182,19 +182,29 @@
                         <div class="col-lg-12 form-group">
                         <div class="row g-3">
                             <div class="col-lg-6">
-                            <label>Email Address</label>
-                            <input type="email" class="form-control" name="email" value="<?=$account['Email']?>" required/>
-                            <div id="email-error" class="error-message text-danger text-sm"></div>
+                              <label>Email Address</label>
+                              <input type="email" class="form-control" name="email" value="<?=$account['Email']?>" required/>
+                              <div id="email-error" class="error-message text-danger text-sm"></div>
                             </div>
-                            <div class="col-lg-6">
-                            <label>System Role</label>
-                            <select class="form-control" name="role" required>
-                                <option value="">Choose</option>
-                                <option <?php echo ($account['Role'] == "Administrator") ? 'selected' : ''; ?>>Administrator</option>
-                                <option <?php echo ($account['Role'] == "Manager") ? 'selected' : ''; ?>>Manager</option>
-                                <option <?php echo ($account['Role'] == "User") ? 'selected' : ''; ?>>User</option>
-                            </select>
-                            <div id="role-error" class="error-message text-danger text-sm"></div>
+                            <div class="col-lg-3">
+                              <label>Type of User</label>
+                              <select class="form-control" name="user_type" id="user_type" required>
+                                <option value="" <?php echo ($account['userType'] == "") ? 'selected' : ''; ?>>Choose</option>
+                                <option <?php echo ($account['userType'] == "PSDS") ? 'selected' : ''; ?>>PSDS</option>
+                                <option <?php echo ($account['userType'] == "EPS") ? 'selected' : ''; ?>>EPS</option>
+                                <option <?php echo ($account['userType'] == "GUEST") ? 'selected' : ''; ?>>GUEST</option>
+                              </select>
+                              <div id="user_type-error" class="error-message text-danger text-sm"></div>
+                            </div>
+                            <div class="col-lg-3">
+                              <label>System Role</label>
+                              <select class="form-control" name="role" id="role" required>
+                                  <option value="">Choose</option>
+                                  <option <?php echo ($account['Role'] == "Administrator") ? 'selected' : ''; ?>>Administrator</option>
+                                  <option <?php echo ($account['Role'] == "Manager") ? 'selected' : ''; ?>>Manager</option>
+                                  <option <?php echo ($account['Role'] == "User") ? 'selected' : ''; ?>>User</option>
+                              </select>
+                              <div id="role-error" class="error-message text-danger text-sm"></div>
                             </div>
                         </div>
                         </div>
@@ -209,21 +219,21 @@
                                 <?php endforeach; ?>
                             </select>
                             </div>
+                            <div class="col-lg-4">
+                            <label>Area of Concerns</label>
+                            <select class="form-control" name="subject">
+                                <option value="0" <?php echo ($account['subjectID'] == 0) ? 'selected' : ''; ?>>Choose</option>
+                                <?php foreach($subject as $row): ?>
+                                <option value="<?php echo $row['subjectID'] ?>" <?php echo ($account['subjectID'] == $row['subjectID']) ? 'selected' : ''; ?>><?php echo $row['subjectName'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            </div>
                             <div class="col-lg-6">
                             <label>Name of School</label>
                             <select class="form-control" name="school">
                                 <option value="0" <?php echo ($account['schoolID'] == 0) ? 'selected' : ''; ?>>Choose</option>
                                 <?php foreach($school as $row): ?>
                                 <option value="<?php echo $row['schoolID'] ?>" <?php echo ($account['schoolID'] == $row['schoolID']) ? 'selected' : ''; ?>><?php echo $row['schoolName'] ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                            </div>
-                            <div class="col-lg-4">
-                            <label>Subject</label>
-                            <select class="form-control" name="subject">
-                                <option value="0" <?php echo ($account['subjectID'] == 0) ? 'selected' : ''; ?>>Choose</option>
-                                <?php foreach($subject as $row): ?>
-                                <option value="<?php echo $row['subjectID'] ?>" <?php echo ($account['subjectID'] == $row['subjectID']) ? 'selected' : ''; ?>><?php echo $row['subjectName'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                             </div>
@@ -304,6 +314,19 @@
   <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
+    $('#user_type').change(function(){
+      $('#role').find("option").remove();
+      let val = $(this).val();
+      if(val==="PSDS"||val==="EPS")
+      {
+        $('#role').append("<option>Administrator</option><option>Manager</option>");
+      }
+      else if(val==="GUEST")
+      {
+        $('#role').append("<option>User</option>");
+      }
+    });
+
     $('#frmAccount').on('submit',function(e){
       e.preventDefault();
       $('.error-message').html('');

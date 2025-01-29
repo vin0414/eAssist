@@ -184,13 +184,20 @@
                       <input type="email" class="form-control" name="email" required/>
                       <div id="email-error" class="error-message text-danger text-sm"></div>
                     </div>
-                    <div class="col-lg-6">
-                      <label>System Role</label>
-                      <select class="form-control" name="role" required>
+                    <div class="col-lg-3">
+                      <label>Type of User</label>
+                      <select class="form-control" name="user_type" id="user_type" required>
                         <option value="">Choose</option>
-                        <option>Administrator</option>
-                        <option>Manager</option>
-                        <option>User</option>
+                        <option>PSDS</option>
+                        <option>EPS</option>
+                        <option>GUEST</option>
+                      </select>
+                      <div id="user_type-error" class="error-message text-danger text-sm"></div>
+                    </div>
+                    <div class="col-lg-3">
+                      <label>System Role</label>
+                      <select class="form-control" name="role" id="role" required>
+                        <option value="">Choose</option>
                       </select>
                       <div id="role-error" class="error-message text-danger text-sm"></div>
                     </div>
@@ -207,6 +214,15 @@
                         <?php endforeach; ?>
                       </select>
                     </div>
+                    <div class="col-lg-4">
+                      <label>Area of Concerns</label>
+                      <select class="form-control" name="subject">
+                        <option value="0">Choose</option>
+                        <?php foreach($subject as $row): ?>
+                          <option value="<?php echo $row['subjectID'] ?>"><?php echo $row['subjectName'] ?></option>
+                        <?php endforeach; ?>
+                      </select>
+                    </div>
                     <div class="col-lg-6">
                       <label>Name of School</label>
                       <select class="form-control" name="school">
@@ -216,18 +232,8 @@
                         <?php endforeach; ?>
                       </select>
                     </div>
-                    <div class="col-lg-4">
-                      <label>Subject</label>
-                      <select class="form-control" name="subject">
-                        <option value="0">Choose</option>
-                        <?php foreach($subject as $row): ?>
-                          <option value="<?php echo $row['subjectID'] ?>"><?php echo $row['subjectName'] ?></option>
-                        <?php endforeach; ?>
-                      </select>
-                    </div>
                   </div>
                 </div>
-                <hr/>
                 <div class="col-lg-12 form-group">
                     <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Register</button>
                 </div>
@@ -301,6 +307,19 @@
   <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
+    $('#user_type').change(function(){
+      $('#role').find("option").remove();
+      let val = $(this).val();
+      if(val==="PSDS"||val==="EPS")
+      {
+        $('#role').append("<option>Administrator</option><option>Manager</option>");
+      }
+      else if(val==="GUEST")
+      {
+        $('#role').append("<option>User</option>");
+      }
+    });
+
     $('#frmAccount').on('submit',function(e){
       e.preventDefault();
       $('.error-message').html('');

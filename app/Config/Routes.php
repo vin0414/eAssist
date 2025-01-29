@@ -69,6 +69,7 @@ $routes->group('',['filter'=>'AuthCheck'],function($routes)
     $routes->get('/account','Home::myAccount');
     //manager
     $routes->get('/manager/overview','Home::managerDashboard');
+    $routes->get('/manager/technical-assistance','Home::managerTechnicalAssistance');
     //user
     $routes->get('/user/overview','Home::userDashboard');
 });

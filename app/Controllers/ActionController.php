@@ -284,6 +284,7 @@ class ActionController extends BaseController
             'fullname'=>'required|is_unique[tblaccount.Fullname]',
             'email'=>'required|is_unique[tblaccount.Email]',
             'role'=>'required',
+            'user_type'=>'required'
         ]);
 
         if(!$validation)
@@ -305,6 +306,7 @@ class ActionController extends BaseController
                     'clusterID'=>$this->request->getPost('cluster'),
                     'schoolID'=>$this->request->getPost('school'),
                     'subjectID'=>$this->request->getPost('subject'),
+                    'userType'=>$this->request->getPost('user_type'),
                     'Status'=>$status,'Token'=>$this->request->getPost('csrf_test_name'),'DateCreated'=>$date];
             $accountModel->save($data);
             return $this->response->setJSON(['success' => 'Successfully registered']);
@@ -319,6 +321,7 @@ class ActionController extends BaseController
             'fullname'=>'required',
             'email'=>'required',
             'role'=>'required',
+            'user_type'=>'required'
         ]);
         if(!$validation)
         {
@@ -332,7 +335,8 @@ class ActionController extends BaseController
                     'Role'=>$this->request->getPost('role'),
                     'clusterID'=>$this->request->getPost('cluster'),
                     'schoolID'=>$this->request->getPost('school'),
-                    'subjectID'=>$this->request->getPost('subject')];
+                    'subjectID'=>$this->request->getPost('subject'),
+                    'userType'=>$this->request->getPost('user_type')];
             $accountModel->update($this->request->getPost('accountID'),$data);
             return $this->response->setJSON(['success' => 'Successfully registered']);
         }
