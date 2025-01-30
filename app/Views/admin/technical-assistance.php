@@ -144,7 +144,30 @@
     <?= $this->include('admin/templates/header'); ?>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-      
+      <ul class="nav nav-tabs" id="myTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">For Review</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Tracking</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="calendar-tab" data-bs-toggle="tab" href="#calendar" role="tab" aria-controls="calendar" aria-selected="false">Calendar</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="feedback-tab" data-bs-toggle="tab" href="#feedback" role="tab" aria-controls="feedback" aria-selected="false">Feedback</a>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabsContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        </div>
+        <div class="tab-pane fade" id="calendar" role="tabpanel" aria-labelledby="calendar-tab">
+        </div>
+        <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
+        </div>
+      </div>
     </div>
   </main>
   <div class="fixed-plugin">

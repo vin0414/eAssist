@@ -232,13 +232,45 @@ class Home extends BaseController
         return redirect()->back();
     }
 
+    public function managerReport()
+    {
+        if(session()->get('role')=="Manager")
+        {
+            $title = "Reports";
+            $data = ['title'=>$title];
+            return view('manager/report',$data);
+        }
+        return redirect()->back();
+    }
+
 
     /// user
     public function userDashboard()
     {
         if(session()->get('role')=="User")
         {
-            return view('user/index');
+            $title = "Dashboard";
+            $data = ['title'=>$title];
+            return view('user/index',$data);
+        }
+        return redirect()->back();
+    }
+
+    public function userTechnicalAssistance()
+    {
+        if(session()->get('role')=="User")
+        {
+            $title = "Technical Assistance";
+            $user = session()->get('loggedUser');
+            //area of concerns
+            $subjectModel = new \App\Models\subjectModel();
+            $subject = $subjectModel->findAll();
+            //users
+            $accountModel = new \App\Models\accountModel();
+            $cluster = $accountModel->WHERE('accountID',$user)->first();
+            $account = $accountModel->WHERE('clusterID',$cluster['clusterID'])->WHERE('userType','EPS')->findAll();
+            $data = ['title'=>$title,'subject'=>$subject,'account'=>$account];
+            return view('user/technical-assistance',$data);
         }
         return redirect()->back();
     }
