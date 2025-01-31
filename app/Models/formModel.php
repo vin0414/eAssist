@@ -15,4 +15,9 @@ class formModel extends Model
     protected $useSoftDeletes = false;
 
     protected $allowedFields = ['DateCreated','accountID','clusterID','schoolID','Agree','subjectID','Details','File','priorityLevel','Status'];
+
+    public function getTotalRecords()
+    {
+        return $this->db->table($this->table)->countAllResults();
+    }
 }

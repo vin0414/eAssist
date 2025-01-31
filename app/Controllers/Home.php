@@ -268,14 +268,8 @@ class Home extends BaseController
             //users
             $accountModel = new \App\Models\accountModel();
             $account = $accountModel->WHERE('userType','EPS')->findAll();
-            //all forms
-            $builder = $this->db->table('tblform a');
-            $builder->select('a.*');
-            $builder->join('tblsubject b','b.subjectID=a.subjectID','LEFT');
-            $builder->WHERE('a.accountID',$user);
-            $form = $builder->get()->getResult();
 
-            $data = ['title'=>$title,'subject'=>$subject,'account'=>$account,'form'=>$form];
+            $data = ['title'=>$title,'subject'=>$subject,'account'=>$account];
             return view('user/technical-assistance',$data);
         }
         return redirect()->back();

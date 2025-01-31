@@ -465,4 +465,82 @@ class ActionController extends BaseController
             return $this->response->setJSON(['success' => 'Successfully submitted']);
         }
     }
+
+    public function userRequest()
+    {
+        $formModel = new \App\Models\formModel();
+
+        $user = session()->get('loggedUser');
+        $builder = $this->db->table('tblform a');
+        $builder->select('a.*,b.subjectName');
+        $builder->join('tblsubject b','b.subjectID=a.subjectID','LEFT');
+        $builder->WHERE('a.accountID',$user);
+        $form = $builder->get()->getResult();
+
+        $totalRecords = $formModel->getTotal();
+
+        $response = [
+            "draw" => $_GET['draw'],
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $totalRecords,
+            'data' => [] 
+        ];
+        foreach ($form as $row) {
+
+            $response['data'][] = [
+                'DateCreated' => date('Y-M-d', strtotime($row->DateCreated)),
+                'subjectName' => htmlspecialchars($row->subjectName, ENT_QUOTES),
+                'Details' => htmlspecialchars($row->Details, ENT_QUOTES),
+                'priorityLevel' => htmlspecialchars($row->priorityLevel, ENT_QUOTES),
+                'Status'=>($row->Status == 0) ? '<span class="badge bg-warning">pending</span>' :
+                (($row->Status == 1) ? '<span class="badge bg-success">approved</span>' : 
+                '<span class="badge bg-info">ongoing</span>'),
+                'actions' =>($row->Status == 0) ? '-' :
+                (($row->Status == 1) ? '<button type="button" class="badge bg-info addcomment" value="'.$row->formID.'"><i class="fa-regular fa-comment-dots"></i>&nbsp;Comment</button>' : 
+                '-')
+            ];
+        }
+        // Return the response as JSON
+        return $this->response->setJSON($response);
+    }
+
+    public function reviewRequest()
+    {
+        $reviewModel = new \App\Models\reviewModel();
+        $user = session()->get('loggedUser');
+        $totalRecords = $reviewModel->WHERE('accountID',$user)->getTotal();
+        
+        $builder = $this->db->table('tblreview a');
+        $builder->select('a.*,b.Fullname,c.formID,c.Details,c.priorityLevel,d.subjectName');
+        $builder->join('tblaccount b','b.accountID=a.accountID','LEFT');
+        $builder->join('tblform c','c.formID=a.formID','LEFT');
+        $builder->join('tblsubject d','d.subjectID=c.subjectID','LEFT');
+        $builder->WHERE('a.accountID',$user);
+        $review = $builder->get()->getResult();
+
+        $response = [
+            "draw" => $_GET['draw'],
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $totalRecords,
+            'data' => [] 
+        ];
+
+        foreach ($review as $row) {
+
+            $response['data'][] = [
+                'DateReceived' => date('Y-M-d', strtotime($row->DateReceived)),
+                'priorityLevel' => htmlspecialchars($row->priorityLevel, ENT_QUOTES),
+                'RefNo' => htmlspecialchars($row->formID, ENT_QUOTES),
+                'From' => htmlspecialchars($row->Fullname, ENT_QUOTES),
+                'subjectName' => htmlspecialchars($row->subjectName, ENT_QUOTES),
+                'Details' => htmlspecialchars($row->Details, ENT_QUOTES),
+                'Status'=>($row->Status == 0) ? '<span class="badge bg-warning">pending</span>' :
+                (($row->Status == 1) ? '<span class="badge bg-success">approved</span>' : 
+                '<span class="badge bg-info">ongoing</span>'),
+                'DateApproved' =>''
+            ];
+        }
+
+        return $this->response->setJSON($response);
+    }
 }

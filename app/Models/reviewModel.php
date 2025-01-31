@@ -15,4 +15,9 @@ class reviewModel extends Model
     protected $useSoftDeletes = false;
 
     protected $allowedFields = ['DateReceived', 'accountID','formID','Status','DateApproved'];
+
+    public function getTotal()
+    {
+        return $this->db->table($this->table)->countAllResults();
+    }
 }

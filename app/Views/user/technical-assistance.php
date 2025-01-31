@@ -18,24 +18,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css" integrity="sha512-v8QQ0YQ3H4K6Ic3PJkym91KoeNT5S3PnDKvqnwqFD1oiqIl653crGZplPdU5KKtHjO0QKcQ2aUlQZYjHczkmGw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- CSS Files -->
   <link id="pagestyle" href="<?=base_url('assets/css/soft-ui-dashboard.css?v=1.1.0')?>" rel="stylesheet" />
-  <!-- Nepcha Analytics (nepcha.com) -->
-  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
-  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
-  <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
-          headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-          }
-        });
-        calendar.render();
-      });
-    </script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -147,12 +129,11 @@
             <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Tracking</a>
             </li>
             <li class="nav-item" role="presentation">
-            <a class="nav-link" id="calendar-tab" data-bs-toggle="tab" href="#calendar" role="tab" aria-controls="calendar" aria-selected="false">Calendar</a>
+            <a class="nav-link" id="calendar-tab" data-bs-toggle="tab" href="#calendars" role="tab" aria-controls="calendar" aria-selected="false">Calendar</a>
             </li>
         </ul>
         <div class="tab-content" id="myTabsContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <br/>
                 <div class="card">
                     <div class="card-header p-3 pb-0">
                         <div class="d-flex align-items-center">
@@ -249,13 +230,13 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-              <br/>
               <div class="card">
                 <div class="card-header p-3 pb-0">
                     <div class="d-flex align-items-center">
                         <h6 class="mb-0">
                         <i class="fa-solid fa-clipboard-list"></i>&nbsp;Technical Assistance
                         </h6>
+                        <button type="button" class="btn btn-secondary btn-sm add ms-auto mb-0" id="btnExport"><i class="fa-solid fa-download"></i>&nbsp;Export</button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -269,13 +250,19 @@
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                       </thead>
+                      <tbody>
+                      </tbody>
                     </table>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="tab-pane fade" id="calendar" role="tabpanel" aria-labelledby="calendar-tab">
-              <div id="calendar"></div>
+            <div class="tab-pane fade" id="calendars" role="tabpanel" aria-labelledby="calendar-tab">
+              <div class="card card-calendar">
+                <div class="card-body p-3">
+                  <div class="calendar" data-bs-toggle="calendar" id="calendar"></div>
+                </div>
+              </div>
             </div>
         </div>
     </div>
@@ -339,44 +326,116 @@
   <script src="<?=base_url('assets/js/plugins/perfect-scrollbar.min.js')?>"></script>
   <script src="<?=base_url('assets/js/plugins/smooth-scrollbar.min.js')?>"></script>
   <script src="<?=base_url('assets/js/plugins/chartjs.min.js')?>"></script>
+  <script src="<?=base_url('assets/js/fullcalendar.min.js')?>"></script>
   <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
   <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     $(document).ready( function () {
-      $('#tblrequest').DataTable();
-    });
-    $('#frmRequest').on('submit',function(e){
-      e.preventDefault();
-      $('.error-message').html('');
-      let data = $(this).serialize();
-      $.ajax({
-          url:"<?=site_url('save-form')?>",method:"POST",
-          data:new FormData(this),
-          contentType: false,
-          cache: false,
-          processData:false,
-          success:function(response)
-          {
-            if(response.success){
-              $('#frmRequest')[0].reset();
-              Swal.fire({
-                title: "Great!",
-                text: "Successfully submitted",
-                icon: "success"
-              });
-            }
-            else{
-              var errors = response.error;
-              // Iterate over each error and display it under the corresponding input field
-              for (var field in errors) {
-                  $('#' + field + '-error').html('<p>' + errors[field]+ '</p>'); // Show the first error message
-                  $('#' + field).addClass('text-danger'); // Highlight the input field with an error
+      var table = $('#tblrequest').DataTable({
+          "processing": true,
+          "serverSide": true,
+          "ajax": {
+              "url": "<?=site_url('user-request')?>",
+              "type": "GET",
+              "dataSrc": function (json) {
+                  // Handle the data if needed
+                  return json.data;
+              },
+              "error": function (xhr, error, code) {
+                  console.error("AJAX Error: " + error);
+                  alert("Error occurred while loading data.");
+              }
+          },
+          "columns": [
+              { "data": "DateCreated" },
+              { "data": "subjectName" },
+              { "data": "Details" },
+              { "data": "priorityLevel" },
+              { "data": "Status" },
+              { "data": "actions" }
+          ]
+      });
+    
+      $('#frmRequest').on('submit',function(e){
+        e.preventDefault();
+        $('.error-message').html('');
+        let data = $(this).serialize();
+        $.ajax({
+            url:"<?=site_url('save-form')?>",method:"POST",
+            data:new FormData(this),
+            contentType: false,
+            cache: false,
+            processData:false,
+            success:function(response)
+            {
+              if(response.success){
+                $('#frmRequest')[0].reset();
+                table.ajax.reload();
+                Swal.fire({
+                  title: "Great!",
+                  text: "Successfully submitted",
+                  icon: "success"
+                });
+              }
+              else{
+                var errors = response.error;
+                // Iterate over each error and display it under the corresponding input field
+                for (var field in errors) {
+                    $('#' + field + '-error').html('<p>' + errors[field]+ '</p>'); // Show the first error message
+                    $('#' + field).addClass('text-danger'); // Highlight the input field with an error
+                }
               }
             }
+          });
+      });
+
+      var calendar = new FullCalendar.Calendar(document.getElementById("calendar"), {
+        contentHeight: 'auto',
+        initialView: "dayGridMonth",
+        headerToolbar: {
+          start: 'title', // will normally be on the left. if RTL, will be on the right
+          center: '',
+          end: 'today prev,next' // will normally be on the right. if RTL, will be on the left
+        },
+        selectable: true,
+        editable: true,
+        views: {
+          month: {
+            titleFormat: {
+              month: "long",
+              year: "numeric"
+            }
+          },
+          agendaWeek: {
+            titleFormat: {
+              month: "long",
+              year: "numeric",
+              day: "numeric"
+            }
+          },
+          agendaDay: {
+            titleFormat: {
+              month: "short",
+              year: "numeric",
+              day: "numeric"
+            }
           }
-        });
+        }
+      });
+
+      calendar.render();
+
+    });
+    document.getElementById('btnExport').addEventListener('click', function () {
+      const table = document.getElementById('tblrequest');
+      let html = table.outerHTML;
+      let blob = new Blob([html], { type: 'application/vnd.ms-excel' });
+      let link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'request.xls';
+      link.click();
     });
   </script>
   <script>

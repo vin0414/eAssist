@@ -39,6 +39,8 @@ $routes->get('fetch-cluster','ActionController::fetchCluster');
 $routes->get('fetch-subject','ActionController::fetchSubject');
 $routes->get('fetch-school-data','ActionController::fetchSchoolData');
 $routes->get('school-data','ActionController::schoolData');
+$routes->get('user-request','ActionController::userRequest');
+$routes->get('review','ActionController::reviewRequest');
 // save using ajax
 $routes->post('save-cluster','ActionController::saveCluster');
 $routes->post('edit-cluster','ActionController::editCluster');
