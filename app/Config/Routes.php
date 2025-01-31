@@ -50,6 +50,7 @@ $routes->post('save','ActionController::save');
 $routes->post('edit','ActionController::edit');
 $routes->post('save-password','ActionController::savePassword');
 $routes->post('reset-password','ActionController::resetPassword');
+$routes->post('save-form','ActionController::saveForm');
 
 $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
 {

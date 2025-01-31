@@ -384,4 +384,85 @@ class ActionController extends BaseController
         $accountModel->update($val,$data);
         echo "Successfully applied changes";
     }
+
+    public function saveForm()
+    {
+        $formModel = new \App\Models\formModel();
+        $reviewModel = new \App\Models\reviewModel();
+        $accountModel = new \App\Models\accountModel();
+        //data
+        $validation = $this->validate([
+            'csrf_test_name'=>'required',
+            'agreement'=>'required',
+            'area'=>'required',
+            'account.*'=>'required',
+            'details'=>'required',
+            'priority'=>'required'
+        ]);
+        if(!$validation)
+        {
+            return $this->response->SetJSON(['error' => $this->validator->getErrors()]);
+        }
+        else
+        {
+            $user = session()->get('loggedUser');
+            $users = $this->request->getPost('account');
+            $status = 0;$date = date('Y-m-d');
+            $file = $this->request->getFile('file');
+            $originalName = $file->getClientName();
+            //get the cluster ID and school ID
+            $account = $accountModel->WHERE('accountID',$user)->first();
+            //save the form
+            if(empty($originalName))
+            {
+                $data = ['DateCreated'=>$date,'accountID'=>$user,
+                        'clusterID'=>$account['clusterID'],'schoolID'=>$account['schoolID'],
+                        'Agree'=>$this->request->getPost('agreement'),'subjectID'=>$this->request->getPost('area'),
+                        'Details'=>$this->request->getPost('details'),
+                        'priorityLevel'=>$this->request->getPost('priority'),'Status'=>$status];
+                $formModel->save($data);
+            }
+            else
+            {
+                $file->move('files/',$originalName);
+                $data = ['DateCreated'=>$date,'accountID'=>$user,
+                        'clusterID'=>$account['clusterID'],'schoolID'=>$account['schoolID'],
+                        'Agree'=>$this->request->getPost('agreement'),'subjectID'=>$this->request->getPost('area'),
+                        'Details'=>$this->request->getPost('details'),'File'=>$originalName,
+                        'priorityLevel'=>$this->request->getPost('priority'),'Status'=>$status];
+                $formModel->save($data);
+            }
+            //get the form ID
+            $form = $formModel->WHERE('Details',$this->request->getPost('details'))
+                              ->WHERE('priorityLevel',$this->request->getPost('priority'))
+                              ->first();
+            //get the PSDS per cluster
+            $headUser = $accountModel->WHERE('clusterID',$account['clusterID'])
+                                     ->WHERE('userType','PSDS')->first();
+            //send to PSDS
+            $data = ['DateReceived'=>$date, 
+                    'accountID'=>$headUser['accountID'],
+                    'formID'=>$form['formID'],
+                    'Status'=>$status,
+                    'DateApproved'=>'0000-00-00'];
+            $reviewModel->save($data);
+            //send to EPS
+            $count = count($users);
+            for($i=0;$i<$count;$i++)
+            {
+                //get the accountID
+                $userAccount = $accountModel->WHERE('accountID',$users[$i])->findAll();
+                foreach($userAccount as $row)
+                {
+                    $data = ['DateReceived'=>$date, 
+                    'accountID'=>$row['accountID'],
+                    'formID'=>$form['formID'],
+                    'Status'=>$status,
+                    'DateApproved'=>'0000-00-00'];
+                    $reviewModel->save($data);
+                }
+            }
+            return $this->response->setJSON(['success' => 'Successfully submitted']);
+        }
+    }
 }

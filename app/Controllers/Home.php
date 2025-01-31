@@ -267,9 +267,15 @@ class Home extends BaseController
             $subject = $subjectModel->findAll();
             //users
             $accountModel = new \App\Models\accountModel();
-            $cluster = $accountModel->WHERE('accountID',$user)->first();
-            $account = $accountModel->WHERE('clusterID',$cluster['clusterID'])->WHERE('userType','EPS')->findAll();
-            $data = ['title'=>$title,'subject'=>$subject,'account'=>$account];
+            $account = $accountModel->WHERE('userType','EPS')->findAll();
+            //all forms
+            $builder = $this->db->table('tblform a');
+            $builder->select('a.*');
+            $builder->join('tblsubject b','b.subjectID=a.subjectID','LEFT');
+            $builder->WHERE('a.accountID',$user);
+            $form = $builder->get()->getResult();
+
+            $data = ['title'=>$title,'subject'=>$subject,'account'=>$account,'form'=>$form];
             return view('user/technical-assistance',$data);
         }
         return redirect()->back();

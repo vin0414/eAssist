@@ -12,6 +12,7 @@
   <!-- Nucleo Icons -->
   <link href="<?=base_url('assets/css/nucleo-icons.css')?>" rel="stylesheet" />
   <link href="<?=base_url('assets/css/nucleo-svg.css')?>" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.dataTables.css" />
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css" integrity="sha512-v8QQ0YQ3H4K6Ic3PJkym91KoeNT5S3PnDKvqnwqFD1oiqIl653crGZplPdU5KKtHjO0QKcQ2aUlQZYjHczkmGw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -20,6 +21,21 @@
   <!-- Nepcha Analytics (nepcha.com) -->
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          }
+        });
+        calendar.render();
+      });
+    </script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -141,24 +157,26 @@
                     <div class="card-header p-3 pb-0">
                         <div class="d-flex align-items-center">
                             <h6 class="mb-0">
-                            <i class="fa-regular fa-message"></i>&nbsp;TECHNICAL ASSISTANCE NEEDS ASSESSMENT 
+                            <i class="fa-solid fa-message"></i>&nbsp;Technical Assistance Needs Assessment 
                             </h6>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="POST" class="row g-2" id="frmRequest">
+                        <form method="POST" class="row g-2" enctype="multipart/form-data" id="frmRequest">
+                            <?= csrf_field(); ?>
                             <div class="col-12">
                                 <h6>1. Do you allow DEPED - Division of General Trias City to Process all data gathered by this form?</h6>
                                 <div class="radio-group">
                                     <label>
-                                        <input type="radio" name="agree" style="width:18px;height:18px;" value="Yes" required>
+                                        <input type="radio" name="agreement" style="width:18px;height:18px;" value="Yes" required>
                                         <label class="align-middle">Yes</label>
                                     </label>
                                     <label>
-                                        <input type="radio" name="agree" style="width:18px;height:18px;" value="No">
+                                        <input type="radio" name="agreement" style="width:18px;height:18px;" value="No">
                                         <label class="align-middle">No</label>
                                     </label>
                                 </div>
+                                <div id="agreement-error" class="error-message text-danger text-sm"></div>
                             </div>
                             <hr class="horizontal dark my-1">
                             <div class="col-12">
@@ -166,24 +184,30 @@
                                     <div class="col-lg-4">
                                         <h6>2. Please choose your area of concern</h6>
                                         <?php foreach($subject as $row): ?>
-                                            <div class="radio-group">
+                                          <div class="radio-group">
                                             <label>
                                                 <input type="radio" name="area" style="width:18px;height:18px;" value="<?php echo $row['subjectID'] ?>" required>
                                                 <label class="align-middle"><?php echo $row['subjectName'] ?></label>
                                             </label>
-                                        </div> 
+                                          </div> 
                                         <?php endforeach; ?>
+                                        <div id="area-error" class="error-message text-danger text-sm"></div>
                                     </div>
                                     <div class="col-lg-8">
                                         <h6>3. Based on your area of concern, from whom are you expecting the technical assistance to be coming?</h6>
+                                        <div class="row">
                                         <?php foreach($account as $row): ?>
+                                          <div class="col-lg-4">
                                             <div class="radio-group">
-                                            <label>
-                                                <input type="radio" name="area" style="width:18px;height:18px;" value="<?php echo $row['accountID'] ?>" required>
-                                                <label class="align-middle"><?php echo $row['Fullname'] ?> - <?php echo $row['userType'] ?></label>
-                                            </label>
-                                        </div> 
+                                              <label>
+                                                  <input type="checkbox" name="account[]" style="width:18px;height:18px;" value="<?php echo $row['accountID'] ?>">
+                                                  <label class="align-middle"><?php echo $row['Fullname'] ?> - <?php echo $row['userType'] ?></label>
+                                              </label>
+                                            </div> 
+                                          </div>
                                         <?php endforeach; ?>
+                                        <div id="account-error" class="error-message text-danger text-sm"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -191,19 +215,67 @@
                                 <h6>4. Details of Technical Assistance Needed</h6>
                                 <span><small>Please provide specific details about your concerns, issues, or challenges based on your chosen area of concern/s. You may also provide data or any documents that may serve as reference for the TA providers.</small></span>
                                 <textarea class="form-control" name="details" required></textarea>
+                                <div id="details-error" class="error-message text-danger text-sm"></div>
                             </div>
                             <div class="col-12">
                                 <h6>5. Supporting Documents</h6>
-                                <span><small>Upload any supporting documents in PDF file format that will serve as reference for the TA provider in crafting his/ her technical assistance plan. Merge in one (1) file only)</small></span>
+                                <span><small>Upload any supporting documents in PDF file format that will serve as reference for the TA provider in crafting his/ her technical assistance plan. Merge in one (1) file only</small></span>
                                 <input type="file" class="form-control" name="file"/>
+                            </div>
+                            <div class="col-12">
+                              <h6>6. Level of Priority for Technical Assistance</h6>
+                              <div class="radio-group">
+                                  <label>
+                                      <input type="radio" name="priority" style="width:18px;height:18px;" value="Low" required>
+                                      <label class="align-middle">Low Priority</label>
+                                  </label>
+                                  <label>
+                                      <input type="radio" name="priority" style="width:18px;height:18px;" value="Medium">
+                                      <label class="align-middle">Medium Priority</label>
+                                  </label>
+                                  <label>
+                                      <input type="radio" name="priority" style="width:18px;height:18px;" value="High">
+                                      <label class="align-middle">High Priority</label>
+                                  </label>
+                              </div>
+                              <div id="priority-error" class="error-message text-danger text-sm"></div>
+                            </div>
+                            <div class="col-12">
+                              <button type="submit" class="btn btn-info"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Submit</button>
+                              <button type="reset" class="btn btn-success"><i class="fa-solid fa-arrows-rotate"></i>&nbsp;Clear Form</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+              <br/>
+              <div class="card">
+                <div class="card-header p-3 pb-0">
+                    <div class="d-flex align-items-center">
+                        <h6 class="mb-0">
+                        <i class="fa-solid fa-clipboard-list"></i>&nbsp;Technical Assistance
+                        </h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-flush" id="tblrequest" style="font-size:12px;">
+                      <thead class="thead-light">
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Created</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Area of Concern</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Details</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Priority Level</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="tab-pane fade" id="calendar" role="tabpanel" aria-labelledby="calendar-tab">
+              <div id="calendar"></div>
             </div>
         </div>
     </div>
@@ -267,6 +339,46 @@
   <script src="<?=base_url('assets/js/plugins/perfect-scrollbar.min.js')?>"></script>
   <script src="<?=base_url('assets/js/plugins/smooth-scrollbar.min.js')?>"></script>
   <script src="<?=base_url('assets/js/plugins/chartjs.min.js')?>"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    $(document).ready( function () {
+      $('#tblrequest').DataTable();
+    });
+    $('#frmRequest').on('submit',function(e){
+      e.preventDefault();
+      $('.error-message').html('');
+      let data = $(this).serialize();
+      $.ajax({
+          url:"<?=site_url('save-form')?>",method:"POST",
+          data:new FormData(this),
+          contentType: false,
+          cache: false,
+          processData:false,
+          success:function(response)
+          {
+            if(response.success){
+              $('#frmRequest')[0].reset();
+              Swal.fire({
+                title: "Great!",
+                text: "Successfully submitted",
+                icon: "success"
+              });
+            }
+            else{
+              var errors = response.error;
+              // Iterate over each error and display it under the corresponding input field
+              for (var field in errors) {
+                  $('#' + field + '-error').html('<p>' + errors[field]+ '</p>'); // Show the first error message
+                  $('#' + field).addClass('text-danger'); // Highlight the input field with an error
+              }
+            }
+          }
+        });
+    });
+  </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
