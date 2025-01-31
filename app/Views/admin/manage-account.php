@@ -169,7 +169,7 @@
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type of User</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Role</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cluster</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Area of Concerns</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">School</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                   </thead>
@@ -181,7 +181,7 @@
                       <td><?php echo $row->userType ?></td>
                       <td><?php echo $row->Role ?></td>
                       <td><?php echo $row->clusterName ?></td>
-                      <td><?php echo $row->subjectName ?></td>
+                      <td><?php echo $row->schoolName ?></td>
                       <td><?php 
                             if ($row->Status == 1) {
                                 echo '<span class="badge bg-success">Active</span>';

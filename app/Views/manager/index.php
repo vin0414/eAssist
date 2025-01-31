@@ -136,7 +136,7 @@
                         <i class="fa-solid fa-tty text-dark text-gradient text-lg opacity-10"></i>
                       </div>
                       <h5 class="text-white font-weight-bolder mb-0 mt-3">
-                        1600
+                        <?=$total?>
                       </h5>
                       <span class="text-white text-sm">Technical Assistance</span>
                     </div>
@@ -157,7 +157,7 @@
                         <i class="fa-solid fa-envelope-open-text text-dark text-gradient text-lg opacity-10"></i>
                       </div>
                       <h5 class="text-white font-weight-bolder mb-0 mt-3">
-                        357
+                        <?=$pending?>
                       </h5>
                       <span class="text-white text-sm">Pending</span>
                     </div>
@@ -180,7 +180,7 @@
                         <i class="fa-solid fa-envelope-circle-check text-dark text-gradient text-lg opacity-10"></i>
                       </div>
                       <h5 class="text-white font-weight-bolder mb-0 mt-3">
-                        2300
+                        <?=$resolved?>
                       </h5>
                       <span class="text-white text-sm">Resolved</span>
                     </div>

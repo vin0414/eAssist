@@ -82,7 +82,7 @@
           <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link  " href="<?=site_url('manager/account')?>">
+          <a class="nav-link  " href="<?=site_url('user/account')?>">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
               <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <title>customer-support</title>
@@ -123,17 +123,24 @@
     <div class="container-fluid py-4">
         <ul class="nav nav-tabs" id="myTabs" role="tablist">
             <li class="nav-item" role="presentation">
-            <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">New T.A.</a>
+            <a class="nav-link active" id="calendar-tab" data-bs-toggle="tab" href="#calendars" role="tab" aria-controls="calendar" aria-selected="false">Calendar</a>
+            </li>
+            <li class="nav-item" role="presentation">
+            <a class="nav-link" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">New T.A.</a>
             </li>
             <li class="nav-item" role="presentation">
             <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Tracking</a>
             </li>
-            <li class="nav-item" role="presentation">
-            <a class="nav-link" id="calendar-tab" data-bs-toggle="tab" href="#calendars" role="tab" aria-controls="calendar" aria-selected="false">Calendar</a>
-            </li>
         </ul>
         <div class="tab-content" id="myTabsContent">
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="tab-pane fade show active" id="calendars" role="tabpanel" aria-labelledby="calendar-tab">
+              <div class="card card-calendar">
+                <div class="card-body p-3">
+                  <div class="calendar" data-bs-toggle="calendar" id="calendar"></div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <div class="card">
                     <div class="card-header p-3 pb-0">
                         <div class="d-flex align-items-center">
@@ -254,13 +261,6 @@
                       </tbody>
                     </table>
                   </div>
-                </div>
-              </div>
-            </div>
-            <div class="tab-pane fade" id="calendars" role="tabpanel" aria-labelledby="calendar-tab">
-              <div class="card card-calendar">
-                <div class="card-body p-3">
-                  <div class="calendar" data-bs-toggle="calendar" id="calendar"></div>
                 </div>
               </div>
             </div>
@@ -390,7 +390,7 @@
             }
           });
       });
-
+      <?php $eventData = array();?>
       var calendar = new FullCalendar.Calendar(document.getElementById("calendar"), {
         contentHeight: 'auto',
         initialView: "dayGridMonth",

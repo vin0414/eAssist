@@ -17,9 +17,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css" integrity="sha512-v8QQ0YQ3H4K6Ic3PJkym91KoeNT5S3PnDKvqnwqFD1oiqIl653crGZplPdU5KKtHjO0QKcQ2aUlQZYjHczkmGw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- CSS Files -->
   <link id="pagestyle" href="<?=base_url('assets/css/soft-ui-dashboard.css?v=1.1.0')?>" rel="stylesheet" />
-  <!-- Nepcha Analytics (nepcha.com) -->
-  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -205,7 +202,7 @@
                 </div>
                 <div class="col-lg-12 form-group">
                   <div class="row g-3">
-                    <div class="col-lg-2">
+                    <div class="col-lg-4">
                       <label>Cluster</label>
                       <select class="form-control" name="cluster">
                         <option value="0">Choose</option>
@@ -214,16 +211,7 @@
                         <?php endforeach; ?>
                       </select>
                     </div>
-                    <div class="col-lg-4">
-                      <label>Area of Concerns</label>
-                      <select class="form-control" name="subject">
-                        <option value="0">Choose</option>
-                        <?php foreach($subject as $row): ?>
-                          <option value="<?php echo $row['subjectID'] ?>"><?php echo $row['subjectName'] ?></option>
-                        <?php endforeach; ?>
-                      </select>
-                    </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-8">
                       <label>Name of School</label>
                       <select class="form-control" name="school">
                         <option value="0">Choose</option>

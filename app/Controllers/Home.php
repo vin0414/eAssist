@@ -82,7 +82,15 @@ class Home extends BaseController
         if(session()->get('role')=="Administrator")
         {
             $title = "Dashboard";
-            $data = ['title'=>$title];
+            $formModel = new \App\Models\formModel();
+            //count all the form
+            $totalForm = $formModel->countAllResults();
+            //count all the pending
+            $pendingForm = $formModel->WHERE('Status<>',1)->countAllResults();
+            //count all the resolved
+            $resolvedForm = $formModel->WHERE('Status',1)->countAllResults();
+
+            $data = ['title'=>$title,'total'=>$totalForm,'pending'=>$pendingForm,'resolved'=>$resolvedForm];
             return view('admin/index',$data);
         }
         return redirect()->back();
@@ -105,9 +113,9 @@ class Home extends BaseController
         {
             $title = "User Accounts";
             $builder = $this->db->table('tblaccount a');
-            $builder->select('a.*,b.clusterName,c.subjectName');
+            $builder->select('a.*,b.clusterName,c.schoolName');
             $builder->join('tblcluster b','b.clusterID=a.clusterID','LEFT');
-            $builder->join('tblsubject c','c.subjectID=a.subjectID','LEFT');
+            $builder->join('tblschool c','c.schoolID=a.schoolID','LEFT');
             $builder->groupBy('a.accountID');
             $account = $builder->get()->getResult();
             $data = ['title'=>$title,'account'=>$account];
@@ -215,7 +223,15 @@ class Home extends BaseController
         if(session()->get('role')=="Manager")
         {
             $title = "Dashboard";
-            $data = ['title'=>$title];
+            $formModel = new \App\Models\formModel();
+            //count all the form
+            $totalForm = $formModel->countAllResults();
+            //count all the pending
+            $pendingForm = $formModel->WHERE('Status<>',1)->countAllResults();
+            //count all the resolved
+            $resolvedForm = $formModel->WHERE('Status',1)->countAllResults();
+
+            $data = ['title'=>$title,'total'=>$totalForm,'pending'=>$pendingForm,'resolved'=>$resolvedForm];
             return view('manager/index',$data);
         }
         return redirect()->back();
@@ -250,7 +266,15 @@ class Home extends BaseController
         if(session()->get('role')=="User")
         {
             $title = "Dashboard";
-            $data = ['title'=>$title];
+            $formModel = new \App\Models\formModel();
+            //count all the form
+            $totalForm = $formModel->countAllResults();
+            //count all the pending
+            $pendingForm = $formModel->WHERE('Status<>',1)->countAllResults();
+            //count all the resolved
+            $resolvedForm = $formModel->WHERE('Status',1)->countAllResults();
+
+            $data = ['title'=>$title,'total'=>$totalForm,'pending'=>$pendingForm,'resolved'=>$resolvedForm];
             return view('user/index',$data);
         }
         return redirect()->back();

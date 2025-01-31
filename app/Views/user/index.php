@@ -84,7 +84,7 @@
           <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link  " href="<?=site_url('manager/account')?>">
+          <a class="nav-link  " href="<?=site_url('user/account')?>">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
               <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <title>customer-support</title>
@@ -136,7 +136,7 @@
                         <i class="fa-solid fa-tty text-dark text-gradient text-lg opacity-10"></i>
                       </div>
                       <h5 class="text-white font-weight-bolder mb-0 mt-3">
-                        1600
+                        <?=$total?>
                       </h5>
                       <span class="text-white text-sm">Technical Assistance</span>
                     </div>
@@ -157,7 +157,7 @@
                         <i class="fa-solid fa-envelope-open-text text-dark text-gradient text-lg opacity-10"></i>
                       </div>
                       <h5 class="text-white font-weight-bolder mb-0 mt-3">
-                        357
+                        <?=$pending?>
                       </h5>
                       <span class="text-white text-sm">Pending</span>
                     </div>
@@ -180,7 +180,7 @@
                         <i class="fa-solid fa-envelope-circle-check text-dark text-gradient text-lg opacity-10"></i>
                       </div>
                       <h5 class="text-white font-weight-bolder mb-0 mt-3">
-                        2300
+                        <?=$resolved?>
                       </h5>
                       <span class="text-white text-sm">Resolved</span>
                     </div>

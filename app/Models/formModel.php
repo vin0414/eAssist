@@ -16,7 +16,7 @@ class formModel extends Model
 
     protected $allowedFields = ['DateCreated','accountID','clusterID','schoolID','Agree','subjectID','Details','File','priorityLevel','Status'];
 
-    public function getTotalRecords()
+    public function getTotal()
     {
         return $this->db->table($this->table)->countAllResults();
     }

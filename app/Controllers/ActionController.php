@@ -529,18 +529,31 @@ class ActionController extends BaseController
 
             $response['data'][] = [
                 'DateReceived' => date('Y-M-d', strtotime($row->DateReceived)),
-                'priorityLevel' => htmlspecialchars($row->priorityLevel, ENT_QUOTES),
-                'RefNo' => htmlspecialchars($row->formID, ENT_QUOTES),
+                'priorityLevel' => ($row->priorityLevel=="High") ? '<span class="badge bg-danger"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;'.$row->priorityLevel.'</span>' : $row->priorityLevel,
+                'RefNo' => htmlspecialchars(str_pad($row->formID, 7, '0', STR_PAD_LEFT), ENT_QUOTES),
                 'From' => htmlspecialchars($row->Fullname, ENT_QUOTES),
                 'subjectName' => htmlspecialchars($row->subjectName, ENT_QUOTES),
                 'Details' => htmlspecialchars($row->Details, ENT_QUOTES),
                 'Status'=>($row->Status == 0) ? '<span class="badge bg-warning">pending</span>' :
                 (($row->Status == 1) ? '<span class="badge bg-success">approved</span>' : 
                 '<span class="badge bg-info">ongoing</span>'),
-                'DateApproved' =>''
+                'DateApproved'=>$row->DateApproved
             ];
         }
 
         return $this->response->setJSON($response);
+    }
+
+    public function totalReview()
+    {
+        $user = session()->get('loggedUser');
+        $builder = $this->db->table('tblreview');
+        $builder->select('COUNT(*)as total');
+        $builder->WHERE('accountID',$user)->WHERE('Status',0);
+        $total = $builder->get()->getRow();
+        if($total)
+        {
+            echo $total->total;
+        }
     }
 }

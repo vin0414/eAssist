@@ -210,7 +210,7 @@
                         </div>
                         <div class="col-lg-12 form-group">
                         <div class="row g-3">
-                            <div class="col-lg-2">
+                            <div class="col-lg-4">
                             <label>Cluster</label>
                             <select class="form-control" name="cluster">
                                 <option value="0" <?php echo ($account['clusterID'] == 0) ? 'selected' : ''; ?>>Choose</option>
@@ -219,16 +219,7 @@
                                 <?php endforeach; ?>
                             </select>
                             </div>
-                            <div class="col-lg-4">
-                            <label>Area of Concerns</label>
-                            <select class="form-control" name="subject">
-                                <option value="0" <?php echo ($account['subjectID'] == 0) ? 'selected' : ''; ?>>Choose</option>
-                                <?php foreach($subject as $row): ?>
-                                <option value="<?php echo $row['subjectID'] ?>" <?php echo ($account['subjectID'] == $row['subjectID']) ? 'selected' : ''; ?>><?php echo $row['subjectName'] ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                            </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-8">
                             <label>Name of School</label>
                             <select class="form-control" name="school">
                                 <option value="0" <?php echo ($account['schoolID'] == 0) ? 'selected' : ''; ?>>Choose</option>

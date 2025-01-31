@@ -41,6 +41,7 @@ $routes->get('fetch-school-data','ActionController::fetchSchoolData');
 $routes->get('school-data','ActionController::schoolData');
 $routes->get('user-request','ActionController::userRequest');
 $routes->get('review','ActionController::reviewRequest');
+$routes->get('total-review','ActionController::totalReview');
 // save using ajax
 $routes->post('save-cluster','ActionController::saveCluster');
 $routes->post('edit-cluster','ActionController::editCluster');

@@ -129,7 +129,7 @@
           <a class="nav-link active" id="calendar-tab" data-bs-toggle="tab" href="#calendars" role="tab" aria-controls="calendar" aria-selected="false">Calendar</a>
         </li>
         <li class="nav-item" role="presentation">
-          <a class="nav-link" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">For Review</a>
+          <a class="nav-link" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">For Review <span class="badge bg-info"><span id="total">0</span></span></a>
         </li>
         <li class="nav-item" role="presentation">
           <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Tracking</a>
@@ -241,6 +241,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     $(document).ready(function(){
+      totalReview();
       var table = $('#tblreview').DataTable({
           "processing": true,
           "serverSide": true,
@@ -304,6 +305,12 @@
 
       calendar.render();
     });
+    function totalReview()
+    {
+      $.ajax({
+        url:"<?=site_url('total-review')?>",method:"GET",success:function(response){$('#total').html(response);}
+      });
+    }
   </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
