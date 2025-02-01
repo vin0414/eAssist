@@ -123,13 +123,16 @@
     <div class="container-fluid py-4">
         <ul class="nav nav-tabs" id="myTabs" role="tablist">
             <li class="nav-item" role="presentation">
-            <a class="nav-link active" id="calendar-tab" data-bs-toggle="tab" href="#calendars" role="tab" aria-controls="calendar" aria-selected="false">Calendar</a>
+            <a class="nav-link active" id="calendar-tab" data-bs-toggle="tab" href="#calendars" role="tab" aria-controls="calendar" aria-selected="false">T.A. Calendar</a>
             </li>
             <li class="nav-item" role="presentation">
             <a class="nav-link" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">New T.A.</a>
             </li>
             <li class="nav-item" role="presentation">
-            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Tracking</a>
+            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Tracking T.A.</a>
+            </li>
+            <li class="nav-item" role="presentation">
+            <a class="nav-link" id="others-tab" data-bs-toggle="tab" href="#others" role="tab" aria-controls="others" aria-selected="false">Action and Insights</a>
             </li>
         </ul>
         <div class="tab-content" id="myTabsContent">
@@ -251,10 +254,38 @@
                     <table class="table table-flush" id="tblrequest" style="font-size:12px;">
                       <thead class="thead-light">
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Created</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">T.A. ID</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Area of Concern</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Details</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Details of Technical Assistance Needed</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Priority Level</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="others" role="tabpanel" aria-labelledby="others-tab">
+              <div class="card">
+                <div class="card-header p-3 pb-0">
+                    <div class="d-flex align-items-center">
+                        <h6 class="mb-0">
+                        <i class="fa-solid fa-list-check"></i>&nbsp;Action and Insights
+                        </h6>
+                        <button type="button" class="btn btn-secondary btn-sm add ms-auto mb-0" id="btnExports"><i class="fa-solid fa-download"></i>&nbsp;Export</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-flush" id="tblaction" style="font-size:12px;">
+                      <thead class="thead-light">
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Created</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">T.A. ID</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Area of Concern</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Recommendation</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                       </thead>
                       <tbody>
@@ -350,11 +381,36 @@
           },
           "columns": [
               { "data": "DateCreated" },
+              { "data": "TA" },
               { "data": "subjectName" },
               { "data": "Details" },
               { "data": "priorityLevel" },
               { "data": "Status" },
-              { "data": "actions" }
+          ]
+      });
+
+      var tables = $('#tblaction').DataTable({
+          "processing": true,
+          "serverSide": true,
+          "ajax": {
+              "url": "<?=site_url('action')?>",
+              "type": "GET",
+              "dataSrc": function (json) {
+                  // Handle the data if needed
+                  return json.data;
+              },
+              "error": function (xhr, error, code) {
+                  console.error("AJAX Error: " + error);
+                  alert("Error occurred while loading data.");
+              }
+          },
+          "columns": [
+              { "data": "DateCreated" },
+              { "data": "TA" },
+              { "data": "subjectName" },
+              { "data": "Recommendation" },
+              { "data": "Date" },
+              { "data": "Action" }
           ]
       });
     
@@ -391,6 +447,21 @@
           });
       });
       <?php $eventData = array();?>
+      <?php 
+        $db = db_connect();
+        $builder = $db->table('tblaction a');
+        $builder->select('a.*,b.Code,c.subjectName');
+        $builder->join('tblform b','b.formID=a.formID','LEFT');
+        $builder->join('tblsubject c','c.subjectID=b.subjectID','LEFT');
+        $builder->WHERE('b.Status',2);
+        $data = $builder->get();
+        foreach($data->getResult() as $row)
+        {
+            $tempArray = array( "title" =>$row->Code,"description" =>$row->subjectName,"start" => $row->ImplementationDate,"end" => $row->ImplementationDate);
+            array_push($eventData, $tempArray);
+        }
+        ?>
+      const jsonData = <?php echo json_encode($eventData); ?>;
       var calendar = new FullCalendar.Calendar(document.getElementById("calendar"), {
         contentHeight: 'auto',
         initialView: "dayGridMonth",
@@ -422,7 +493,8 @@
               day: "numeric"
             }
           }
-        }
+        },
+        events:jsonData
       });
 
       calendar.render();

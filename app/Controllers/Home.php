@@ -18,7 +18,7 @@ class Home extends BaseController
 
     public function Auth()
     {
-        $accountModel = new \App\Models\accountModel();
+        $accountModel = new \App\Models\accountModel();;
         //data
         $validation = $this->validate([
             'csrf_test_name'=>'required',
@@ -290,8 +290,9 @@ class Home extends BaseController
             $subjectModel = new \App\Models\subjectModel();
             $subject = $subjectModel->findAll();
             //users
+            $type_users = ['PSDS','EPS'];
             $accountModel = new \App\Models\accountModel();
-            $account = $accountModel->WHERE('userType','EPS')->findAll();
+            $account = $accountModel->WHEREIN('userType',$type_users)->findAll();
 
             $data = ['title'=>$title,'subject'=>$subject,'account'=>$account];
             return view('user/technical-assistance',$data);

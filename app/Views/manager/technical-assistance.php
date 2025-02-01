@@ -126,13 +126,13 @@
     <div class="container-fluid py-4">
       <ul class="nav nav-tabs" id="myTabs" role="tablist">
         <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="calendar-tab" data-bs-toggle="tab" href="#calendars" role="tab" aria-controls="calendar" aria-selected="false">Calendar</a>
+          <a class="nav-link active" id="calendar-tab" data-bs-toggle="tab" href="#calendars" role="tab" aria-controls="calendar" aria-selected="false">T.A. Calendar</a>
         </li>
         <li class="nav-item" role="presentation">
           <a class="nav-link" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">For Review <span class="badge bg-info"><span id="total">0</span></span></a>
         </li>
         <li class="nav-item" role="presentation">
-          <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Tracking</a>
+          <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">T.A. Plan</a>
         </li>
         <li class="nav-item" role="presentation">
           <a class="nav-link" id="feedback-tab" data-bs-toggle="tab" href="#feedback" role="tab" aria-controls="feedback" aria-selected="false">Feedback</a>
@@ -154,10 +154,10 @@
                   <thead class="thead-light">
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Received</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Priority Level</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ref No</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">T.A. ID</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">From</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Area of Concern</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Details</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Details of Technical Assistance Needed</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Approved</th>
                   </thead>
@@ -269,6 +269,22 @@
           ]
       });
 
+      <?php $eventData = array();?>
+      <?php 
+        $db = db_connect();
+        $builder = $db->table('tblaction a');
+        $builder->select('a.*,b.Code,c.subjectName');
+        $builder->join('tblform b','b.formID=a.formID','LEFT');
+        $builder->join('tblsubject c','c.subjectID=b.subjectID','LEFT');
+        $builder->WHERE('b.Status',2);
+        $data = $builder->get();
+        foreach($data->getResult() as $row)
+        {
+            $tempArray = array( "title" =>$row->Code,"description" =>$row->subjectName,"start" => $row->ImplementationDate,"end" => $row->ImplementationDate);
+            array_push($eventData, $tempArray);
+        }
+      ?>
+      const jsonData = <?php echo json_encode($eventData); ?>;
       var calendar = new FullCalendar.Calendar(document.getElementById("calendar"), {
         contentHeight: 'auto',
         initialView: "dayGridMonth",
@@ -300,7 +316,8 @@
               day: "numeric"
             }
           }
-        }
+        },
+        events:jsonData
       });
 
       calendar.render();

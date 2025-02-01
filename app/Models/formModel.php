@@ -14,10 +14,6 @@ class formModel extends Model
     protected $returnType     = 'array';
     protected $useSoftDeletes = false;
 
-    protected $allowedFields = ['DateCreated','accountID','clusterID','schoolID','Agree','subjectID','Details','File','priorityLevel','Status'];
+    protected $allowedFields = ['DateCreated','Code','accountID','clusterID','schoolID','Agree','subjectID','Details','File','priorityLevel','Status'];
 
-    public function getTotal()
-    {
-        return $this->db->table($this->table)->countAllResults();
-    }
 }

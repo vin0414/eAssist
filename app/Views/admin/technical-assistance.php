@@ -12,6 +12,7 @@
   <!-- Nucleo Icons -->
   <link href="<?=base_url('assets/css/nucleo-icons.css')?>" rel="stylesheet" />
   <link href="<?=base_url('assets/css/nucleo-svg.css')?>" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.dataTables.css" />
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css" integrity="sha512-v8QQ0YQ3H4K6Ic3PJkym91KoeNT5S3PnDKvqnwqFD1oiqIl653crGZplPdU5KKtHjO0QKcQ2aUlQZYjHczkmGw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -146,24 +147,49 @@
     <div class="container-fluid py-4">
       <ul class="nav nav-tabs" id="myTabs" role="tablist">
         <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">For Review</a>
+          <a class="nav-link active" id="calendar-tab" data-bs-toggle="tab" href="#calendars" role="tab" aria-controls="calendar" aria-selected="false">T.A. Calendar</a>
         </li>
         <li class="nav-item" role="presentation">
-          <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Tracking</a>
+          <a class="nav-link" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">For Review <span class="badge bg-info"><span id="total">0</span></span></a>
         </li>
         <li class="nav-item" role="presentation">
-          <a class="nav-link" id="calendar-tab" data-bs-toggle="tab" href="#calendar" role="tab" aria-controls="calendar" aria-selected="false">Calendar</a>
+          <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">T.A. Plan</a>
         </li>
         <li class="nav-item" role="presentation">
           <a class="nav-link" id="feedback-tab" data-bs-toggle="tab" href="#feedback" role="tab" aria-controls="feedback" aria-selected="false">Feedback</a>
         </li>
       </ul>
       <div class="tab-content" id="myTabsContent">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="tab-pane fade show active" id="calendars" role="tabpanel" aria-labelledby="calendar-tab">
+          <div class="card card-calendar">
+            <div class="card-body p-3">
+              <div class="calendar" data-bs-toggle="calendar" id="calendar"></div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+          <div class="card">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-flush" id="tblreview" style="font-size:12px;">
+                  <thead class="thead-light">
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Received</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Priority Level</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">T.A. ID</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">From</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Area of Concern</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Details of Technical Assistance Needed</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Approved</th>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        </div>
-        <div class="tab-pane fade" id="calendar" role="tabpanel" aria-labelledby="calendar-tab">
         </div>
         <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
         </div>
@@ -229,6 +255,101 @@
   <script src="<?=base_url('assets/js/plugins/perfect-scrollbar.min.js')?>"></script>
   <script src="<?=base_url('assets/js/plugins/smooth-scrollbar.min.js')?>"></script>
   <script src="<?=base_url('assets/js/plugins/chartjs.min.js')?>"></script>
+  <script src="<?=base_url('assets/js/fullcalendar.min.js')?>"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    $(document).ready(function(){
+      totalReview();
+      var table = $('#tblreview').DataTable({
+          "processing": true,
+          "serverSide": true,
+          "ajax": {
+              "url": "<?=site_url('review')?>",
+              "type": "GET",
+              "dataSrc": function (json) {
+                  // Handle the data if needed
+                  return json.data;
+              },
+              "error": function (xhr, error, code) {
+                  console.error("AJAX Error: " + error);
+                  alert("Error occurred while loading data.");
+              }
+          },
+          "columns": [
+              { "data": "DateReceived" },
+              { "data": "priorityLevel" },
+              { "data": "RefNo" },
+              { "data": "From" },
+              { "data": "subjectName" },
+              { "data": "Details" },
+              { "data": "Status" },
+              { "data": "DateApproved" }
+          ]
+      });
+
+      <?php $eventData = array();?>
+      <?php 
+        $db = db_connect();
+        $builder = $db->table('tblaction a');
+        $builder->select('a.*,b.Code,c.subjectName');
+        $builder->join('tblform b','b.formID=a.formID','LEFT');
+        $builder->join('tblsubject c','c.subjectID=b.subjectID','LEFT');
+        $builder->WHERE('b.Status',2);
+        $data = $builder->get();
+        foreach($data->getResult() as $row)
+        {
+            $tempArray = array( "title" =>$row->Code,"description" =>$row->subjectName,"start" => $row->ImplementationDate,"end" => $row->ImplementationDate);
+            array_push($eventData, $tempArray);
+        }
+      ?>
+      const jsonData = <?php echo json_encode($eventData); ?>;
+      var calendar = new FullCalendar.Calendar(document.getElementById("calendar"), {
+        contentHeight: 'auto',
+        initialView: "dayGridMonth",
+        headerToolbar: {
+          start: 'title', // will normally be on the left. if RTL, will be on the right
+          center: '',
+          end: 'today prev,next' // will normally be on the right. if RTL, will be on the left
+        },
+        selectable: true,
+        editable: true,
+        views: {
+          month: {
+            titleFormat: {
+              month: "long",
+              year: "numeric"
+            }
+          },
+          agendaWeek: {
+            titleFormat: {
+              month: "long",
+              year: "numeric",
+              day: "numeric"
+            }
+          },
+          agendaDay: {
+            titleFormat: {
+              month: "short",
+              year: "numeric",
+              day: "numeric"
+            }
+          }
+        },
+        events:jsonData
+      });
+
+      calendar.render();
+    });
+    function totalReview()
+    {
+      $.ajax({
+        url:"<?=site_url('total-review')?>",method:"GET",success:function(response){$('#total').html(response);}
+      });
+    }
+  </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

@@ -405,6 +405,18 @@ class ActionController extends BaseController
         }
         else
         {
+            //generate the code based on year
+            $year = date('Y');$code = "";
+            $builder = $this->db->table('tblform');
+            $builder->select('COUNT(formID)+1 as total');
+            $builder->WHERE('Year(DateCreated)',$year);
+            $getData = $builder->get()->getRow();
+            if($getData)
+            {
+                $code = "TA-".$year."-".str_pad($getData->total, 4, '0', STR_PAD_LEFT);
+            }
+
+
             $user = session()->get('loggedUser');
             $users = $this->request->getPost('account');
             $status = 0;$date = date('Y-m-d');
@@ -415,7 +427,7 @@ class ActionController extends BaseController
             //save the form
             if(empty($originalName))
             {
-                $data = ['DateCreated'=>$date,'accountID'=>$user,
+                $data = ['DateCreated'=>$date,'Code'=>$code,'accountID'=>$user,
                         'clusterID'=>$account['clusterID'],'schoolID'=>$account['schoolID'],
                         'Agree'=>$this->request->getPost('agreement'),'subjectID'=>$this->request->getPost('area'),
                         'Details'=>$this->request->getPost('details'),
@@ -425,7 +437,7 @@ class ActionController extends BaseController
             else
             {
                 $file->move('files/',$originalName);
-                $data = ['DateCreated'=>$date,'accountID'=>$user,
+                $data = ['DateCreated'=>$date,'Code'=>$code,'accountID'=>$user,
                         'clusterID'=>$account['clusterID'],'schoolID'=>$account['schoolID'],
                         'Agree'=>$this->request->getPost('agreement'),'subjectID'=>$this->request->getPost('area'),
                         'Details'=>$this->request->getPost('details'),'File'=>$originalName,
@@ -439,14 +451,7 @@ class ActionController extends BaseController
             //get the PSDS per cluster
             $headUser = $accountModel->WHERE('clusterID',$account['clusterID'])
                                      ->WHERE('userType','PSDS')->first();
-            //send to PSDS
-            $data = ['DateReceived'=>$date, 
-                    'accountID'=>$headUser['accountID'],
-                    'formID'=>$form['formID'],
-                    'Status'=>$status,
-                    'DateApproved'=>'0000-00-00'];
-            $reviewModel->save($data);
-            //send to EPS
+            //send to EPS/PSDS
             $count = count($users);
             for($i=0;$i<$count;$i++)
             {
@@ -477,7 +482,7 @@ class ActionController extends BaseController
         $builder->WHERE('a.accountID',$user);
         $form = $builder->get()->getResult();
 
-        $totalRecords = $formModel->getTotal();
+        $totalRecords = $formModel->WHERE('accountID',$user)->countAllResults();
 
         $response = [
             "draw" => $_GET['draw'],
@@ -489,18 +494,53 @@ class ActionController extends BaseController
 
             $response['data'][] = [
                 'DateCreated' => date('Y-M-d', strtotime($row->DateCreated)),
+                'TA' => htmlspecialchars($row->Code, ENT_QUOTES),
                 'subjectName' => htmlspecialchars($row->subjectName, ENT_QUOTES),
                 'Details' => htmlspecialchars($row->Details, ENT_QUOTES),
                 'priorityLevel' => htmlspecialchars($row->priorityLevel, ENT_QUOTES),
                 'Status'=>($row->Status == 0) ? '<span class="badge bg-warning">pending</span>' :
-                (($row->Status == 1) ? '<span class="badge bg-success">approved</span>' : 
-                '<span class="badge bg-info">ongoing</span>'),
-                'actions' =>($row->Status == 0) ? '-' :
-                (($row->Status == 1) ? '<button type="button" class="badge bg-info addcomment" value="'.$row->formID.'"><i class="fa-regular fa-comment-dots"></i>&nbsp;Comment</button>' : 
-                '-')
+                (($row->Status == 1) ? '<span class="badge bg-success">Completed</span>' : 
+                '<span class="badge bg-info">Accepted</span>')
             ];
         }
         // Return the response as JSON
+        return $this->response->setJSON($response);
+    }
+
+    public function action()
+    {
+        $actionModel = new \App\Models\actionModel();
+        $user = session()->get('loggedUser');
+        $totalRecords = $actionModel->WHERE('requestorID',$user)->countAllResults();
+
+        $builder = $this->db->table('tblaction a');
+        $builder->select('a.*,b.Code,b.Status,c.subjectName');
+        $builder->join('tblform b','b.formID=a.formID','LEFT');
+        $builder->join('tblsubject c','c.subjectID=b.subjectID','LEFT');
+        $builder->WHERE('b.accountID',$user);
+        $records = $builder->get()->getResult();
+
+        $response = [
+            "draw" => $_GET['draw'],
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $totalRecords,
+            'data' => [] 
+        ];
+
+        foreach ($records as $row) {
+
+            $response['data'][] = [
+                'DateCreated' => date('Y-M-d', strtotime($row->DateCreated)),
+                'TA' => $row->Code,
+                'subjectName' => htmlspecialchars($row->subjectName, ENT_QUOTES),
+                'Recommendation' => htmlspecialchars($row->Recommendation, ENT_QUOTES),
+                'Date'=>date('Y-M-d', strtotime($row->ImplementationDate)),
+                'Action'=>($row->Status == 0) ? '-' :
+                (($row->Status == 1) ? '<button type="button" class="badge bg-success comment" value="'.$row->actionID.'">Add Comment</button>' : 
+                '<span class="badge bg-info">Processing</span>')
+            ];
+        }
+
         return $this->response->setJSON($response);
     }
 
@@ -508,10 +548,10 @@ class ActionController extends BaseController
     {
         $reviewModel = new \App\Models\reviewModel();
         $user = session()->get('loggedUser');
-        $totalRecords = $reviewModel->WHERE('accountID',$user)->getTotal();
+        $totalRecords = $reviewModel->WHERE('accountID',$user)->countAllResults();
         
         $builder = $this->db->table('tblreview a');
-        $builder->select('a.*,b.Fullname,c.formID,c.Details,c.priorityLevel,d.subjectName');
+        $builder->select('a.*,b.Fullname,c.Code,c.formID,c.Details,c.priorityLevel,d.subjectName');
         $builder->join('tblaccount b','b.accountID=a.accountID','LEFT');
         $builder->join('tblform c','c.formID=a.formID','LEFT');
         $builder->join('tblsubject d','d.subjectID=c.subjectID','LEFT');
@@ -530,7 +570,7 @@ class ActionController extends BaseController
             $response['data'][] = [
                 'DateReceived' => date('Y-M-d', strtotime($row->DateReceived)),
                 'priorityLevel' => ($row->priorityLevel=="High") ? '<span class="badge bg-danger"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;'.$row->priorityLevel.'</span>' : $row->priorityLevel,
-                'RefNo' => htmlspecialchars(str_pad($row->formID, 7, '0', STR_PAD_LEFT), ENT_QUOTES),
+                'RefNo' => htmlspecialchars($row->Code, ENT_QUOTES),
                 'From' => htmlspecialchars($row->Fullname, ENT_QUOTES),
                 'subjectName' => htmlspecialchars($row->subjectName, ENT_QUOTES),
                 'Details' => htmlspecialchars($row->Details, ENT_QUOTES),
