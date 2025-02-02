@@ -453,7 +453,7 @@
         $builder->select('a.*,b.Code,c.subjectName');
         $builder->join('tblform b','b.formID=a.formID','LEFT');
         $builder->join('tblsubject c','c.subjectID=b.subjectID','LEFT');
-        $builder->WHERE('b.Status',2);
+        $builder->WHERE('b.Status',3);
         $data = $builder->get();
         foreach($data->getResult() as $row)
         {

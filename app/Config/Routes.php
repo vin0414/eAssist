@@ -43,6 +43,7 @@ $routes->get('user-request','ActionController::userRequest');
 $routes->get('review','ActionController::reviewRequest');
 $routes->get('total-review','ActionController::totalReview');
 $routes->get('action','ActionController::action');
+$routes->get('view-details','ActionController::viewDetails');
 // save using ajax
 $routes->post('save-cluster','ActionController::saveCluster');
 $routes->post('edit-cluster','ActionController::editCluster');
@@ -55,6 +56,9 @@ $routes->post('edit','ActionController::edit');
 $routes->post('save-password','ActionController::savePassword');
 $routes->post('reset-password','ActionController::resetPassword');
 $routes->post('save-form','ActionController::saveForm');
+$routes->post('accept-form','ActionController::acceptForm');
+$routes->post('denied-form','ActionController::deniedForm');
+$routes->post('complete-form','ActionController::completeForm');
 
 $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
 {

@@ -499,8 +499,9 @@ class ActionController extends BaseController
                 'Details' => htmlspecialchars($row->Details, ENT_QUOTES),
                 'priorityLevel' => htmlspecialchars($row->priorityLevel, ENT_QUOTES),
                 'Status'=>($row->Status == 0) ? '<span class="badge bg-warning">pending</span>' :
+                (($row->Status == 2) ? '<span class="badge bg-danger">for revision</span>' :
                 (($row->Status == 1) ? '<span class="badge bg-success">Completed</span>' : 
-                '<span class="badge bg-info">Accepted</span>')
+                '<span class="badge bg-info">Accepted</span>'))
             ];
         }
         // Return the response as JSON
@@ -570,13 +571,14 @@ class ActionController extends BaseController
             $response['data'][] = [
                 'DateReceived' => date('Y-M-d', strtotime($row->DateReceived)),
                 'priorityLevel' => ($row->priorityLevel=="High") ? '<span class="badge bg-danger"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;'.$row->priorityLevel.'</span>' : $row->priorityLevel,
-                'RefNo' => htmlspecialchars($row->Code, ENT_QUOTES),
+                'RefNo' => '<button type="button" class="btn btn-link btn-sm view" value="'.$row->Code.'" style="padding:0px;">'.htmlspecialchars($row->Code, ENT_QUOTES).'</button>',
                 'From' => htmlspecialchars($row->Fullname, ENT_QUOTES),
                 'subjectName' => htmlspecialchars($row->subjectName, ENT_QUOTES),
                 'Details' => htmlspecialchars($row->Details, ENT_QUOTES),
                 'Status'=>($row->Status == 0) ? '<span class="badge bg-warning">pending</span>' :
-                (($row->Status == 1) ? '<span class="badge bg-success">approved</span>' : 
-                '<span class="badge bg-info">ongoing</span>'),
+                (($row->Status == 2) ? '<span class="badge bg-danger">revision</span>' : 
+                (($row->Status == 1) ? '<span class="badge bg-success">Completed</span>' : 
+                '<span class="badge bg-info">ongoing</span>')),
                 'DateApproved'=>$row->DateApproved
             ];
         }
@@ -587,13 +589,152 @@ class ActionController extends BaseController
     public function totalReview()
     {
         $user = session()->get('loggedUser');
+        $status = ['0',3];
         $builder = $this->db->table('tblreview');
         $builder->select('COUNT(*)as total');
-        $builder->WHERE('accountID',$user)->WHERE('Status',0);
+        $builder->WHERE('accountID',$user)->WHEREIN('Status',$status);
         $total = $builder->get()->getRow();
         if($total)
         {
             echo $total->total;
         }
+    }
+
+    public function viewDetails()
+    {
+        $val = $this->request->getGet('value');
+        $builder = $this->db->table('tblform a');
+        $builder->select('a.formID,a.accountID,a.Details,b.subjectName,c.Email,c.Fullname,d.schoolName,e.clusterName,f.Status');
+        $builder->join('tblsubject b','b.subjectID=a.subjectID','LEFT');
+        $builder->join('tblaccount c','c.accountID=a.accountID','LEFT');
+        $builder->join('tblschool d','d.schoolID=a.schoolID','LEFT');
+        $builder->join('tblcluster e','e.clusterID=a.clusterID','LEFT');
+        $builder->join('tblreview f','f.formID=a.formID','LEFT');
+        $builder->WHERE('a.Code',$val);
+        $data = $builder->get()->getRow();
+        if($data)
+        {
+            ?>
+            <form method="POST" class="row g-2" id="frmReview">
+                <?= csrf_field(); ?>
+                <input type="hidden" name="formID" value="<?php echo $data->formID ?>"/>
+                <input type="hidden" name="requestorID" value="<?php echo $data->accountID ?>"/>
+                <div class="col-lg-12">
+                    <div class="row g-2">
+                        <div class="col-lg-6">
+                            <label>Fullname</label>
+                            <input type="text" class="form-control" value="<?php echo $data->Fullname ?>"/>
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Email Address</label>
+                            <input type="email" class="form-control" value="<?php echo $data->Email ?>"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="row g-2">
+                        <div class="col-lg-4">
+                            <label>Cluster</label>
+                            <input type="text" class="form-control" value="<?php echo $data->clusterName ?>"/>
+                        </div>
+                        <div class="col-lg-8">
+                            <label>School</label>
+                            <input type="text" class="form-control" value="<?php echo $data->schoolName ?>"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <label>Area of Concerns</label>
+                    <input type="text" class="form-control" value="<?php echo $data->subjectName ?>"/>
+                </div>
+                <div class="col-lg-12">
+                    <label>Details of Technical Assistance Needed</label>
+                    <textarea class="form-control"><?php echo $data->Details ?></textarea>
+                </div>
+                <?php if(!empty($data->File)){ ?>
+                <div class="col-lg-12">
+                    <label>Attachment</label>
+                    <a class="form-control" href="<?=base_url('files')?>/<?php echo $data->File ?>" target="_BLANK"><?php echo $data->File ?></a>
+                </div>
+                <?php }?>
+                <?php if($data->Status==0){ ?>
+                <div class="col-lg-12">
+                    <label>Technical Assistance Provided</label>
+                    <textarea class="form-control" name="action_provided" required></textarea>
+                    <div id="action_provided-error" class="error-message text-danger text-sm"></div>
+                </div>
+                <div class="col-lg-12">
+                    <label>Recommendation</label>
+                    <textarea class="form-control" name="recommendation" required></textarea>
+                    <div id="recommendation-error" class="error-message text-danger text-sm"></div>
+                </div>
+                <div class="col-lg-12">
+                    <label>Date of Implementation</label>
+                    <input type="date" class="form-control" name="date" required/>
+                    <div id="date-error" class="error-message text-danger text-sm"></div>
+                </div>
+                <?php } ?>
+                <div class="col-lg-12">
+                    <?php if($data->Status==0){ ?>
+                    <button type="submit" class="btn btn-info accept"><i class="fa-solid fa-check"></i>&nbsp;Accept</button>
+                    <button type="button" class="btn btn-danger reset"><i class="fa-solid fa-xmark"></i>&nbsp;Revise</button>
+                    <?php }else if($data->Status==3){ ?>
+                    <button type="submit" class="btn btn-info accept" value="<?php echo $data->formID ?>"><i class="fa-solid fa-flag"></i>&nbsp;Complete</button>
+                    <?php } ?>
+                </div>
+            </form>
+            <?php
+        }
+    }
+
+    public function acceptForm()
+    {
+        $actionModel = new \App\Models\actionModel();
+        $reviewModel = new \App\Models\reviewModel();
+        $formModel = new \App\Models\formModel();
+        //data
+        $validation = $this->validate([
+            'csrf_test_name'=>'required',
+            'formID'=>'required',
+            'requestorID'=>'required',
+            'action_provided'=>'required',
+            'recommendation'=>'required',
+            'date'=>'required'
+        ]);
+        if(!$validation)
+        {
+            return $this->response->SetJSON(['error' => $this->validator->getErrors()]);
+        }
+        else
+        {
+            $user = session()->get('loggedUser');
+            $date = date('Y-m-d');
+            $data = ['DateCreated'=>$date,'formID'=>$this->request->getPost('formID'),
+                    'accountID'=>$user,'actionName'=>$this->request->getPost('action_provided'),
+                    'Recommendation'=>$this->request->getPost('recommendation'),
+                    'implementationDate'=>$this->request->getPost('date'),
+                    'requestorID'=>$this->request->getPost('requestorID')];
+            $actionModel->save($data);
+            //update the status
+            $review = $reviewModel
+                    ->WHERE('formID',$this->request->getPost('formID'))
+                    ->WHERE('accountID',$user)->first();
+            $records = ['Status'=>3,'DateApproved'=>$date];
+            $reviewModel->update($review['reviewID'],$records); 
+            //update the form
+            $newData = ['Status'=>3];
+            $formModel->update($this->request->getPost('formID'),$newData);           
+            return $this->response->setJSON(['success' => 'Successfully submitted']);
+        }
+    }
+
+    public function deniedForm()
+    {
+
+    }
+
+    public function completeForm()
+    {
+
     }
 }

@@ -228,6 +228,21 @@
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-info text-white">
+          <h5 class="modal-title text-white" id="exampleModalLabel"><img src="<?=base_url('assets/img/logo.png')?>" width="30px"/>&nbsp;Technical Assistance Details</h5>
+          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="result"></div>
+        </div>
+      </div>
+    </div>
+  </div>
   <!--   Core JS Files   -->
   <script src="<?=base_url('assets/js/core/popper.min.js')?>"></script>
   <script src="<?=base_url('assets/js/core/bootstrap.min.js')?>"></script>
@@ -276,7 +291,7 @@
         $builder->select('a.*,b.Code,c.subjectName');
         $builder->join('tblform b','b.formID=a.formID','LEFT');
         $builder->join('tblsubject c','c.subjectID=b.subjectID','LEFT');
-        $builder->WHERE('b.Status',2);
+        $builder->WHERE('b.Status',3);
         $data = $builder->get();
         foreach($data->getResult() as $row)
         {
@@ -321,6 +336,31 @@
       });
 
       calendar.render();
+
+      $(document).on('click','.accept',function(e)
+      {
+        e.preventDefault();
+        $('.error-message').html('');
+        let data = $('#frmReview').serialize();
+        $.ajax({
+          url:"<?=site_url('accept-form')?>",method:"POST",
+          data:data,
+          success:function(response)
+          {
+            if(response.success){
+              table.ajax.reload();$('#viewModal').modal('hide');totalReview();
+            }
+            else{
+              var errors = response.error;
+              // Iterate over each error and display it under the corresponding input field
+              for (var field in errors) {
+                  $('#' + field + '-error').html('<p>' + errors[field]+ '</p>'); // Show the first error message
+                  $('#' + field).addClass('text-danger'); // Highlight the input field with an error
+              }
+            }
+          }
+        });
+      })
     });
     function totalReview()
     {
@@ -328,6 +368,19 @@
         url:"<?=site_url('total-review')?>",method:"GET",success:function(response){$('#total').html(response);}
       });
     }
+
+    $(document).on('click','.view',function(){
+      var val = $(this).val();
+      $.ajax({
+        url:"<?=site_url('view-details')?>",method:"GET",
+        data:{value:val},
+        success:function(response)
+        {
+          $('#viewModal').modal('show');
+          $('#result').html(response);
+        }
+      });
+    });
   </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
