@@ -190,6 +190,24 @@
           </div>
         </div>
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <div class="card">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-flush" id="tblplan" style="font-size:12px;">
+                  <thead class="thead-light">
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Created</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">T.A. ID</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cluster</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">School Name</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Area of Concerns</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Details of Technical Assistance Needed</th>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
         </div>
@@ -249,6 +267,21 @@
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-info text-white">
+          <h5 class="modal-title text-white" id="exampleModalLabel"><img src="<?=base_url('assets/img/logo.png')?>" width="30px"/>&nbsp;Technical Assistance Details</h5>
+          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="result"></div>
+        </div>
+      </div>
+    </div>
+  </div>
   <!--   Core JS Files   -->
   <script src="<?=base_url('assets/js/core/popper.min.js')?>"></script>
   <script src="<?=base_url('assets/js/core/bootstrap.min.js')?>"></script>
@@ -263,6 +296,7 @@
   <script>
     $(document).ready(function(){
       totalReview();
+      $('#tblplan').DataTable();
       var table = $('#tblreview').DataTable({
           "processing": true,
           "serverSide": true,
@@ -342,6 +376,61 @@
       });
 
       calendar.render();
+
+      $(document).on('click','.accept',function(e)
+      {
+        e.preventDefault();
+        $('.error-message').html('');
+        let data = $('#frmReview').serialize();
+        $.ajax({
+          url:"<?=site_url('accept-form')?>",method:"POST",
+          data:data,
+          success:function(response)
+          {
+            if(response.success){
+              table.ajax.reload();$('#viewModal').modal('hide');totalReview();
+            }
+            else{
+              var errors = response.error;
+              // Iterate over each error and display it under the corresponding input field
+              for (var field in errors) {
+                  $('#' + field + '-error').html('<p>' + errors[field]+ '</p>'); // Show the first error message
+                  $('#' + field).addClass('text-danger'); // Highlight the input field with an error
+              }
+            }
+          }
+        });
+      })
+
+      //complete the task
+      $(document).on('click','.complete',function(e){
+        e.preventDefault();
+        var confirmation = confirm("Do you want to tag this as completed?");
+        if(confirmation)
+        {
+          var val = $(this).val();
+          $.ajax({
+            url:"<?=site_url('complete-form')?>",
+            method:"POST",data:{value:val},
+            success:function(response)
+            {
+              if(response==="success")
+              {
+                table.ajax.reload();$('#viewModal').modal('hide');totalReview();
+                Swal.fire({
+                  title: "Great!",
+                  text: "Successfully applied changes",
+                  icon: "success"
+                });
+              }
+              else
+              {
+                alert(response);
+              }
+            }
+          });
+        }
+      });
     });
     function totalReview()
     {
@@ -349,6 +438,19 @@
         url:"<?=site_url('total-review')?>",method:"GET",success:function(response){$('#total').html(response);}
       });
     }
+
+    $(document).on('click','.view',function(){
+      var val = $(this).val();
+      $.ajax({
+        url:"<?=site_url('view-details')?>",method:"GET",
+        data:{value:val},
+        success:function(response)
+        {
+          $('#viewModal').modal('show');
+          $('#result').html(response);
+        }
+      });
+    });
   </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;

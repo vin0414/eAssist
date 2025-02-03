@@ -122,7 +122,7 @@
     <!-- Navbar -->
     <?= $this->include('templates/header'); ?>
     <!-- End Navbar -->
-    <div class="container-fluid py-4">
+    <div class="container-fluid py-4" id="content">
       <div class="row">
         <div class="col-lg-6 col-12">
           <div class="row">

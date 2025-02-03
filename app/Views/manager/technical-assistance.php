@@ -169,6 +169,24 @@
           </div>
         </div>
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <div class="card">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-flush" id="tblplan" style="font-size:12px;">
+                  <thead class="thead-light">
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Created</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">T.A. ID</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cluster</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">School Name</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Area of Concerns</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Details of Technical Assistance Needed</th>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
         </div>
@@ -242,7 +260,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> 
   <!--   Core JS Files   -->
   <script src="<?=base_url('assets/js/core/popper.min.js')?>"></script>
   <script src="<?=base_url('assets/js/core/bootstrap.min.js')?>"></script>
@@ -257,6 +275,7 @@
   <script>
     $(document).ready(function(){
       totalReview();
+      $('#tblplan').DataTable();
       var table = $('#tblreview').DataTable({
           "processing": true,
           "serverSide": true,
@@ -361,6 +380,36 @@
           }
         });
       })
+
+      //complete the task
+      $(document).on('click','.complete',function(e){
+        e.preventDefault();
+        var confirmation = confirm("Do you want to tag this as completed?");
+        if(confirmation)
+        {
+          var val = $(this).val();
+          $.ajax({
+            url:"<?=site_url('complete-form')?>",
+            method:"POST",data:{value:val},
+            success:function(response)
+            {
+              if(response==="success")
+              {
+                table.ajax.reload();$('#viewModal').modal('hide');totalReview();
+                Swal.fire({
+                  title: "Great!",
+                  text: "Successfully applied changes",
+                  icon: "success"
+                });
+              }
+              else
+              {
+                alert(response);
+              }
+            }
+          });
+        }
+      });
     });
     function totalReview()
     {

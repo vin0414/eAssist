@@ -679,7 +679,7 @@ class ActionController extends BaseController
                     <button type="submit" class="btn btn-info accept"><i class="fa-solid fa-check"></i>&nbsp;Accept</button>
                     <button type="button" class="btn btn-danger reset"><i class="fa-solid fa-xmark"></i>&nbsp;Revise</button>
                     <?php }else if($data->Status==3){ ?>
-                    <button type="submit" class="btn btn-info accept" value="<?php echo $data->formID ?>"><i class="fa-solid fa-flag"></i>&nbsp;Complete</button>
+                    <button type="submit" class="btn btn-info complete" value="<?php echo $data->formID ?>"><i class="fa-solid fa-flag"></i>&nbsp;Complete</button>
                     <?php } ?>
                 </div>
             </form>
@@ -730,11 +730,52 @@ class ActionController extends BaseController
 
     public function deniedForm()
     {
+        $reviewModel = new \App\Models\reviewModel();
+        $formModel = new \App\Models\formModel();
+        //data
+        $validation = $this->validate([
+            'csrf_test_name'=>'required',
+            'formID'=>'required',
+            'requestorID'=>'required',
+            'action_provided'=>'required',
+            'recommendation'=>'required',
+            'date'=>'required'
+        ]);
+        if(!$validation)
+        {
+            return $this->response->SetJSON(['error' => $this->validator->getErrors()]);
+        }
+        else
+        {
 
+        }
     }
 
     public function completeForm()
     {
+        $formModel = new \App\Models\formModel();
+        $reviewModel = new \App\Models\reviewModel();
+        $val = $this->request->getPost('value');
 
+        $validation = $this->validate([
+            'value'=>'required|numeric',
+        ]);
+
+        if(!$validation)
+        {
+            echo "Invalid Input. Please try again";
+        }
+        else
+        {
+            $status = 1;
+            $data = ['Status'=>$status];
+            $formModel->update($val,$data);
+            //get the review ID
+            $review = $reviewModel->WHERE('formID',$val)->first();
+            //update the review status
+            $record = ['Status'=>$status];
+            $reviewModel->update($review['reviewID'],$record);
+            echo "success";
+        }
     }
 }

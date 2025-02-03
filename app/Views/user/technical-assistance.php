@@ -126,10 +126,7 @@
             <a class="nav-link active" id="calendar-tab" data-bs-toggle="tab" href="#calendars" role="tab" aria-controls="calendar" aria-selected="false">T.A. Calendar</a>
             </li>
             <li class="nav-item" role="presentation">
-            <a class="nav-link" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">New T.A.</a>
-            </li>
-            <li class="nav-item" role="presentation">
-            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Tracking T.A.</a>
+            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Technical Assistance Tracking</a>
             </li>
             <li class="nav-item" role="presentation">
             <a class="nav-link" id="others-tab" data-bs-toggle="tab" href="#others" role="tab" aria-controls="others" aria-selected="false">Action and Insights</a>
@@ -143,102 +140,6 @@
                 </div>
               </div>
             </div>
-            <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <div class="card">
-                    <div class="card-header p-3 pb-0">
-                        <div class="d-flex align-items-center">
-                            <h6 class="mb-0">
-                            <i class="fa-solid fa-message"></i>&nbsp;Technical Assistance Needs Assessment 
-                            </h6>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <form method="POST" class="row g-2" enctype="multipart/form-data" id="frmRequest">
-                            <?= csrf_field(); ?>
-                            <div class="col-12">
-                                <h6>1. Do you allow DEPED - Division of General Trias City to Process all data gathered by this form?</h6>
-                                <div class="radio-group">
-                                    <label>
-                                        <input type="radio" name="agreement" style="width:18px;height:18px;" value="Yes" required>
-                                        <label class="align-middle">Yes</label>
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="agreement" style="width:18px;height:18px;" value="No">
-                                        <label class="align-middle">No</label>
-                                    </label>
-                                </div>
-                                <div id="agreement-error" class="error-message text-danger text-sm"></div>
-                            </div>
-                            <hr class="horizontal dark my-1">
-                            <div class="col-12">
-                                <div class="row g-2">
-                                    <div class="col-lg-4">
-                                        <h6>2. Please choose your area of concern</h6>
-                                        <?php foreach($subject as $row): ?>
-                                          <div class="radio-group">
-                                            <label>
-                                                <input type="radio" name="area" style="width:18px;height:18px;" value="<?php echo $row['subjectID'] ?>" required>
-                                                <label class="align-middle"><?php echo $row['subjectName'] ?></label>
-                                            </label>
-                                          </div> 
-                                        <?php endforeach; ?>
-                                        <div id="area-error" class="error-message text-danger text-sm"></div>
-                                    </div>
-                                    <div class="col-lg-8">
-                                        <h6>3. Based on your area of concern, from whom are you expecting the technical assistance to be coming?</h6>
-                                        <div class="row">
-                                        <?php foreach($account as $row): ?>
-                                          <div class="col-lg-4">
-                                            <div class="radio-group">
-                                              <label>
-                                                  <input type="checkbox" name="account[]" style="width:18px;height:18px;" value="<?php echo $row['accountID'] ?>">
-                                                  <label class="align-middle"><?php echo $row['Fullname'] ?> - <?php echo $row['userType'] ?></label>
-                                              </label>
-                                            </div> 
-                                          </div>
-                                        <?php endforeach; ?>
-                                        <div id="account-error" class="error-message text-danger text-sm"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <h6>4. Details of Technical Assistance Needed</h6>
-                                <span><small>Please provide specific details about your concerns, issues, or challenges based on your chosen area of concern/s. You may also provide data or any documents that may serve as reference for the TA providers.</small></span>
-                                <textarea class="form-control" name="details" required></textarea>
-                                <div id="details-error" class="error-message text-danger text-sm"></div>
-                            </div>
-                            <div class="col-12">
-                                <h6>5. Supporting Documents</h6>
-                                <span><small>Upload any supporting documents in PDF file format that will serve as reference for the TA provider in crafting his/ her technical assistance plan. Merge in one (1) file only</small></span>
-                                <input type="file" class="form-control" name="file"/>
-                            </div>
-                            <div class="col-12">
-                              <h6>6. Level of Priority for Technical Assistance</h6>
-                              <div class="radio-group">
-                                  <label>
-                                      <input type="radio" name="priority" style="width:18px;height:18px;" value="Low" required>
-                                      <label class="align-middle">Low Priority</label>
-                                  </label>
-                                  <label>
-                                      <input type="radio" name="priority" style="width:18px;height:18px;" value="Medium">
-                                      <label class="align-middle">Medium Priority</label>
-                                  </label>
-                                  <label>
-                                      <input type="radio" name="priority" style="width:18px;height:18px;" value="High">
-                                      <label class="align-middle">High Priority</label>
-                                  </label>
-                              </div>
-                              <div id="priority-error" class="error-message text-danger text-sm"></div>
-                            </div>
-                            <div class="col-12">
-                              <button type="submit" class="btn btn-info"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Submit</button>
-                              <button type="reset" class="btn btn-success"><i class="fa-solid fa-arrows-rotate"></i>&nbsp;Clear Form</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
               <div class="card">
                 <div class="card-header p-3 pb-0">
@@ -246,7 +147,8 @@
                         <h6 class="mb-0">
                         <i class="fa-solid fa-clipboard-list"></i>&nbsp;Technical Assistance
                         </h6>
-                        <button type="button" class="btn btn-secondary btn-sm add ms-auto mb-0" id="btnExport"><i class="fa-solid fa-download"></i>&nbsp;Export</button>
+                        <button type="button" class="btn btn-info btn-sm add ms-auto mb-0" style="margin-right:5px;" data-bs-toggle="modal" data-bs-target="#addModal"><i class="fa-solid fa-plus"></i>&nbsp;New</button>
+                        <button type="button" class="btn btn-secondary btn-sm mb-0" id="btnExport"><i class="fa-solid fa-download"></i>&nbsp;Export</button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -351,6 +253,103 @@
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-info text-white">
+          <h5 class="modal-title text-white" id="exampleModalLabel"><img src="<?=base_url('assets/img/logo.png')?>" width="30px"/>&nbsp;New Technical Assistance</h5>
+          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" class="row g-2" enctype="multipart/form-data" id="frmRequest">
+            <?= csrf_field(); ?>
+            <div class="col-12">
+                <div><small>1. Do you allow DEPED - Division of General Trias City to Process all data gathered by this form?</small></div>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="agreement" style="width:18px;height:18px;" value="Yes" required>
+                        <label class="align-middle">Yes</label>
+                    </label>
+                    <label>
+                        <input type="radio" name="agreement" style="width:18px;height:18px;" value="No">
+                        <label class="align-middle">No</label>
+                    </label>
+                </div>
+                <div id="agreement-error" class="error-message text-danger text-sm"></div>
+            </div>
+            <hr class="horizontal dark my-1">
+            <div class="col-12">
+                <div class="row g-3">
+                    <div class="col-lg-4">
+                        <div><small>2. Please choose your area of concern</small></div>
+                        <?php foreach($subject as $row): ?>
+                          <div class="radio-group">
+                            <label>
+                                <input type="radio" name="area" style="width:18px;height:18px;" value="<?php echo $row['subjectID'] ?>" required>
+                                <label class="align-middle"><?php echo $row['subjectName'] ?></label>
+                            </label>
+                          </div> 
+                        <?php endforeach; ?>
+                        <div id="area-error" class="error-message text-danger text-sm"></div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div><small>3. Based on your area of concern, from whom are you expecting the technical assistance to be coming?</small></div>
+                        <div class="row">
+                        <?php foreach($account as $row): ?>
+                          <div class="col-lg-6">
+                            <div class="radio-group">
+                              <label>
+                                  <input type="checkbox" name="account[]" style="width:18px;height:18px;" value="<?php echo $row['accountID'] ?>">
+                                  <label class="align-middle"><?php echo $row['Fullname'] ?> - <?php echo $row['userType'] ?></label>
+                              </label>
+                            </div> 
+                          </div>
+                        <?php endforeach; ?>
+                        <div id="account-error" class="error-message text-danger text-sm"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div><small>4. Details of Technical Assistance Needed</small></div>
+                <span><small>Please provide specific details about your concerns, issues, or challenges based on your chosen area of concern/s. You may also provide data or any documents that may serve as reference for the TA providers.</small></span>
+                <textarea class="form-control" name="details" required></textarea>
+                <div id="details-error" class="error-message text-danger text-sm"></div>
+            </div>
+            <div class="col-12">
+                <div><small>5. Supporting Documents</small></div>
+                <span><small>Upload any supporting documents in PDF file format that will serve as reference for the TA provider in crafting his/ her technical assistance plan. Merge in one (1) file only</small></span>
+                <input type="file" class="form-control" name="file"/>
+            </div>
+            <div class="col-12">
+              <div><small>6. Level of Priority for Technical Assistance</small></div>
+              <div class="radio-group">
+                  <label>
+                      <input type="radio" name="priority" style="width:18px;height:18px;" value="Low" required>
+                      <label class="align-middle">Low Priority</label>
+                  </label>
+                  <label>
+                      <input type="radio" name="priority" style="width:18px;height:18px;" value="Medium">
+                      <label class="align-middle">Medium Priority</label>
+                  </label>
+                  <label>
+                      <input type="radio" name="priority" style="width:18px;height:18px;" value="High">
+                      <label class="align-middle">High Priority</label>
+                  </label>
+              </div>
+              <div id="priority-error" class="error-message text-danger text-sm"></div>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-info"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Submit</button>
+              <button type="reset" class="btn btn-success"><i class="fa-solid fa-arrows-rotate"></i>&nbsp;Clear Form</button>
+            </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div> 
   <!--   Core JS Files   -->
   <script src="<?=base_url('assets/js/core/popper.min.js')?>"></script>
   <script src="<?=base_url('assets/js/core/bootstrap.min.js')?>"></script>
