@@ -222,7 +222,7 @@
                         <i class="fa-regular fa-comment-dots text-dark text-gradient text-lg opacity-10"></i>
                       </div>
                       <h5 class="text-white font-weight-bolder mb-0 mt-3">
-                        940
+                      <?=$feed?>
                       </h5>
                       <span class="text-white text-sm">Feedback</span>
                     </div>

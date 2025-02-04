@@ -144,7 +144,56 @@
     <?= $this->include('admin/templates/header'); ?>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-      
+      <div class="row g-2">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header p-3 pb-0">
+              <div>Individual Technical Assistance Report</div>
+            </div>
+            <div class="card-body">
+              <form method="GET" class="row g-3">
+                <div class="col-lg-3">
+                  <select class="form-control" name="month">
+                    <option value="">Month</option>
+                    <option value="01">January</option>
+                    <option value="02">February</option>
+                    <option value="03">March</option>
+                    <option value="04">April</option>
+                    <option value="05">May</option>
+                    <option value="06">June</option>
+                    <option value="07">July</option>
+                    <option value="08">August</option>
+                    <option value="09">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                  </select>
+                </div>
+                <div class="col-lg-2">
+                  <?php
+                  $currentYear = date("Y");$years = [];
+                  ?>
+                  <select class="form-control" name="year">
+                    <option value="">Year</option>
+                    <?php
+                    for ($i = 0; $i <= 5; $i++) {
+                      $years[] = $currentYear - $i; // Subtract i to get the years going backwards
+                      ?>
+                      <option><?php echo $years[$i] ?></option>
+                      <?php
+                    }
+                    ?>
+                  </select>
+                </div>
+                <div class="col-lg-4">
+                  <button type="submit" class="btn btn-info"><i class="fa-solid fa-magnifying-glass"></i>&nbsp;Search</button>
+                  <button type="button" class="btn btn-secondary" id="btnExport"><i class="fa-solid fa-download"></i>&nbsp;Export</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
   <div class="fixed-plugin">

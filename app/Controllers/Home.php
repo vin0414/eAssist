@@ -89,8 +89,11 @@ class Home extends BaseController
             $pendingForm = $formModel->WHERE('Status<>',1)->countAllResults();
             //count all the resolved
             $resolvedForm = $formModel->WHERE('Status',1)->countAllResults();
+            //feedback
+            $feedbackModel = new \App\Models\feedbackModel();
+            $feed = $feedbackModel->countAllResults();
 
-            $data = ['title'=>$title,'total'=>$totalForm,'pending'=>$pendingForm,'resolved'=>$resolvedForm];
+            $data = ['title'=>$title,'total'=>$totalForm,'pending'=>$pendingForm,'resolved'=>$resolvedForm,'feed'=>$feed];
             return view('admin/index',$data);
         }
         return redirect()->back();
@@ -101,7 +104,17 @@ class Home extends BaseController
         if(session()->get('role')=="Administrator")
         {
             $title = "Technical Assistance";
-            $data = ['title'=>$title];
+            //data
+            $user = session()->get('loggedUser');
+            $builder = $this->db->table('tblreview a');
+            $builder->select('b.Code,c.Rate,c.Message,c.DateCreated,d.clusterName,e.schoolName');
+            $builder->join('tblform b','b.formID=a.formID','LEFT');
+            $builder->join('tblfeedback c','c.formID=a.formID','INNER');
+            $builder->join('tblcluster d','d.clusterID=b.clusterID','LEFT');
+            $builder->join('tblschool e','e.schoolID=b.schoolID','LEFT');
+            $builder->WHERE('a.accountID',$user);
+            $feed = $builder->get()->getResult();
+            $data = ['title'=>$title,'feedback'=>$feed];
             return view('admin/technical-assistance',$data);
         }
         return redirect()->back();
@@ -230,8 +243,11 @@ class Home extends BaseController
             $pendingForm = $formModel->WHERE('Status<>',1)->countAllResults();
             //count all the resolved
             $resolvedForm = $formModel->WHERE('Status',1)->countAllResults();
+            //feedback
+            $feedbackModel = new \App\Models\feedbackModel();
+            $feed = $feedbackModel->countAllResults();
 
-            $data = ['title'=>$title,'total'=>$totalForm,'pending'=>$pendingForm,'resolved'=>$resolvedForm];
+            $data = ['title'=>$title,'total'=>$totalForm,'pending'=>$pendingForm,'resolved'=>$resolvedForm,'feed'=>$feed];
             return view('manager/index',$data);
         }
         return redirect()->back();
@@ -242,7 +258,18 @@ class Home extends BaseController
         if(session()->get('role')=="Manager")
         {
             $title = "Technical Assistance";
-            $data = ['title'=>$title];
+            //feedback
+            $user = session()->get('loggedUser');
+            $builder = $this->db->table('tblreview a');
+            $builder->select('b.Code,c.Rate,c.Message,c.DateCreated,d.clusterName,e.schoolName');
+            $builder->join('tblform b','b.formID=a.formID','LEFT');
+            $builder->join('tblfeedback c','c.formID=a.formID','INNER');
+            $builder->join('tblcluster d','d.clusterID=b.clusterID','LEFT');
+            $builder->join('tblschool e','e.schoolID=b.schoolID','LEFT');
+            $builder->WHERE('a.accountID',$user);
+            $feed = $builder->get()->getResult();
+
+            $data = ['title'=>$title,'feedback'=>$feed];
             return view('manager/technical-assistance',$data);
         }
         return redirect()->back();
@@ -255,6 +282,17 @@ class Home extends BaseController
             $title = "Reports";
             $data = ['title'=>$title];
             return view('manager/report',$data);
+        }
+        return redirect()->back();
+    }
+
+    public function managerAccount()
+    {
+        if(session()->get('role')=="Manager")
+        {
+            $title = "My Account";
+            $data = ['title'=>$title];
+            return view('manager/account',$data);
         }
         return redirect()->back();
     }
@@ -273,8 +311,11 @@ class Home extends BaseController
             $pendingForm = $formModel->WHERE('Status<>',1)->countAllResults();
             //count all the resolved
             $resolvedForm = $formModel->WHERE('Status',1)->countAllResults();
+            //feedback
+            $feedbackModel = new \App\Models\feedbackModel();
+            $feed = $feedbackModel->countAllResults();
 
-            $data = ['title'=>$title,'total'=>$totalForm,'pending'=>$pendingForm,'resolved'=>$resolvedForm];
+            $data = ['title'=>$title,'total'=>$totalForm,'pending'=>$pendingForm,'resolved'=>$resolvedForm,'feed'=>$feed];
             return view('user/index',$data);
         }
         return redirect()->back();
@@ -296,6 +337,33 @@ class Home extends BaseController
 
             $data = ['title'=>$title,'subject'=>$subject,'account'=>$account];
             return view('user/technical-assistance',$data);
+        }
+        return redirect()->back();
+    }
+
+    public function userFeedback()
+    {
+        if(session()->get('role')=="User")
+        {
+            $title = "Feedback";
+            //feedback
+            $user = session()->get('loggedUser');
+            $feedbackModel = new \App\Models\feedbackModel();
+            $feed = $feedbackModel->WHERE('accountID',$user)->findAll();
+            $data = ['title'=>$title,'feed'=>$feed];
+            return view('user/feedback',$data);
+        }
+        return redirect()->back();
+    }
+
+    public function userAccount()
+    {
+        if(session()->get('role')=="User")
+        {
+            $title = "My Account";
+
+            $data = ['title'=>$title];
+            return view('user/account',$data);
         }
         return redirect()->back();
     }

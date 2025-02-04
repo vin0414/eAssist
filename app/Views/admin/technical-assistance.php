@@ -210,6 +210,34 @@
           </div>
         </div>
         <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
+          <div class="card">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-flush" id="tblfeedback" style="font-size:12px;">
+                  <thead class="thead-light">
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Created</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cluster</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">School Name</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">T.A. ID</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="width:100px;">Ratings</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Message</th>
+                  </thead>
+                  <tbody>
+                  <?php foreach($feedback as $row): ?>
+                  <tr>
+                    <td><?php echo date('Y-M-d',strtotime($row->DateCreated)) ?></td>
+                    <td><?php echo $row->clusterName ?></td>
+                    <td><?php echo $row->schoolName ?></td>
+                    <td><?php echo $row->Code ?></td>
+                    <td><?php echo $row->Rate ?></td>
+                    <td><?php echo $row->Message ?></td>
+                  </tr>
+                  <?php endforeach;?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -296,7 +324,31 @@
   <script>
     $(document).ready(function(){
       totalReview();
-      $('#tblplan').DataTable();
+      $('#tblfeedback').DataTable();
+      var tables = $('#tblplan').DataTable({
+          "processing": true,
+          "serverSide": true,
+          "ajax": {
+              "url": "<?=site_url('plan')?>",
+              "type": "GET",
+              "dataSrc": function (json) {
+                  // Handle the data if needed
+                  return json.data;
+              },
+              "error": function (xhr, error, code) {
+                  console.error("AJAX Error: " + error);
+                  alert("Error occurred while loading data.");
+              }
+          },
+          "columns": [
+              { "data": "DateCreated" },
+              { "data": "RefNo" },
+              { "data": "cluster" },
+              { "data": "school" },
+              { "data": "concern" },
+              { "data": "Details" }
+          ]
+      });
       var table = $('#tblreview').DataTable({
           "processing": true,
           "serverSide": true,
@@ -388,7 +440,7 @@
           success:function(response)
           {
             if(response.success){
-              table.ajax.reload();$('#viewModal').modal('hide');totalReview();
+              table.ajax.reload();tables.ajax.reload();('#viewModal').modal('hide');totalReview();
             }
             else{
               var errors = response.error;
@@ -419,7 +471,7 @@
                 table.ajax.reload();$('#viewModal').modal('hide');totalReview();
                 Swal.fire({
                   title: "Great!",
-                  text: "Successfully applied changes",
+                  text: "Successfully submitted",
                   icon: "success"
                 });
               }
@@ -431,6 +483,48 @@
           });
         }
       });
+//decline
+$(document).on('click','.decline',function(e)
+      {
+        e.preventDefault();
+        var confirmation = confirm("Do you want to tag this as for revision?");
+        if(confirmation)
+        {
+          var message = prompt("Please enter your comment");
+          if(message)
+          {
+            $.ajax({
+              url:"<?=site_url('denied-form')?>",
+              method:"POST",data:{value:$(this).val(),message:message},
+              success:function(response)
+              {
+                if(response==="success")
+                {
+                  table.ajax.reload();tables.ajax.reload();$('#viewModal').modal('hide');totalReview();
+                  Swal.fire({
+                    title: "Great!",
+                    text: "Successfully submitted",
+                    icon: "success"
+                  });
+                }
+                else
+                {
+                  alert(response);
+                }
+              }
+            });
+          }
+          else
+          {
+            Swal.fire({
+                title: "Invalid!",
+                text: "Please leave a comment to continue",
+                icon: "warning"
+              });
+          }
+        }
+      });
+
     });
     function totalReview()
     {

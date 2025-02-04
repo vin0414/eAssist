@@ -18,6 +18,41 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css" integrity="sha512-v8QQ0YQ3H4K6Ic3PJkym91KoeNT5S3PnDKvqnwqFD1oiqIl653crGZplPdU5KKtHjO0QKcQ2aUlQZYjHczkmGw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- CSS Files -->
   <link id="pagestyle" href="<?=base_url('assets/css/soft-ui-dashboard.css?v=1.1.0')?>" rel="stylesheet" />
+  <style>
+    .rating {
+      display: inline-block;
+      direction: rtl;
+    }
+
+    .rating input {
+      display: none;
+    }
+
+    .rating label {
+      font-size: 30px;
+      color: #d3d3d3;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .rating input:checked ~ label {
+      color: gold;
+    }
+
+    .rating input:checked + label,
+    .rating label:hover,
+    .rating label:hover ~ label {
+      color: gold;
+    }
+
+    .rating input:focus + label {
+      outline: none;
+    }
+
+    .rating label:active {
+      transform: scale(1.1);
+    }
+  </style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -161,6 +196,7 @@
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Details of Technical Assistance Needed</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Priority Level</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Comment</th>
                       </thead>
                       <tbody>
                       </tbody>
@@ -350,6 +386,71 @@
       </div>
     </div>
   </div> 
+
+  <div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-info text-white">
+          <h5 class="modal-title text-white" id="exampleModalLabel"><img src="<?=base_url('assets/img/logo.png')?>" width="30px"/>&nbsp;Feedback</h5>
+          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" class="row g-2" id="frmFeedback">
+            <?= csrf_field(); ?>
+            <div class="col-lg-12">
+              <label>1. Unique Code</label>
+              <input type="text" class="form-control" name="code" id="codes"/>
+            </div>
+            <div class="col-lg-12">
+              <label>2. How do you rate the TA provided by the PSDS or EPS during his/ her visit at your school?</label>
+              <div class="rating">
+                <!-- Radio buttons for a rating from 1 to 10 -->
+                <input type="radio" id="star10" name="rating" value="10">
+                <label for="star10">&#9733;</label>
+                
+                <input type="radio" id="star9" name="rating" value="9">
+                <label for="star9">&#9733;</label>
+                
+                <input type="radio" id="star8" name="rating" value="8">
+                <label for="star8">&#9733;</label>
+                
+                <input type="radio" id="star7" name="rating" value="7">
+                <label for="star7">&#9733;</label>
+                
+                <input type="radio" id="star6" name="rating" value="6">
+                <label for="star6">&#9733;</label>
+                
+                <input type="radio" id="star5" name="rating" value="5">
+                <label for="star5">&#9733;</label>
+                
+                <input type="radio" id="star4" name="rating" value="4">
+                <label for="star4">&#9733;</label>
+                
+                <input type="radio" id="star3" name="rating" value="3">
+                <label for="star3">&#9733;</label>
+                
+                <input type="radio" id="star2" name="rating" value="2">
+                <label for="star2">&#9733;</label>
+                
+                <input type="radio" id="star1" name="rating" value="1">
+                <label for="star1">&#9733;</label>
+              </div>
+              <div id="rating-error" class="error-message text-danger text-sm"></div>
+            </div>
+            <div class="col-12">
+              <label>3. Provide details based on your response in item number 02</label>
+              <textarea class="form-control" name="feedback" required></textarea>
+              <div id="feedback-error" class="error-message text-danger text-sm"></div>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-info"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   <!--   Core JS Files   -->
   <script src="<?=base_url('assets/js/core/popper.min.js')?>"></script>
   <script src="<?=base_url('assets/js/core/bootstrap.min.js')?>"></script>
@@ -385,6 +486,7 @@
               { "data": "Details" },
               { "data": "priorityLevel" },
               { "data": "Status" },
+              { "data": "Comment" }
           ]
       });
 
@@ -445,6 +547,39 @@
             }
           });
       });
+
+      $('#frmFeedback').on('submit',function(e){
+        e.preventDefault();
+        $('.error-message').html('');
+        let data = $(this).serialize();
+        $.ajax({
+            url:"<?=site_url('save-feedback')?>",method:"POST",
+            data:new FormData(this),
+            contentType: false,
+            cache: false,
+            processData:false,
+            success:function(response)
+            {
+              $('#feedbackModal').modal('hide');
+              if(response.success){
+                Swal.fire({
+                  title: "Great!",
+                  text: "Successfully submitted",
+                  icon: "success"
+                });
+              }
+              else{
+                var errors = response.error;
+                // Iterate over each error and display it under the corresponding input field
+                for (var field in errors) {
+                    $('#' + field + '-error').html('<p>' + errors[field]+ '</p>'); // Show the first error message
+                    $('#' + field).addClass('text-danger'); // Highlight the input field with an error
+                }
+              }
+            }
+          });
+      });
+
       <?php $eventData = array();?>
       <?php 
         $db = db_connect();
@@ -495,10 +630,22 @@
         },
         events:jsonData
       });
-
       calendar.render();
-
     });
+
+    $(document).on('click','.comment',function(e){
+      e.preventDefault();
+      $.ajax({
+        url:"<?=site_url('get-details')?>",
+        method:"GET",data:{value:$(this).val()},
+        success:function(response)
+        {
+          $('#feedbackModal').modal('show');
+          $('#codes').attr("value",response);
+        }
+      });
+    });
+
     document.getElementById('btnExport').addEventListener('click', function () {
       const table = document.getElementById('tblrequest');
       let html = table.outerHTML;

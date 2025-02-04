@@ -477,9 +477,12 @@ class ActionController extends BaseController
 
         $user = session()->get('loggedUser');
         $builder = $this->db->table('tblform a');
-        $builder->select('a.*,b.subjectName');
+        $builder->select('a.*,b.subjectName,IFNULL(c.Message,"-")Message');
         $builder->join('tblsubject b','b.subjectID=a.subjectID','LEFT');
+        $builder->join('tblcomment c', 'c.formID = a.formID', 'LEFT');
         $builder->WHERE('a.accountID',$user);
+        $builder->orderBy('c.DateCreated', 'DESC');
+        $builder->groupBy('a.formID');
         $form = $builder->get()->getResult();
 
         $totalRecords = $formModel->WHERE('accountID',$user)->countAllResults();
@@ -501,7 +504,8 @@ class ActionController extends BaseController
                 'Status'=>($row->Status == 0) ? '<span class="badge bg-warning">pending</span>' :
                 (($row->Status == 2) ? '<span class="badge bg-danger">for revision</span>' :
                 (($row->Status == 1) ? '<span class="badge bg-success">Completed</span>' : 
-                '<span class="badge bg-info">Accepted</span>'))
+                '<span class="badge bg-info">Accepted</span>')),
+                'Comment'=>$row->Message
             ];
         }
         // Return the response as JSON
@@ -543,6 +547,16 @@ class ActionController extends BaseController
         }
 
         return $this->response->setJSON($response);
+    }
+
+    public function getDetails()
+    {
+        $actionModel = new \App\Models\actionModel();
+        $formModel = new \App\Models\formModel();
+        $val = $this->request->getGet('value');
+        $action = $actionModel->WHERE('actionID',$val)->first();
+        $form = $formModel->WHERE('formID',$action['formID'])->first();
+        echo $form['Code'];
     }
 
     public function reviewRequest()
@@ -602,6 +616,8 @@ class ActionController extends BaseController
 
     public function viewDetails()
     {
+        $commentModel = new \App\Models\commentModel(); 
+        $user = session()->get('loggedUser');
         $val = $this->request->getGet('value');
         $builder = $this->db->table('tblform a');
         $builder->select('a.formID,a.accountID,a.Details,b.subjectName,c.Email,c.Fullname,d.schoolName,e.clusterName,f.Status');
@@ -673,11 +689,19 @@ class ActionController extends BaseController
                     <input type="date" class="form-control" name="date" required/>
                     <div id="date-error" class="error-message text-danger text-sm"></div>
                 </div>
+                <?php }else if($data->Status==2){ ?>
+                <div class="col-lg-12">
+                    <label>Comment</label>
+                    <?php
+                    $comment = $commentModel->WHERE('formID',$data->formID)->WHERE('accountID',$user)->first();
+                    ?>
+                    <textarea class="form-control"><?php echo $comment['Message'] ?></textarea>
+                </div>
                 <?php } ?>
                 <div class="col-lg-12">
                     <?php if($data->Status==0){ ?>
                     <button type="submit" class="btn btn-info accept"><i class="fa-solid fa-check"></i>&nbsp;Accept</button>
-                    <button type="button" class="btn btn-danger reset"><i class="fa-solid fa-xmark"></i>&nbsp;Revise</button>
+                    <button type="button" class="btn btn-danger decline" value="<?php echo $data->formID ?>"><i class="fa-solid fa-xmark"></i>&nbsp;Revise</button>
                     <?php }else if($data->Status==3){ ?>
                     <button type="submit" class="btn btn-info complete" value="<?php echo $data->formID ?>"><i class="fa-solid fa-flag"></i>&nbsp;Complete</button>
                     <?php } ?>
@@ -732,22 +756,35 @@ class ActionController extends BaseController
     {
         $reviewModel = new \App\Models\reviewModel();
         $formModel = new \App\Models\formModel();
+        $commentModel = new \App\Models\commentModel();
         //data
         $validation = $this->validate([
-            'csrf_test_name'=>'required',
-            'formID'=>'required',
-            'requestorID'=>'required',
-            'action_provided'=>'required',
-            'recommendation'=>'required',
-            'date'=>'required'
+            'value'=>'required|numeric',
+            'message'=>'required'
         ]);
+
         if(!$validation)
         {
-            return $this->response->SetJSON(['error' => $this->validator->getErrors()]);
+            echo "Invalid Input. Please try again";
         }
         else
         {
-
+            $user = session()->get('loggedUser');
+            $val = $this->request->getPost('value');
+            $msg = $this->request->getPost('message');
+            $date = date('Y-m-d');
+            $status = 2;
+            $data = ['Status'=>$status];
+            $formModel->update($val,$data);
+            //get the review ID
+            $review = $reviewModel->WHERE('formID',$val)->first();
+            //update the review status
+            $record = ['Status'=>$status];
+            $reviewModel->update($review['reviewID'],$record);
+            //add comment
+            $newData = ['formID'=>$val,'accountID'=>$user,'Message'=>$msg,'DateCreated'=>$date];
+            $commentModel->save($newData);
+            echo "success";
         }
     }
 
@@ -776,6 +813,76 @@ class ActionController extends BaseController
             $record = ['Status'=>$status];
             $reviewModel->update($review['reviewID'],$record);
             echo "success";
+        }
+    }
+
+    public function actionPlan()
+    {
+        $reviewModel = new \App\Models\reviewModel();
+        $user = session()->get('loggedUser');
+        $totalRecords = $reviewModel->WHERE('accountID',$user)->countAllResults();
+        
+        $builder = $this->db->table('tblreview a');
+        $builder->select("b.Details,b.Code,b.DateCreated,c.clusterName,d.schoolName,e.subjectName");
+        $builder->join('tblform b','b.formID=a.formID','LEFT');
+        $builder->join('tblcluster c','c.clusterID=b.clusterID','LEFT');
+        $builder->join('tblschool d','d.schoolID=b.schoolID','LEFT');
+        $builder->join('tblsubject e','e.subjectID=b.subjectID','LEFT');
+        $builder->WHERE('a.accountID',$user)->WHERE('a.Status<>',2);
+        $review = $builder->get()->getResult();
+
+        $response = [
+            "draw" => $_GET['draw'],
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $totalRecords,
+            'data' => [] 
+        ];
+
+        foreach ($review as $row) {
+
+            $response['data'][] = [
+                'DateCreated' => date('Y-M-d', strtotime($row->DateCreated)),
+                'RefNo' => htmlspecialchars($row->Code, ENT_QUOTES),
+                'cluster' => htmlspecialchars($row->clusterName, ENT_QUOTES),
+                'school' => htmlspecialchars($row->schoolName, ENT_QUOTES),
+                'concern' => htmlspecialchars($row->subjectName, ENT_QUOTES),
+                'Details'=>$row->Details
+            ];
+        }
+
+        return $this->response->setJSON($response);
+    }
+
+    public function saveFeedback()
+    {
+        $feedbackModel = new \App\Models\feedbackModel();
+        $formModel = new \App\Models\formModel();
+        //data
+        $validation = $this->validate([
+            'csrf_test_name'=>'required',
+            'code'=>'required',
+            'rating'=>'required',
+            'feedback'=>'required',
+        ]);
+
+        if(!$validation)
+        {
+            return $this->response->SetJSON(['error' => $this->validator->getErrors()]);
+        }
+        else
+        {
+            $date = date('Y-m-d');
+            $user = session()->get('loggedUser');
+            $code = $this->request->getPost('code');
+            $rate = $this->request->getPost('rating');
+            $msg = $this->request->getPost('feedback');
+            //get the school and form IDs
+            $form = $formModel->WHERE('Code',$code)->first();
+            
+            $data = ['schoolID'=>$form['schoolID'],'accountID'=>$user,'formID'=>$form['formID'],
+                    'Code'=>$code,'Rate'=>$rate,'Message'=>$msg,'DateCreated'=>$date];
+            $feedbackModel->save($data);
+            return $this->response->setJSON(['success' => 'Successfully submitted']);
         }
     }
 }

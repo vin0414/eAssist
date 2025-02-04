@@ -44,6 +44,8 @@ $routes->get('review','ActionController::reviewRequest');
 $routes->get('total-review','ActionController::totalReview');
 $routes->get('action','ActionController::action');
 $routes->get('view-details','ActionController::viewDetails');
+$routes->get('plan','ActionController::actionPlan');
+$routes->get('get-details','ActionController::getDetails');
 // save using ajax
 $routes->post('save-cluster','ActionController::saveCluster');
 $routes->post('edit-cluster','ActionController::editCluster');
@@ -59,6 +61,7 @@ $routes->post('save-form','ActionController::saveForm');
 $routes->post('accept-form','ActionController::acceptForm');
 $routes->post('denied-form','ActionController::deniedForm');
 $routes->post('complete-form','ActionController::completeForm');
+$routes->post('save-feedback','ActionController::saveFeedback');
 
 $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
 {
@@ -80,9 +83,12 @@ $routes->group('',['filter'=>'AuthCheck'],function($routes)
     $routes->get('/manager/overview','Home::managerDashboard');
     $routes->get('/manager/technical-assistance','Home::managerTechnicalAssistance');
     $routes->get('/manager/reports','Home::managerReport');
+    $routes->get('/manager/account','Home::managerAccount');
     //user
     $routes->get('/user/overview','Home::userDashboard');
     $routes->get('/user/technical-assistance','Home::userTechnicalAssistance');
+    $routes->get('/user/feedback','Home::userFeedback');
+    $routes->get('/user/account','Home::userAccount');
 });
 /*
  * --------------------------------------------------------------------
