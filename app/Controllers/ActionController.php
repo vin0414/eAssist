@@ -885,4 +885,34 @@ class ActionController extends BaseController
             return $this->response->setJSON(['success' => 'Successfully submitted']);
         }
     }
+
+    public function generateReport()
+    {
+        $month = $this->request->getGet('month');
+        $year = $this->request->getGet('year');
+        //builder
+        $builder = $this->db->table('tblform a');
+        $builder->select('a.Code,a.Details,b.schoolName,c.clusterName,d.subjectName,e.actionName,e.Recommendation');
+        $builder->join('tblschool b','b.schoolID=a.schoolID','LEFT');
+        $builder->join('tblcluster c','c.clusterID=a.clusterID','LEFT');
+        $builder->join('tblsubject d','d.subjectID=a.subjectID','LEFT');
+        $builder->join('tblaction e','e.formID=a.formID','LEFT');
+        $builder->WHERE('DATE_FORMAT(a.DateCreated,"%m")',$month)
+                ->WHERE('DATE_FORMAT(a.DateCreated,"%Y")',$year);
+        $data = $builder->get()->getResult();
+        foreach($data as $row)
+        {
+            ?>
+            <tr>
+                <td><?php echo $row->Code ?></td>
+                <td><?php echo $row->clusterName ?></td>
+                <td><?php echo $row->schoolName ?></td>
+                <td><?php echo $row->subjectName ?></td>
+                <td><?php echo $row->Details ?></td>
+                <td><?php echo $row->actionName ?></td>
+                <td><?php echo $row->Recommendation ?></td>
+            </tr>
+            <?php
+        }
+    }
 }

@@ -46,6 +46,7 @@ $routes->get('action','ActionController::action');
 $routes->get('view-details','ActionController::viewDetails');
 $routes->get('plan','ActionController::actionPlan');
 $routes->get('get-details','ActionController::getDetails');
+$routes->get('generate-report','ActionController::generateReport');
 // save using ajax
 $routes->post('save-cluster','ActionController::saveCluster');
 $routes->post('edit-cluster','ActionController::editCluster');

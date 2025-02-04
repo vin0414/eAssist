@@ -148,10 +148,11 @@
         <div class="col-lg-12">
           <div class="card">
             <div class="card-header p-3 pb-0">
-              <div>Individual Technical Assistance Report</div>
+              <div><i class="fa-solid fa-chart-simple"></i>&nbsp;Individual Technical Assistance Report</div>
             </div>
             <div class="card-body">
-              <form method="GET" class="row g-3">
+              <form method="GET" class="row g-3" id="frmReport">
+                <?= csrf_field(); ?>
                 <div class="col-lg-3">
                   <select class="form-control" name="month">
                     <option value="">Month</option>
@@ -191,6 +192,22 @@
                 </div>
               </form>
             </div>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="table-responsive">
+            <table class="table table-flush" style="font-size:12px;" id="table">
+              <thead class="thead-light">
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">T.A. ID</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cluster</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">School Name</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Area of Concern</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Details of Technical Assistance Needed</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Technical Assistance Provided</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Recommendation</th>
+              </thead>
+              <tbody id="tblresult"></tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -255,6 +272,39 @@
   <script src="<?=base_url('assets/js/plugins/perfect-scrollbar.min.js')?>"></script>
   <script src="<?=base_url('assets/js/plugins/smooth-scrollbar.min.js')?>"></script>
   <script src="<?=base_url('assets/js/plugins/chartjs.min.js')?>"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <script>
+    $('#frmReport').on('click',function(e){
+      e.preventDefault();
+      let data = $(this).serialize();
+      $('#tblresult').html("<tr><td colspan='7'><center>Loading...</center></td></tr>");
+      $.ajax({
+        url:"<?=site_url('generate-report')?>",
+        method:"GET",data:data,
+        success:function(response)
+        {
+          if(response==="")
+          {
+            $('#tblresult').html("<tr><td colspan='7'><center>No Available Record(s)</center></td></tr>");
+          }
+          else
+          {
+            $('#tblresult').html(response);
+          }
+        }
+      });
+    });
+
+    document.getElementById('btnExport').addEventListener('click', function () {
+      const table = document.getElementById('table');
+      let html = table.outerHTML;
+      let blob = new Blob([html], { type: 'application/vnd.ms-excel' });
+      let link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'TA-report.xls';
+      link.click();
+    });
+  </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
