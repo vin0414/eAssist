@@ -62,7 +62,7 @@
                 <path d="M9 12H15M12 9V15M21.0039 12C21.0039 16.9706 16.9745 21 12.0039 21C9.9675 21 3.00463 21 3.00463 21C3.00463 21 4.56382 17.2561 3.93982 16.0008C3.34076 14.7956 3.00391 13.4372 3.00391 12C3.00391 7.02944 7.03334 3 12.0039 3C16.9745 3 21.0039 7.02944 21.0039 12Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </div>
-            <span class="nav-link-text ms-1">Technical Assistance</span>
+            <span class="nav-link-text ms-1">Plan</span>
           </a>
         </li>
         <li class="nav-item">
@@ -126,27 +126,14 @@
     <div class="container-fluid py-4">
       <ul class="nav nav-tabs" id="myTabs" role="tablist">
         <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="calendar-tab" data-bs-toggle="tab" href="#calendars" role="tab" aria-controls="calendar" aria-selected="false">T.A. Calendar</a>
-        </li>
-        <li class="nav-item" role="presentation">
-          <a class="nav-link" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">For Review <span class="badge bg-info"><span id="total">0</span></span></a>
+          <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">For Review <span class="badge bg-info"><span id="total">0</span></span></a>
         </li>
         <li class="nav-item" role="presentation">
           <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">T.A. Plan</a>
         </li>
-        <li class="nav-item" role="presentation">
-          <a class="nav-link" id="feedback-tab" data-bs-toggle="tab" href="#feedback" role="tab" aria-controls="feedback" aria-selected="false">Feedback</a>
-        </li>
       </ul>
       <div class="tab-content" id="myTabsContent">
-        <div class="tab-pane fade show active" id="calendars" role="tabpanel" aria-labelledby="calendar-tab">
-          <div class="card card-calendar">
-            <div class="card-body p-3">
-              <div class="calendar" data-bs-toggle="calendar" id="calendar"></div>
-            </div>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
           <div class="card">
             <div class="card-body">
               <div class="table-responsive">
@@ -182,36 +169,6 @@
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Details of Technical Assistance Needed</th>
                   </thead>
                   <tbody>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
-          <div class="card">
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-flush" id="tblfeedback" style="font-size:12px;">
-                  <thead class="thead-light">
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Created</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cluster</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">School Name</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">T.A. ID</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="width:100px;">Ratings</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Message</th>
-                  </thead>
-                  <tbody>
-                  <?php foreach($feedback as $row): ?>
-                  <tr>
-                    <td><?php echo date('Y-M-d',strtotime($row->DateCreated)) ?></td>
-                    <td><?php echo $row->clusterName ?></td>
-                    <td><?php echo $row->schoolName ?></td>
-                    <td><?php echo $row->Code ?></td>
-                    <td><?php echo $row->Rate ?></td>
-                    <td><?php echo $row->Message ?></td>
-                  </tr>
-                  <?php endforeach;?>
                   </tbody>
                 </table>
               </div>
@@ -303,7 +260,6 @@
   <script>
     $(document).ready(function(){
       totalReview();
-      $('#tblfeedback').DataTable();
       var tables = $('#tblplan').DataTable({
           "processing": true,
           "serverSide": true,
@@ -355,59 +311,6 @@
           ]
       });
 
-      <?php $eventData = array();?>
-      <?php 
-        $db = db_connect();
-        $builder = $db->table('tblaction a');
-        $builder->select('a.*,b.Code,c.subjectName');
-        $builder->join('tblform b','b.formID=a.formID','LEFT');
-        $builder->join('tblsubject c','c.subjectID=b.subjectID','LEFT');
-        $builder->WHERE('b.Status',3);
-        $data = $builder->get();
-        foreach($data->getResult() as $row)
-        {
-            $tempArray = array( "title" =>$row->Code,"description" =>$row->subjectName,"start" => $row->ImplementationDate,"end" => $row->ImplementationDate);
-            array_push($eventData, $tempArray);
-        }
-      ?>
-      const jsonData = <?php echo json_encode($eventData); ?>;
-      var calendar = new FullCalendar.Calendar(document.getElementById("calendar"), {
-        contentHeight: 'auto',
-        initialView: "dayGridMonth",
-        headerToolbar: {
-          start: 'title', // will normally be on the left. if RTL, will be on the right
-          center: '',
-          end: 'today prev,next' // will normally be on the right. if RTL, will be on the left
-        },
-        selectable: true,
-        editable: true,
-        views: {
-          month: {
-            titleFormat: {
-              month: "long",
-              year: "numeric"
-            }
-          },
-          agendaWeek: {
-            titleFormat: {
-              month: "long",
-              year: "numeric",
-              day: "numeric"
-            }
-          },
-          agendaDay: {
-            titleFormat: {
-              month: "short",
-              year: "numeric",
-              day: "numeric"
-            }
-          }
-        },
-        events:jsonData
-      });
-
-      calendar.render();
-
       $(document).on('click','.accept',function(e)
       {
         e.preventDefault();
@@ -419,7 +322,12 @@
           success:function(response)
           {
             if(response.success){
-              table.ajax.reload();tables.ajax.reload();('#viewModal').modal('hide');totalReview();
+              Swal.fire({
+                title: "Great!",
+                text: "Successfully saved",
+                icon: "success"
+              });
+              table.ajax.reload();tables.ajax.reload();$('#viewModal').modal('hide');totalReview();
             }
             else{
               var errors = response.error;

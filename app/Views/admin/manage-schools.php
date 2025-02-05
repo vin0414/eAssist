@@ -147,7 +147,10 @@
     <div class="container-fluid py-4">
       <ul class="nav nav-tabs" id="myTabs" role="tablist">
         <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Cluster and Area of Concerns</a>
+          <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Cluster</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="area-tab" data-bs-toggle="tab" href="#area" role="tab" aria-controls="area" aria-selected="false">Area of Concerns</a>
         </li>
         <li class="nav-item" role="presentation">
           <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Schools</a>
@@ -157,7 +160,7 @@
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
           <br/>
           <div class="row g-3">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
               <div class="card">
                 <div class="card-header p-3 pb-0">
                   <div class="d-flex align-items-center">
@@ -174,6 +177,7 @@
                     <table class="table align-items-center mb-0" style="font-size:12px;">
                       <thead>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 w-500">Cluster Name</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 w-500">Assigned PSDS</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                       </thead>
                       <tbody id="tblcluster"></tbody>
@@ -182,7 +186,13 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-6">
+          </div>
+        </div>
+        <div class="tab-pane fade" id="area" role="tabpanel" aria-labelledby="area-tab">
+          <br/>
+          <div class="row g-3">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
               <div class="card">
                 <div class="card-header p-3 pb-0">
                   <div class="d-flex align-items-center">
@@ -198,7 +208,7 @@
                   <div class="table-responsive p-0">
                     <table class="table align-items-center mb-0" style="font-size:12px;">
                       <thead>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 w-500">Area of Concerns</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Area of Concerns</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                       </thead>
                       <tbody id="tblsubject"></tbody>
@@ -654,14 +664,14 @@
 
     function fetchCluster()
     {
-      $('#tblcluster').html("<tr><td colspan='2'><center>Loading...</center></td></tr>");
+      $('#tblcluster').html("<tr><td colspan='3'><center>Loading...</center></td></tr>");
       $.ajax({
         url:"<?=site_url('fetch-cluster')?>",method:"GET",
         success:function(response)
         {
           if(response==="")
           {
-            $('#tblcluster').html("<tr><td colspan='2'><center>No Available Record(s)</center></td></tr>");
+            $('#tblcluster').html("<tr><td colspan='3'><center>No Available Record(s)</center></td></tr>");
           }
           else
           {

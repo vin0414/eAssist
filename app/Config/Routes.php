@@ -45,8 +45,10 @@ $routes->get('total-review','ActionController::totalReview');
 $routes->get('action','ActionController::action');
 $routes->get('view-details','ActionController::viewDetails');
 $routes->get('plan','ActionController::actionPlan');
+$routes->get('assist-plan','ActionController::assistPlan');
 $routes->get('get-details','ActionController::getDetails');
 $routes->get('generate-report','ActionController::generateReport');
+$routes->get('generate-technical-report','ActionController::generateTAReport');
 // save using ajax
 $routes->post('save-cluster','ActionController::saveCluster');
 $routes->post('edit-cluster','ActionController::editCluster');
@@ -63,6 +65,7 @@ $routes->post('accept-form','ActionController::acceptForm');
 $routes->post('denied-form','ActionController::deniedForm');
 $routes->post('complete-form','ActionController::completeForm');
 $routes->post('save-feedback','ActionController::saveFeedback');
+$routes->post('save-action','ActionController::saveAction');
 
 $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
 {

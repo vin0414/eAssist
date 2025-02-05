@@ -17,9 +17,29 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css" integrity="sha512-v8QQ0YQ3H4K6Ic3PJkym91KoeNT5S3PnDKvqnwqFD1oiqIl653crGZplPdU5KKtHjO0QKcQ2aUlQZYjHczkmGw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- CSS Files -->
   <link id="pagestyle" href="<?=base_url('assets/css/soft-ui-dashboard.css?v=1.1.0')?>" rel="stylesheet" />
-  <!-- Nepcha Analytics (nepcha.com) -->
-  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  <style>
+        /* Style the scrollbar */
+    ::-webkit-scrollbar {
+      width: 2px;  /* Sets the width of the scrollbar */
+      height:5px;
+    }
+
+    /* Style the scrollbar track */
+    ::-webkit-scrollbar-track {
+      background-color: #f1f1f1;
+    }
+
+    /* Style the scrollbar thumb (the draggable part) */
+    ::-webkit-scrollbar-thumb {
+      background-color: #888;
+      border-radius: 10px;
+    }
+
+    /* Style the thumb when hovered */
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: #555;
+    }
+  </style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -64,6 +84,7 @@
             <span class="nav-link-text ms-1">Technical Assistance</span>
           </a>
         </li>
+        <?php if(session()->get('user_type')=="ADMIN"){ ?>
         <li class="nav-item">
           <a class="nav-link" href="<?=site_url('/cluster-and-schools')?>">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -85,6 +106,7 @@
             <span class="nav-link-text ms-1">User Accounts</span>
           </a>
         </li>
+        <?php } ?>
         <li class="nav-item">
           <a class="nav-link active" href="<?=site_url('/reports')?>">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -198,6 +220,7 @@
           <div class="table-responsive">
             <table class="table table-flush" style="font-size:12px;" id="table">
               <thead class="thead-light">
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">T.A. ID</th>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cluster</th>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">School Name</th>
@@ -277,7 +300,7 @@
     $('#frmReport').on('click',function(e){
       e.preventDefault();
       let data = $(this).serialize();
-      $('#tblresult').html("<tr><td colspan='7'><center>Loading...</center></td></tr>");
+      $('#tblresult').html("<tr><td colspan='8'><center>Loading...</center></td></tr>");
       $.ajax({
         url:"<?=site_url('generate-report')?>",
         method:"GET",data:data,
@@ -285,7 +308,7 @@
         {
           if(response==="")
           {
-            $('#tblresult').html("<tr><td colspan='7'><center>No Available Record(s)</center></td></tr>");
+            $('#tblresult').html("<tr><td colspan='8'><center>No Available Record(s)</center></td></tr>");
           }
           else
           {

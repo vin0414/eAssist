@@ -61,6 +61,7 @@
             <span class="nav-link-text ms-1">Technical Assistance</span>
           </a>
         </li>
+        <?php if(session()->get('user_type')=="ADMIN"){ ?>
         <li class="nav-item">
           <a class="nav-link" href="<?=site_url('/cluster-and-schools')?>">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -93,6 +94,7 @@
             <span class="nav-link-text ms-1">New Account</span>
           </a>
         </li>
+        <?php } ?>
         <li class="nav-item">
           <a class="nav-link" href="<?=site_url('/reports')?>">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -169,11 +171,27 @@
             <div class="card-body">
               <form method="POST" class="row" id="frmAccount">
                 <?= csrf_field(); ?>
+                <h6>Basic Information</h6>
                 <div class="col-lg-12 form-group">
                   <label>Fullname</label>
                   <input type="text" class="form-control" name="fullname" required/>
                   <div id="fullname-error" class="error-message text-danger text-sm"></div>
                 </div>
+                <div class="col-lg-12 form-group">
+                  <div class="row g-3">
+                    <div class="col-lg-6">
+                      <label>Position</label>
+                      <input type="text" class="form-control" name="position" required/>
+                      <div id="position-error" class="error-message text-danger text-sm"></div>
+                    </div>
+                    <div class="col-lg-6">
+                      <label>Office</label>
+                      <input type="text" class="form-control" name="office" required/>
+                      <div id="office-error" class="error-message text-danger text-sm"></div>
+                    </div>
+                  </div>
+                </div>
+                <h6>Credentials</h6>
                 <div class="col-lg-12 form-group">
                   <div class="row g-3">
                     <div class="col-lg-6">
@@ -185,6 +203,7 @@
                       <label>Type of User</label>
                       <select class="form-control" name="user_type" id="user_type" required>
                         <option value="">Choose</option>
+                        <option>ADMIN</option>
                         <option>PSDS</option>
                         <option>EPS</option>
                         <option>GUEST</option>
@@ -300,11 +319,15 @@
       let val = $(this).val();
       if(val==="PSDS"||val==="EPS")
       {
-        $('#role').append("<option>Administrator</option><option>Manager</option>");
+        $('#role').append("<option>Manager</option>");
       }
       else if(val==="GUEST")
       {
         $('#role').append("<option>User</option>");
+      }
+      else if(val==="ADMIN")
+      {
+        $('#role').append("<option>Administrator</option>");
       }
     });
 

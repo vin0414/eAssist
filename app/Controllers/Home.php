@@ -8,7 +8,7 @@ class Home extends BaseController
     private $db;
     public function __construct()
     {
-        helper(['url','form']);
+        helper(['form']);
         $this->db = db_connect();
     }
     public function index()
@@ -37,7 +37,7 @@ class Home extends BaseController
             $check_password = Hash::check($this->request->getPost('password'), $account['Password']);
             if(!$check_password || empty($check_password))
             {
-                session()->setFlashdata('fail','Invalid Username or Password!');
+                session()->setFlashdata('fail','Invalid Password! Please try again');
                 return redirect()->to('/')->withInput();
             }
             else
@@ -45,6 +45,7 @@ class Home extends BaseController
                 session()->set('loggedUser', $account['accountID']);
                 session()->set('fullname', $account['Fullname']);
                 session()->set('role',$account['Role']);
+                session()->set('user_type',$account['userType']);
                 
                 switch($account['Role'])
                 {
@@ -101,18 +102,19 @@ class Home extends BaseController
 
     public function techAssistance()
     {
-        if(session()->get('role')=="Administrator")
+        if(session()->get('role')=="Administrator" && session()->get('user_type')=="PSDS")
         {
             $title = "Technical Assistance";
             //data
-            $user = session()->get('loggedUser');
-            $builder = $this->db->table('tblreview a');
+            $accountModel = new \App\Models\accountModel();
+            $account = $accountModel->WHERE('accountID',session()->get('loggedUser'))->first();
+            $builder = $this->db->table('tblform b');
             $builder->select('b.Code,c.Rate,c.Message,c.DateCreated,d.clusterName,e.schoolName');
-            $builder->join('tblform b','b.formID=a.formID','LEFT');
-            $builder->join('tblfeedback c','c.formID=a.formID','INNER');
+            $builder->join('tblfeedback c','c.formID=b.formID','INNER');
             $builder->join('tblcluster d','d.clusterID=b.clusterID','LEFT');
             $builder->join('tblschool e','e.schoolID=b.schoolID','LEFT');
-            $builder->WHERE('a.accountID',$user);
+            $builder->WHERE('b.clusterID',$account['clusterID']);
+            $builder->groupBy('b.formID');
             $feed = $builder->get()->getResult();
             $data = ['title'=>$title,'feedback'=>$feed];
             return view('admin/technical-assistance',$data);
@@ -210,7 +212,7 @@ class Home extends BaseController
 
     public function reports()
     {
-        if(session()->get('role')=="Administrator")
+        if(session()->get('role')=="Administrator" && session()->get('user_type')=="PSDS")
         {
             $title = "Reports";
             $data = ['title'=>$title];
@@ -258,18 +260,7 @@ class Home extends BaseController
         if(session()->get('role')=="Manager")
         {
             $title = "Technical Assistance";
-            //feedback
-            $user = session()->get('loggedUser');
-            $builder = $this->db->table('tblreview a');
-            $builder->select('b.Code,c.Rate,c.Message,c.DateCreated,d.clusterName,e.schoolName');
-            $builder->join('tblform b','b.formID=a.formID','LEFT');
-            $builder->join('tblfeedback c','c.formID=a.formID','INNER');
-            $builder->join('tblcluster d','d.clusterID=b.clusterID','LEFT');
-            $builder->join('tblschool e','e.schoolID=b.schoolID','LEFT');
-            $builder->WHERE('a.accountID',$user);
-            $feed = $builder->get()->getResult();
-
-            $data = ['title'=>$title,'feedback'=>$feed];
+            $data = ['title'=>$title];
             return view('manager/technical-assistance',$data);
         }
         return redirect()->back();

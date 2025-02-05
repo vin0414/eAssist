@@ -15,8 +15,10 @@ class ActionController extends BaseController
     //cluster
     public function fetchCluster()
     {
-        $clusterModel = new \App\Models\clusterModel();
-        $cluster = $clusterModel->findAll();
+        $sql = "Select a.*,b.Fullname,b.Position from tblcluster a LEFT JOIN
+        (Select clusterID,Fullname,Position,userType from tblaccount WHERE userType='PSDS') b ON b.clusterID=a.clusterID";
+        $query = $this->db->query($sql);
+        $cluster = $query->getResult();
         foreach($cluster as $row)
         {
             ?>
@@ -24,13 +26,21 @@ class ActionController extends BaseController
                 <td>
                     <div class="d-flex px-2 py-1">
                         <div class="d-flex flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm"><?php echo $row['clusterName'] ?></h6>
-                        <p class="text-xs text-secondary mb-0">Date Created : <?php echo date('Y-M-d', strtotime($row['DateCreated'])) ?></p>
+                        <h6 class="mb-0 text-sm"><?php echo $row->clusterName ?></h6>
+                        <p class="text-xs text-secondary mb-0">Date Created : <?php echo date('Y-M-d', strtotime($row->DateCreated)) ?></p>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="d-flex px-2 py-1">
+                        <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm"><?php echo $row->Fullname ?></h6>
+                        <p class="text-xs text-secondary mb-0"><?php echo $row->Position ?></p>
                         </div>
                     </div>
                 </td>
                 <td class="align-middle">
-                    <button type="button" class="btn btn-sm text-xs editCluster" value="<?php echo $row['clusterID'] ?>"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Rename</button>
+                    <button type="button" class="btn btn-sm text-xs editCluster" value="<?php echo $row->clusterID ?>"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Rename</button>
                 </td>
             </tr>
             <?php
@@ -282,6 +292,8 @@ class ActionController extends BaseController
         $validation = $this->validate([
             'csrf_test_name'=>'required',
             'fullname'=>'required|is_unique[tblaccount.Fullname]',
+            'position'=>'required',
+            'office'=>'required',
             'email'=>'required|is_unique[tblaccount.Email]',
             'role'=>'required',
             'user_type'=>'required'
@@ -302,6 +314,8 @@ class ActionController extends BaseController
             //save the data
             $data = ['Email'=>$this->request->getPost('email'), 'Password'=>$password['Password'],
                     'Fullname'=>$this->request->getPost('fullname'),
+                    'Position'=>$this->request->getPost('position'),
+                    'Office'=>$this->request->getPost('office'),
                     'Role'=>$this->request->getPost('role'),
                     'clusterID'=>$this->request->getPost('cluster'),
                     'schoolID'=>$this->request->getPost('school'),
@@ -318,6 +332,8 @@ class ActionController extends BaseController
         $accountModel = new \App\Models\accountModel();
         $validation = $this->validate([
             'csrf_test_name'=>'required',
+            'position'=>'required',
+            'office'=>'required',
             'fullname'=>'required',
             'email'=>'required',
             'role'=>'required',
@@ -332,6 +348,8 @@ class ActionController extends BaseController
             //save the data
             $data = ['Email'=>$this->request->getPost('email'),
                     'Fullname'=>$this->request->getPost('fullname'),
+                    'Position'=>$this->request->getPost('position'),
+                    'Office'=>$this->request->getPost('office'),
                     'Role'=>$this->request->getPost('role'),
                     'clusterID'=>$this->request->getPost('cluster'),
                     'schoolID'=>$this->request->getPost('school'),
@@ -538,6 +556,7 @@ class ActionController extends BaseController
                 'DateCreated' => date('Y-M-d', strtotime($row->DateCreated)),
                 'TA' => $row->Code,
                 'subjectName' => htmlspecialchars($row->subjectName, ENT_QUOTES),
+                'Provided' => htmlspecialchars($row->actionName, ENT_QUOTES),
                 'Recommendation' => htmlspecialchars($row->Recommendation, ENT_QUOTES),
                 'Date'=>date('Y-M-d', strtotime($row->ImplementationDate)),
                 'Action'=>($row->Status == 0) ? '-' :
@@ -675,16 +694,6 @@ class ActionController extends BaseController
                 <?php }?>
                 <?php if($data->Status==0){ ?>
                 <div class="col-lg-12">
-                    <label>Technical Assistance Provided</label>
-                    <textarea class="form-control" name="action_provided" required></textarea>
-                    <div id="action_provided-error" class="error-message text-danger text-sm"></div>
-                </div>
-                <div class="col-lg-12">
-                    <label>Recommendation</label>
-                    <textarea class="form-control" name="recommendation" required></textarea>
-                    <div id="recommendation-error" class="error-message text-danger text-sm"></div>
-                </div>
-                <div class="col-lg-12">
                     <label>Date of Implementation</label>
                     <input type="date" class="form-control" name="date" required/>
                     <div id="date-error" class="error-message text-danger text-sm"></div>
@@ -721,8 +730,6 @@ class ActionController extends BaseController
             'csrf_test_name'=>'required',
             'formID'=>'required',
             'requestorID'=>'required',
-            'action_provided'=>'required',
-            'recommendation'=>'required',
             'date'=>'required'
         ]);
         if(!$validation)
@@ -734,8 +741,7 @@ class ActionController extends BaseController
             $user = session()->get('loggedUser');
             $date = date('Y-m-d');
             $data = ['DateCreated'=>$date,'formID'=>$this->request->getPost('formID'),
-                    'accountID'=>$user,'actionName'=>$this->request->getPost('action_provided'),
-                    'Recommendation'=>$this->request->getPost('recommendation'),
+                    'accountID'=>$user,
                     'implementationDate'=>$this->request->getPost('date'),
                     'requestorID'=>$this->request->getPost('requestorID')];
             $actionModel->save($data);
@@ -829,6 +835,7 @@ class ActionController extends BaseController
         $builder->join('tblschool d','d.schoolID=b.schoolID','LEFT');
         $builder->join('tblsubject e','e.subjectID=b.subjectID','LEFT');
         $builder->WHERE('a.accountID',$user)->WHERE('a.Status<>',2);
+        $builder->groupBy('b.formID');
         $review = $builder->get()->getResult();
 
         $response = [
@@ -847,6 +854,48 @@ class ActionController extends BaseController
                 'school' => htmlspecialchars($row->schoolName, ENT_QUOTES),
                 'concern' => htmlspecialchars($row->subjectName, ENT_QUOTES),
                 'Details'=>$row->Details
+            ];
+        }
+
+        return $this->response->setJSON($response);
+    }
+
+    public function assistPlan()
+    {
+        $accountModel = new \App\Models\accountModel();
+        $account = $accountModel->WHERE('accountID',session()->get('loggedUser'))->first();
+
+        $reviewModel = new \App\Models\reviewModel();
+        $totalRecords = $reviewModel->countAllResults();
+        
+        $builder = $this->db->table('tblform b');
+        $builder->select("b.Details,b.Code,b.DateCreated,c.clusterName,d.schoolName,e.subjectName,f.actionName,f.Recommendation");
+        $builder->join('tblcluster c','c.clusterID=b.clusterID','LEFT');
+        $builder->join('tblschool d','d.schoolID=b.schoolID','LEFT');
+        $builder->join('tblsubject e','e.subjectID=b.subjectID','LEFT');
+        $builder->join('tblaction f','f.formID=b.formID','LEFT');
+        $builder->WHERE('b.Status<>',2)->WHERE('b.clusterID',$account['clusterID']);
+        $builder->groupBy('b.formID');
+        $review = $builder->get()->getResult();
+
+        $response = [
+            "draw" => $_GET['draw'],
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $totalRecords,
+            'data' => [] 
+        ];
+
+        foreach ($review as $row) {
+
+            $response['data'][] = [
+                'DateCreated' => date('Y-M-d', strtotime($row->DateCreated)),
+                'RefNo' => htmlspecialchars($row->Code, ENT_QUOTES),
+                'cluster' => htmlspecialchars($row->clusterName, ENT_QUOTES),
+                'school' => htmlspecialchars($row->schoolName, ENT_QUOTES),
+                'concern' => htmlspecialchars($row->subjectName, ENT_QUOTES),
+                'Details'=>$row->Details,
+                'Action'=>$row->actionName,
+                'Recommendation'=>$row->Recommendation
             ];
         }
 
@@ -892,13 +941,46 @@ class ActionController extends BaseController
         $year = $this->request->getGet('year');
         //builder
         $builder = $this->db->table('tblform a');
-        $builder->select('a.Code,a.Details,b.schoolName,c.clusterName,d.subjectName,e.actionName,e.Recommendation');
+        $builder->select('a.DateCreated,a.Code,a.Details,b.schoolName,c.clusterName,d.subjectName,e.actionName,e.Recommendation');
         $builder->join('tblschool b','b.schoolID=a.schoolID','LEFT');
         $builder->join('tblcluster c','c.clusterID=a.clusterID','LEFT');
         $builder->join('tblsubject d','d.subjectID=a.subjectID','LEFT');
         $builder->join('tblaction e','e.formID=a.formID','LEFT');
         $builder->WHERE('DATE_FORMAT(a.DateCreated,"%m")',$month)
-                ->WHERE('DATE_FORMAT(a.DateCreated,"%Y")',$year);
+                ->WHERE('DATE_FORMAT(a.DateCreated,"%Y")',$year)
+                ->groupBy('a.formID');
+        $data = $builder->get()->getResult();
+        foreach($data as $row)
+        {
+            ?>
+            <tr>
+                <td><?php echo $row->DateCreated ?></td>
+                <td><?php echo $row->Code ?></td>
+                <td><?php echo $row->clusterName ?></td>
+                <td><?php echo $row->schoolName ?></td>
+                <td><?php echo $row->subjectName ?></td>
+                <td><?php echo $row->Details ?></td>
+                <td><?php echo $row->actionName ?></td>
+                <td><?php echo $row->Recommendation ?></td>
+            </tr>
+            <?php
+        }
+    }
+
+    public function generateTAReport()
+    {
+        $month = $this->request->getGet('month');
+        $year = $this->request->getGet('year');
+        //builder
+        $builder = $this->db->table('tblform a');
+        $builder->select('a.formID,a.Code,a.Details,b.schoolName,c.clusterName,d.subjectName,e.actionName,e.Recommendation');
+        $builder->join('tblschool b','b.schoolID=a.schoolID','LEFT');
+        $builder->join('tblcluster c','c.clusterID=a.clusterID','LEFT');
+        $builder->join('tblsubject d','d.subjectID=a.subjectID','LEFT');
+        $builder->join('tblaction e','e.formID=a.formID','LEFT');
+        $builder->WHERE('DATE_FORMAT(a.DateCreated,"%m")',$month)
+                ->WHERE('DATE_FORMAT(a.DateCreated,"%Y")',$year)
+                ->groupBy('a.formID');
         $data = $builder->get()->getResult();
         foreach($data as $row)
         {
@@ -911,8 +993,34 @@ class ActionController extends BaseController
                 <td><?php echo $row->Details ?></td>
                 <td><?php echo $row->actionName ?></td>
                 <td><?php echo $row->Recommendation ?></td>
+                <td><button type="button" class="badge bg-info add" value="<?php echo $row->formID ?>"><span class="fa-solid fa-plus"></span>Add</button></td>
             </tr>
             <?php
+        }
+    }
+
+    public function saveAction()
+    {
+        $actionModel = new \App\Models\actionModel();  
+        $validation = $this->validate([
+            'csrf_test_name'=>'required',
+            'actionID'=>'required',
+            'action'=>'required',
+            'recommendation'=>'required'
+        ]);
+        if(!$validation)
+        {
+            return $this->response->SetJSON(['error' => $this->validator->getErrors()]);
+        }  
+        else
+        {
+            //get the ID
+            $action = $actionModel->WHERE('formID',$this->request->getPost('actionID'))->first();
+            //update the action form
+            $data = ['actionName'=>$this->request->getPost('action'),
+                    'Recommendation'=>$this->request->getPost('recommendation')];
+            $actionModel->update($action['actionID'],$data);
+            return $this->response->setJSON(['success' => 'Successfully submitted']);
         }
     }
 }

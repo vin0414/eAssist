@@ -64,6 +64,7 @@
             <span class="nav-link-text ms-1">Technical Assistance</span>
           </a>
         </li>
+        <?php if(session()->get('user_type')=="ADMIN"){ ?>
         <li class="nav-item">
           <a class="nav-link" href="<?=site_url('/cluster-and-schools')?>">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -85,6 +86,7 @@
             <span class="nav-link-text ms-1">User Accounts</span>
           </a>
         </li>
+        <?php } ?>
         <li class="nav-item">
           <a class="nav-link" href="<?=site_url('/reports')?>">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">

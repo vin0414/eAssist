@@ -94,7 +94,7 @@
                 <path d="M9 12H15M12 9V15M21.0039 12C21.0039 16.9706 16.9745 21 12.0039 21C9.9675 21 3.00463 21 3.00463 21C3.00463 21 4.56382 17.2561 3.93982 16.0008C3.34076 14.7956 3.00391 13.4372 3.00391 12C3.00391 7.02944 7.03334 3 12.0039 3C16.9745 3 21.0039 7.02944 21.0039 12Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </div>
-            <span class="nav-link-text ms-1">Technical Assistance</span>
+            <span class="nav-link-text ms-1">Request</span>
           </a>
         </li>
         <li class="nav-item">
@@ -158,24 +158,14 @@
     <div class="container-fluid py-4">
         <ul class="nav nav-tabs" id="myTabs" role="tablist">
             <li class="nav-item" role="presentation">
-            <a class="nav-link active" id="calendar-tab" data-bs-toggle="tab" href="#calendars" role="tab" aria-controls="calendar" aria-selected="false">T.A. Calendar</a>
-            </li>
-            <li class="nav-item" role="presentation">
-            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Technical Assistance Tracking</a>
+            <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Technical Assistance Tracking</a>
             </li>
             <li class="nav-item" role="presentation">
             <a class="nav-link" id="others-tab" data-bs-toggle="tab" href="#others" role="tab" aria-controls="others" aria-selected="false">Action and Insights</a>
             </li>
         </ul>
         <div class="tab-content" id="myTabsContent">
-            <div class="tab-pane fade show active" id="calendars" role="tabpanel" aria-labelledby="calendar-tab">
-              <div class="card card-calendar">
-                <div class="card-body p-3">
-                  <div class="calendar" data-bs-toggle="calendar" id="calendar"></div>
-                </div>
-              </div>
-            </div>
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
               <div class="card">
                 <div class="card-header p-3 pb-0">
                     <div class="d-flex align-items-center">
@@ -222,6 +212,7 @@
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Created</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">T.A. ID</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Area of Concern</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">T.A. Provided</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Recommendation</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
@@ -315,38 +306,31 @@
                 </div>
                 <div id="agreement-error" class="error-message text-danger text-sm"></div>
             </div>
-            <hr class="horizontal dark my-1">
             <div class="col-12">
-                <div class="row g-3">
-                    <div class="col-lg-4">
-                        <div><small>2. Please choose your area of concern</small></div>
-                        <?php foreach($subject as $row): ?>
-                          <div class="radio-group">
-                            <label>
-                                <input type="radio" name="area" style="width:18px;height:18px;" value="<?php echo $row['subjectID'] ?>" required>
-                                <label class="align-middle"><?php echo $row['subjectName'] ?></label>
-                            </label>
-                          </div> 
-                        <?php endforeach; ?>
-                        <div id="area-error" class="error-message text-danger text-sm"></div>
-                    </div>
-                    <div class="col-lg-8">
-                        <div><small>3. Based on your area of concern, from whom are you expecting the technical assistance to be coming?</small></div>
-                        <div class="row">
-                        <?php foreach($account as $row): ?>
-                          <div class="col-lg-6">
-                            <div class="radio-group">
-                              <label>
-                                  <input type="checkbox" name="account[]" style="width:18px;height:18px;" value="<?php echo $row['accountID'] ?>">
-                                  <label class="align-middle"><?php echo $row['Fullname'] ?> - <?php echo $row['userType'] ?></label>
-                              </label>
-                            </div> 
-                          </div>
-                        <?php endforeach; ?>
-                        <div id="account-error" class="error-message text-danger text-sm"></div>
-                        </div>
-                    </div>
+              <div><small>2. Please choose your area of concern</small></div>
+              <select class="form-control" name="area" required>
+                <option value="">Choose</option>
+                <?php foreach($subject as $row): ?>
+                <option value="<?php echo $row['subjectID'] ?>"><?php echo $row['subjectName'] ?></option>
+                <?php endforeach; ?>
+              </select>
+              <div id="area-error" class="error-message text-danger text-sm"></div>
+            </div>
+            <div class="col-12">
+              <div><small>3. Based on your area of concern, from whom are you expecting the technical assistance to be coming?</small></div>
+              <div class="row">
+              <?php foreach($account as $row): ?>
+                <div class="col-lg-6">
+                  <div class="radio-group">
+                    <label>
+                        <input type="checkbox" name="account[]" style="width:18px;height:18px;" value="<?php echo $row['accountID'] ?>">
+                        <label class="align-middle"><?php echo $row['Fullname'] ?> - <?php echo $row['Position'] ?></label>
+                    </label>
+                  </div> 
                 </div>
+              <?php endforeach; ?>
+              <div id="account-error" class="error-message text-danger text-sm"></div>
+              </div>
             </div>
             <div class="col-12">
                 <div><small>4. Details of Technical Assistance Needed</small></div>
@@ -509,6 +493,7 @@
               { "data": "DateCreated" },
               { "data": "TA" },
               { "data": "subjectName" },
+              { "data": "Provided" },
               { "data": "Recommendation" },
               { "data": "Date" },
               { "data": "Action" }
@@ -579,58 +564,6 @@
             }
           });
       });
-
-      <?php $eventData = array();?>
-      <?php 
-        $db = db_connect();
-        $builder = $db->table('tblaction a');
-        $builder->select('a.*,b.Code,c.subjectName');
-        $builder->join('tblform b','b.formID=a.formID','LEFT');
-        $builder->join('tblsubject c','c.subjectID=b.subjectID','LEFT');
-        $builder->WHERE('b.Status',3);
-        $data = $builder->get();
-        foreach($data->getResult() as $row)
-        {
-            $tempArray = array( "title" =>$row->Code,"description" =>$row->subjectName,"start" => $row->ImplementationDate,"end" => $row->ImplementationDate);
-            array_push($eventData, $tempArray);
-        }
-        ?>
-      const jsonData = <?php echo json_encode($eventData); ?>;
-      var calendar = new FullCalendar.Calendar(document.getElementById("calendar"), {
-        contentHeight: 'auto',
-        initialView: "dayGridMonth",
-        headerToolbar: {
-          start: 'title', // will normally be on the left. if RTL, will be on the right
-          center: '',
-          end: 'today prev,next' // will normally be on the right. if RTL, will be on the left
-        },
-        selectable: true,
-        editable: true,
-        views: {
-          month: {
-            titleFormat: {
-              month: "long",
-              year: "numeric"
-            }
-          },
-          agendaWeek: {
-            titleFormat: {
-              month: "long",
-              year: "numeric",
-              day: "numeric"
-            }
-          },
-          agendaDay: {
-            titleFormat: {
-              month: "short",
-              year: "numeric",
-              day: "numeric"
-            }
-          }
-        },
-        events:jsonData
-      });
-      calendar.render();
     });
 
     $(document).on('click','.comment',function(e){

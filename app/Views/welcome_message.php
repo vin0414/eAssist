@@ -30,7 +30,7 @@
             <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
               <div class="card card-plain mt-8">
                 <div class="card-header pb-0 text-left bg-transparent">
-                  <h3 class="font-weight-bolder text-info text-center text-gradient">Welcome to Assign</h3>
+                  <h3 class="font-weight-bolder text-info text-center text-gradient">Welcome to ASSIST</h3>
                   <p class="mb-0 text-center">Advanced Support System for Improving Schools and Teachers Performance</p>
                 </div>
                 <div class="card-body">

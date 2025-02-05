@@ -17,9 +17,29 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css" integrity="sha512-v8QQ0YQ3H4K6Ic3PJkym91KoeNT5S3PnDKvqnwqFD1oiqIl653crGZplPdU5KKtHjO0QKcQ2aUlQZYjHczkmGw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- CSS Files -->
   <link id="pagestyle" href="<?=base_url('assets/css/soft-ui-dashboard.css?v=1.1.0')?>" rel="stylesheet" />
-  <!-- Nepcha Analytics (nepcha.com) -->
-  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  <style>
+        /* Style the scrollbar */
+    ::-webkit-scrollbar {
+      width: 2px;  /* Sets the width of the scrollbar */
+      height:5px;
+    }
+
+    /* Style the scrollbar track */
+    ::-webkit-scrollbar-track {
+      background-color: #f1f1f1;
+    }
+
+    /* Style the scrollbar thumb (the draggable part) */
+    ::-webkit-scrollbar-thumb {
+      background-color: #888;
+      border-radius: 10px;
+    }
+
+    /* Style the thumb when hovered */
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: #555;
+    }
+  </style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -61,7 +81,7 @@
                 <path d="M9 12H15M12 9V15M21.0039 12C21.0039 16.9706 16.9745 21 12.0039 21C9.9675 21 3.00463 21 3.00463 21C3.00463 21 4.56382 17.2561 3.93982 16.0008C3.34076 14.7956 3.00391 13.4372 3.00391 12C3.00391 7.02944 7.03334 3 12.0039 3C16.9745 3 21.0039 7.02944 21.0039 12Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </div>
-            <span class="nav-link-text ms-1">Technical Assistance</span>
+            <span class="nav-link-text ms-1">Plan</span>
           </a>
         </li>
         <li class="nav-item">
@@ -184,6 +204,7 @@
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Details of Technical Assistance Needed</th>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Technical Assistance Provided</th>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Recommendation</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
               </thead>
               <tbody id="tblresult"></tbody>
             </table>
@@ -245,6 +266,37 @@
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-info text-white">
+          <h5 class="modal-title text-white" id="exampleModalLabel"><img src="<?=base_url('assets/img/logo.png')?>" width="30px"/>&nbsp;T.A. Provided & Recommendation</h5>
+          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" class="row g-3" id="frmAction">
+            <?= csrf_field(); ?>
+            <input type="hidden" name="actionID" id="actionID"/>
+            <div class="col-lg-12">
+              <label>Technical Assistance Provided</label>
+              <textarea class="form-control" name="action" required></textarea>
+              <div id="action-error" class="error-message text-danger text-sm"></div>
+            </div>
+            <div class="col-lg-12">
+              <label>Recommendation</label>
+              <textarea class="form-control" name="recommendation" required></textarea>
+              <div id="recommendation-error" class="error-message text-danger text-sm"></div>
+            </div>
+            <div class="col-lg-12">
+              <button type="submit" class="btn btn-info"><i class="fa-solid fa-floppy-disk"></i>&nbsp;Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   <!--   Core JS Files   -->
   <script src="<?=base_url('assets/js/core/popper.min.js')?>"></script>
   <script src="<?=base_url('assets/js/core/bootstrap.min.js')?>"></script>
@@ -252,19 +304,56 @@
   <script src="<?=base_url('assets/js/plugins/smooth-scrollbar.min.js')?>"></script>
   <script src="<?=base_url('assets/js/plugins/chartjs.min.js')?>"></script>
   <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
+    $(document).on('click','.add',function(e){
+      e.preventDefault();
+      //load the modal
+      $('#addModal').modal('show');
+      $('#actionID').attr("value",$(this).val());
+    });
+
+    $('#frmAction').on('click',function(e){
+      e.preventDefault();
+      $('.error-message').html('');
+      let data = $(this).serialize();
+      $.ajax({
+        url:"<?=site_url('save-action')?>",
+        method:"POST",data:data,
+        success:function(response)
+        {
+          if(response.success){
+            Swal.fire({
+                title: "Great!",
+                text: "Successfully saved",
+                icon: "success"
+              });
+            $('#addModal').modal('hide');
+          }
+          else{
+            var errors = response.error;
+            // Iterate over each error and display it under the corresponding input field
+            for (var field in errors) {
+                $('#' + field + '-error').html('<p>' + errors[field]+ '</p>'); // Show the first error message
+                $('#' + field).addClass('text-danger'); // Highlight the input field with an error
+            }
+          }
+        }
+      });
+    });
+
     $('#frmReport').on('click',function(e){
       e.preventDefault();
       let data = $(this).serialize();
-      $('#tblresult').html("<tr><td colspan='7'><center>Loading...</center></td></tr>");
+      $('#tblresult').html("<tr><td colspan='8'><center>Loading...</center></td></tr>");
       $.ajax({
-        url:"<?=site_url('generate-report')?>",
+        url:"<?=site_url('generate-technical-report')?>",
         method:"GET",data:data,
         success:function(response)
         {
           if(response==="")
           {
-            $('#tblresult').html("<tr><td colspan='7'><center>No Available Record(s)</center></td></tr>");
+            $('#tblresult').html("<tr><td colspan='8'><center>No Available Record(s)</center></td></tr>");
           }
           else
           {

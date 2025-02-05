@@ -18,9 +18,29 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css" integrity="sha512-v8QQ0YQ3H4K6Ic3PJkym91KoeNT5S3PnDKvqnwqFD1oiqIl653crGZplPdU5KKtHjO0QKcQ2aUlQZYjHczkmGw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- CSS Files -->
   <link id="pagestyle" href="<?=base_url('assets/css/soft-ui-dashboard.css?v=1.1.0')?>" rel="stylesheet" />
-  <!-- Nepcha Analytics (nepcha.com) -->
-  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  <style>
+        /* Style the scrollbar */
+    ::-webkit-scrollbar {
+      width: 2px;  /* Sets the width of the scrollbar */
+      height:5px;
+    }
+
+    /* Style the scrollbar track */
+    ::-webkit-scrollbar-track {
+      background-color: #f1f1f1;
+    }
+
+    /* Style the scrollbar thumb (the draggable part) */
+    ::-webkit-scrollbar-thumb {
+      background-color: #888;
+      border-radius: 10px;
+    }
+
+    /* Style the thumb when hovered */
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: #555;
+    }
+  </style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -65,6 +85,7 @@
             <span class="nav-link-text ms-1">Technical Assistance</span>
           </a>
         </li>
+        <?php if(session()->get('user_type')=="ADMIN"){ ?>
         <li class="nav-item">
           <a class="nav-link  " href="<?=site_url('/cluster-and-schools')?>">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -86,6 +107,7 @@
             <span class="nav-link-text ms-1">User Accounts</span>
           </a>
         </li>
+        <?php } ?>
         <li class="nav-item">
           <a class="nav-link  " href="<?=site_url('/reports')?>">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -147,50 +169,23 @@
     <div class="container-fluid py-4">
       <ul class="nav nav-tabs" id="myTabs" role="tablist">
         <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="calendar-tab" data-bs-toggle="tab" href="#calendars" role="tab" aria-controls="calendar" aria-selected="false">T.A. Calendar</a>
-        </li>
-        <li class="nav-item" role="presentation">
-          <a class="nav-link" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">For Review <span class="badge bg-info"><span id="total">0</span></span></a>
-        </li>
-        <li class="nav-item" role="presentation">
-          <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">T.A. Plan</a>
+          <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="#ta" role="tab" aria-controls="ta" aria-selected="true">Technical Assistance Plan</a>
         </li>
         <li class="nav-item" role="presentation">
           <a class="nav-link" id="feedback-tab" data-bs-toggle="tab" href="#feedback" role="tab" aria-controls="feedback" aria-selected="false">Feedback</a>
         </li>
       </ul>
       <div class="tab-content" id="myTabsContent">
-        <div class="tab-pane fade show active" id="calendars" role="tabpanel" aria-labelledby="calendar-tab">
-          <div class="card card-calendar">
-            <div class="card-body p-3">
-              <div class="calendar" data-bs-toggle="calendar" id="calendar"></div>
-            </div>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="tab-pane fade show active" id="ta" role="tabpanel" aria-labelledby="ta-tab">
           <div class="card">
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-flush" id="tblreview" style="font-size:12px;">
-                  <thead class="thead-light">
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Received</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Priority Level</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">T.A. ID</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">From</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Area of Concern</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Details of Technical Assistance Needed</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Approved</th>
-                  </thead>
-                  <tbody>
-                  </tbody>
-                </table>
+            <div class="card-header p-3 pb-0">
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">
+                <img src="<?=base_url('assets/img/logo.png')?>" width="30px"/>&nbsp;Technical Assistance
+                </h6>
+                <button type="button" class="btn btn-secondary btn-sm add ms-auto mb-0" id="btnExport"><i class="fa-solid fa-download"></i>&nbsp;Export</button>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-          <div class="card">
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-flush" id="tblplan" style="font-size:12px;">
@@ -201,6 +196,8 @@
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">School Name</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Area of Concerns</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Details of Technical Assistance Needed</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Technical Assistance Provided</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Recommendation</th>
                   </thead>
                   <tbody>
                   </tbody>
@@ -211,6 +208,14 @@
         </div>
         <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
           <div class="card">
+            <div class="card-header p-3 pb-0">
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">
+                <img src="<?=base_url('assets/img/logo.png')?>" width="30px"/>&nbsp;Schools and User Feedback
+                </h6>
+                <button type="button" class="btn btn-secondary btn-sm add ms-auto mb-0" id="btnExports"><i class="fa-solid fa-download"></i>&nbsp;Export</button>
+              </div>
+            </div>
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-flush" id="tblfeedback" style="font-size:12px;">
@@ -220,7 +225,7 @@
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">School Name</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">T.A. ID</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="width:100px;">Ratings</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Message</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Feedback</th>
                   </thead>
                   <tbody>
                   <?php foreach($feedback as $row): ?>
@@ -295,21 +300,6 @@
       </div>
     </div>
   </div>
-
-  <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header bg-info text-white">
-          <h5 class="modal-title text-white" id="exampleModalLabel"><img src="<?=base_url('assets/img/logo.png')?>" width="30px"/>&nbsp;Technical Assistance Details</h5>
-          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
-          </button>
-        </div>
-        <div class="modal-body">
-          <div id="result"></div>
-        </div>
-      </div>
-    </div>
-  </div>
   <!--   Core JS Files   -->
   <script src="<?=base_url('assets/js/core/popper.min.js')?>"></script>
   <script src="<?=base_url('assets/js/core/bootstrap.min.js')?>"></script>
@@ -323,13 +313,12 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     $(document).ready(function(){
-      totalReview();
       $('#tblfeedback').DataTable();
       var tables = $('#tblplan').DataTable({
           "processing": true,
           "serverSide": true,
           "ajax": {
-              "url": "<?=site_url('plan')?>",
+              "url": "<?=site_url('assist-plan')?>",
               "type": "GET",
               "dataSrc": function (json) {
                   // Handle the data if needed
@@ -346,204 +335,31 @@
               { "data": "cluster" },
               { "data": "school" },
               { "data": "concern" },
-              { "data": "Details" }
-          ]
-      });
-      var table = $('#tblreview').DataTable({
-          "processing": true,
-          "serverSide": true,
-          "ajax": {
-              "url": "<?=site_url('review')?>",
-              "type": "GET",
-              "dataSrc": function (json) {
-                  // Handle the data if needed
-                  return json.data;
-              },
-              "error": function (xhr, error, code) {
-                  console.error("AJAX Error: " + error);
-                  alert("Error occurred while loading data.");
-              }
-          },
-          "columns": [
-              { "data": "DateReceived" },
-              { "data": "priorityLevel" },
-              { "data": "RefNo" },
-              { "data": "From" },
-              { "data": "subjectName" },
               { "data": "Details" },
-              { "data": "Status" },
-              { "data": "DateApproved" }
+              { "data": "Action" },
+              { "data": "Recommendation" }
           ]
       });
-
-      <?php $eventData = array();?>
-      <?php 
-        $db = db_connect();
-        $builder = $db->table('tblaction a');
-        $builder->select('a.*,b.Code,c.subjectName');
-        $builder->join('tblform b','b.formID=a.formID','LEFT');
-        $builder->join('tblsubject c','c.subjectID=b.subjectID','LEFT');
-        $builder->WHERE('b.Status',3);
-        $data = $builder->get();
-        foreach($data->getResult() as $row)
-        {
-            $tempArray = array( "title" =>$row->Code,"description" =>$row->subjectName,"start" => $row->ImplementationDate,"end" => $row->ImplementationDate);
-            array_push($eventData, $tempArray);
-        }
-      ?>
-      const jsonData = <?php echo json_encode($eventData); ?>;
-      var calendar = new FullCalendar.Calendar(document.getElementById("calendar"), {
-        contentHeight: 'auto',
-        initialView: "dayGridMonth",
-        headerToolbar: {
-          start: 'title', // will normally be on the left. if RTL, will be on the right
-          center: '',
-          end: 'today prev,next' // will normally be on the right. if RTL, will be on the left
-        },
-        selectable: true,
-        editable: true,
-        views: {
-          month: {
-            titleFormat: {
-              month: "long",
-              year: "numeric"
-            }
-          },
-          agendaWeek: {
-            titleFormat: {
-              month: "long",
-              year: "numeric",
-              day: "numeric"
-            }
-          },
-          agendaDay: {
-            titleFormat: {
-              month: "short",
-              year: "numeric",
-              day: "numeric"
-            }
-          }
-        },
-        events:jsonData
-      });
-
-      calendar.render();
-
-      $(document).on('click','.accept',function(e)
-      {
-        e.preventDefault();
-        $('.error-message').html('');
-        let data = $('#frmReview').serialize();
-        $.ajax({
-          url:"<?=site_url('accept-form')?>",method:"POST",
-          data:data,
-          success:function(response)
-          {
-            if(response.success){
-              table.ajax.reload();tables.ajax.reload();('#viewModal').modal('hide');totalReview();
-            }
-            else{
-              var errors = response.error;
-              // Iterate over each error and display it under the corresponding input field
-              for (var field in errors) {
-                  $('#' + field + '-error').html('<p>' + errors[field]+ '</p>'); // Show the first error message
-                  $('#' + field).addClass('text-danger'); // Highlight the input field with an error
-              }
-            }
-          }
-        });
-      })
-
-      //complete the task
-      $(document).on('click','.complete',function(e){
-        e.preventDefault();
-        var confirmation = confirm("Do you want to tag this as completed?");
-        if(confirmation)
-        {
-          var val = $(this).val();
-          $.ajax({
-            url:"<?=site_url('complete-form')?>",
-            method:"POST",data:{value:val},
-            success:function(response)
-            {
-              if(response==="success")
-              {
-                table.ajax.reload();$('#viewModal').modal('hide');totalReview();
-                Swal.fire({
-                  title: "Great!",
-                  text: "Successfully submitted",
-                  icon: "success"
-                });
-              }
-              else
-              {
-                alert(response);
-              }
-            }
-          });
-        }
-      });
-//decline
-$(document).on('click','.decline',function(e)
-      {
-        e.preventDefault();
-        var confirmation = confirm("Do you want to tag this as for revision?");
-        if(confirmation)
-        {
-          var message = prompt("Please enter your comment");
-          if(message)
-          {
-            $.ajax({
-              url:"<?=site_url('denied-form')?>",
-              method:"POST",data:{value:$(this).val(),message:message},
-              success:function(response)
-              {
-                if(response==="success")
-                {
-                  table.ajax.reload();tables.ajax.reload();$('#viewModal').modal('hide');totalReview();
-                  Swal.fire({
-                    title: "Great!",
-                    text: "Successfully submitted",
-                    icon: "success"
-                  });
-                }
-                else
-                {
-                  alert(response);
-                }
-              }
-            });
-          }
-          else
-          {
-            Swal.fire({
-                title: "Invalid!",
-                text: "Please leave a comment to continue",
-                icon: "warning"
-              });
-          }
-        }
-      });
-
     });
-    function totalReview()
-    {
-      $.ajax({
-        url:"<?=site_url('total-review')?>",method:"GET",success:function(response){$('#total').html(response);}
-      });
-    }
 
-    $(document).on('click','.view',function(){
-      var val = $(this).val();
-      $.ajax({
-        url:"<?=site_url('view-details')?>",method:"GET",
-        data:{value:val},
-        success:function(response)
-        {
-          $('#viewModal').modal('show');
-          $('#result').html(response);
-        }
-      });
+    document.getElementById('btnExport').addEventListener('click', function () {
+      const table = document.getElementById('tblplan');
+      let html = table.outerHTML;
+      let blob = new Blob([html], { type: 'application/vnd.ms-excel' });
+      let link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'technical-assistance.xls';
+      link.click();
+    });
+
+    document.getElementById('btnExports').addEventListener('click', function () {
+      const table = document.getElementById('tblfeedback');
+      let html = table.outerHTML;
+      let blob = new Blob([html], { type: 'application/vnd.ms-excel' });
+      let link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'feedback.xls';
+      link.click();
     });
   </script>
   <script>
