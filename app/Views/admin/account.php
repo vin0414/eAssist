@@ -146,7 +146,94 @@
     <?= $this->include('admin/templates/header'); ?>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-      
+      <div class="row g-3">
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-header p-3 pb-0">
+                <div class="d-flex align-items-center">
+                    <h6 class="mb-0">
+                    <i class="fa-solid fa-user-shield"></i>&nbsp;Basic Information
+                    </h6>
+                </div>
+            </div>
+            <div class="card-body">
+              <?php if($account): ?>
+              <div class="row g-3">
+                <div class="col-lg-12">
+                  <label>Fullname</label>
+                  <input type="text" class="form-control" value="<?php echo $account['Fullname'] ?>"/>
+                </div>
+                <div class="col-lg-12">
+                  <div class="row g-3">
+                    <div class="col-lg-6">
+                      <label>Position/Designation</label>
+                      <input type="text" class="form-control" value="<?php echo $account['Position'] ?>"/>
+                    </div>
+                    <div class="col-lg-6">
+                      <label>Office</label>
+                      <input type="text" class="form-control" value="<?php echo $account['Office'] ?>"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="row g-3">
+                    <div class="col-lg-6">
+                      <label>Email Address</label>
+                      <input type="email" class="form-control" value="<?php echo $account['Email'] ?>"/>
+                    </div>
+                    <div class="col-lg-3">
+                      <label>User Type</label>
+                      <input type="text" class="form-control" value="<?php echo $account['userType'] ?>"/>
+                    </div>
+                    <div class="col-lg-3">
+                      <label>System Role</label>
+                      <input type="text" class="form-control" value="<?php echo $account['Role'] ?>"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <label>Account Token</label>
+                  <input type="text" class="form-control" value="<?php echo $account['Token'] ?>"/>
+                </div>
+              </div>
+              <?php endif; ?>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-header p-3 pb-0">
+                <div class="d-flex align-items-center">
+                    <h6 class="mb-0">
+                    <i class="fa-solid fa-lock"></i>&nbsp;Account Security
+                    </h6>
+                </div>
+            </div>
+            <div class="card-body">
+              <form class="row g-3" method="POST">
+                  <div class="col-lg-12">
+                    <label>Current Password</label>
+                    <input type="password" class="form-control" name="current_password" required/>
+                  </div>
+                  <div class="col-lg-12">
+                    <label>New Password</label>
+                    <input type="password" class="form-control" name="new_password" required/>
+                  </div>
+                  <div class="col-lg-12">
+                    <label>Confirm Password</label>
+                    <input type="password" class="form-control" name="confirm_password" required/>
+                  </div>
+                  <div class="col-lg-12">
+                    <input type="checkbox" name="showPassword" id="Yes"/><label>Show Password</label>
+                  </div>
+                  <div class="col-lg-12">
+                    <button type="submit" class="btn btn-info">Save Changes</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
   <div class="fixed-plugin">

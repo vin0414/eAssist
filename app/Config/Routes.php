@@ -34,6 +34,8 @@ $routes->post('auth','Home::Auth');
 $routes->get('logout','Home::logout');
 // other pages
 $routes->get('sign-up','Home::signUp');
+// submit form
+$routes->post('change-password','Home::changePassword');
 // fetch using ajax
 $routes->get('fetch-cluster','ActionController::fetchCluster');
 $routes->get('fetch-subject','ActionController::fetchSubject');

@@ -226,7 +226,10 @@ class Home extends BaseController
         if(session()->get('role')=="Administrator")
         {
             $title = "My Account";
-            $data = ['title'=>$title];
+            $accountModel = new \App\Models\accountModel();
+            $user = session()->get('loggedUser');
+            $account = $accountModel->WHERE('accountID',$user)->first();
+            $data = ['title'=>$title,'account'=>$account];
             return view('admin/account',$data);
         }
         return redirect()->back();
@@ -282,7 +285,10 @@ class Home extends BaseController
         if(session()->get('role')=="Manager")
         {
             $title = "My Account";
-            $data = ['title'=>$title];
+            $accountModel = new \App\Models\accountModel();
+            $user = session()->get('loggedUser');
+            $account = $accountModel->WHERE('accountID',$user)->first();
+            $data = ['title'=>$title,'account'=>$account];
             return view('manager/account',$data);
         }
         return redirect()->back();
@@ -322,7 +328,7 @@ class Home extends BaseController
             $subjectModel = new \App\Models\subjectModel();
             $subject = $subjectModel->findAll();
             //users
-            $type_users = ['PSDS','EPS'];
+            $type_users = ['EPS'];
             $accountModel = new \App\Models\accountModel();
             $account = $accountModel->WHEREIN('userType',$type_users)->findAll();
 
@@ -352,10 +358,19 @@ class Home extends BaseController
         if(session()->get('role')=="User")
         {
             $title = "My Account";
-
-            $data = ['title'=>$title];
+            //data
+            $accountModel = new \App\Models\accountModel();
+            $user = session()->get('loggedUser');
+            $account = $accountModel->WHERE('accountID',$user)->first();
+            $data = ['title'=>$title,'account'=>$account];
             return view('user/account',$data);
         }
         return redirect()->back();
+    }
+
+    public function changePassword()
+    {
+        $accountModel = new \App\Models\accountModel();
+        $user = session()->get('loggedUser');
     }
 }
