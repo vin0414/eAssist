@@ -319,7 +319,7 @@
       let val = $(this).val();
       if(val==="PSDS"||val==="EPS")
       {
-        $('#role').append("<option>Manager</option>");
+        $('#role').append("<option>Administrator</option><option>Manager</option>");
       }
       else if(val==="GUEST")
       {
