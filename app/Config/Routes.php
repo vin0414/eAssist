@@ -33,7 +33,8 @@ $routes->set404Override();
 $routes->post('auth','Home::Auth');
 $routes->get('logout','Home::logout');
 // other pages
-$routes->get('sign-up','Home::signUp');
+$routes->post('register','Home::register');
+$routes->get('activate/(:any)','Home::activateAccount/$1');
 // submit form
 $routes->post('change-password','Home::changePassword');
 // fetch using ajax
@@ -72,6 +73,8 @@ $routes->post('save-action','ActionController::saveAction');
 $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
 {
     $routes->get('/', 'Home::index');
+    $routes->get('sign-up','Home::signUp');
+    $routes->get('success','Home::successLink');
 });
 
 $routes->group('',['filter'=>'AuthCheck'],function($routes)

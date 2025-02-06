@@ -8,7 +8,7 @@ class Home extends BaseController
     private $db;
     public function __construct()
     {
-        helper(['form']);
+        helper(['Form_helper','text']);
         $this->db = db_connect();
     }
     public function index()
@@ -16,9 +16,98 @@ class Home extends BaseController
         return view('welcome_message');
     }
 
+    public function signUp()
+    {
+        $schoolModel = new \App\Models\schoolModel();
+        $school = $schoolModel->findAll();
+        $data = ['school'=>$school];
+        return view('sign-up',$data);
+    }
+
+    public function register()
+    {
+        $validation = $this->validate([
+            'csrf_test_name'=>'required',
+            'email'=>'required|valid_email|is_unique[tblaccount.Email]',
+            'fullname'=>'required|is_unique[tblaccount.Fullname]',
+            'password'=>'required|min_length[8]|max_length[12]|regex_match[/[A-Z]/]|regex_match[/[a-z]/]|regex_match[/[0-9]/]',
+            'confirm_password'=>'required|matches[password]|min_length[8]|max_length[12]|regex_match[/[A-Z]/]|regex_match[/[a-z]/]|regex_match[/[0-9]/]',
+        ]);
+
+        if(!$validation)
+        {
+            $schoolModel = new \App\Models\schoolModel();
+            $school = $schoolModel->findAll();
+            return view('sign-up',['validation'=>$this->validator,'school'=>$school]);
+        }
+        else
+        {
+            $status = 0;$date = date('Y-m-d');$user_type="GUEST";$role = "User";
+            $hash_password = Hash::make($this->request->getPost('password'));
+            $token_code = random_string('alnum',64);
+            //get the cluster ID
+            $schoolModel = new \App\Models\schoolModel();
+            $accountModel = new \App\Models\accountModel();
+            $school = $schoolModel->WHERE('schoolID',$this->request->getPost('school'))->first();
+            $data = ['Email'=>$this->request->getPost('email'), 
+                    'Password'=>$hash_password,
+                    'Fullname'=>$this->request->getPost('fullname'),
+                    'Position'=>'School Representative',
+                    'Office'=>'School',
+                    'Role'=>$role,
+                    'clusterID'=>$school['clusterID'],
+                    'schoolID'=>$this->request->getPost('school'),
+                    'userType'=>$user_type,
+                    'Status'=>$status,
+                    'Token'=>$token_code,
+                    'DateCreated'=>$date];
+            $accountModel->save($data);
+            //send email activation link
+            $email = \Config\Services::email();
+            $email->setTo($this->request->getPost('email'));
+            $email->setFrom("vinmogate@gmail.com","ASSIST");
+            $imgURL = "assets/img/Logo.png";
+            $email->attach($imgURL);
+            $cid = $email->setAttachmentCID($imgURL);
+            $template = "<center>
+            <img src='cid:". $cid ."' width='100'/>
+            <table style='padding:20px;background-color:#ffffff;' border='0'><tbody>
+            <tr><td><center><h1>Account Activation</h1></center></td></tr>
+            <tr><td><center>Hi, ".$this->request->getPost('fullname')."</center></td></tr>
+            <tr><td><p><center>Please click the link below to activate your account.</center></p></td><tr>
+            <tr><td><center><b>".anchor('activate/'.$this->request->getPost('csrf_test_name'),'Activate Account')."</b></center></td></tr>
+            <tr><td><p><center>If you did not sign-up in ASSIST Website,<br/> please ignore this message or contact us @ division.gentri@deped.gov.ph</center></p></td></tr>
+            <tr><td>ASSIST IT Support</td></tr></tbody></table></center>";
+            $subject = "Account Activation | ASSIST";
+            $email->setSubject($subject);
+            $email->setMessage($template);
+            $email->send();
+            session()->setFlashdata('success','Great! Successfully sent activation link');
+            return redirect()->to('/success')->withInput();
+        }
+    }
+
+    public function activateAccount($id)
+    {
+        $accountModel = new \App\Models\accountModel();
+        $account = $accountModel->WHERE('Token',$id)->first();
+        $values = ['Status'=>1];
+        $accountModel->update($account['accountID'],$values);
+        session()->set('loggedUser', $account['accountID']);
+        session()->set('fullname', $account['Fullname']);
+        session()->set('role',$account['Role']);
+        session()->set('user_type',$account['userType']);
+        return $this->response->redirect(site_url('user/overview'));
+    }
+
+    public function successLink()
+    {
+        return view('success-page');
+    }
+
     public function Auth()
     {
-        $accountModel = new \App\Models\accountModel();;
+        $accountModel = new \App\Models\accountModel();
         //data
         $validation = $this->validate([
             'csrf_test_name'=>'required',
@@ -372,5 +461,44 @@ class Home extends BaseController
     {
         $accountModel = new \App\Models\accountModel();
         $user = session()->get('loggedUser');
+        $validation = $this->validate([
+            'current_password'=>'required|min_length[8]|max_length[12]|regex_match[/[A-Z]/]|regex_match[/[a-z]/]|regex_match[/[0-9]/]',
+            'new_password'=>'required|min_length[8]|max_length[12]|regex_match[/[A-Z]/]|regex_match[/[a-z]/]|regex_match[/[0-9]/]',
+            'confirm_password'=>'required|matches[new_password]|min_length[8]|max_length[12]|regex_match[/[A-Z]/]|regex_match[/[a-z]/]|regex_match[/[0-9]/]',
+        ]);
+
+        if(!$validation)
+        {
+            return $this->response->SetJSON(['error' => $this->validator->getErrors()]);
+        }
+        else
+        {
+            //variables
+            $oldpassword = $this->request->getPost('current_password');
+            $newpassword = $this->request->getPost('new_password');
+
+            $account = $accountModel->WHERE('accountID',$user)->first();
+            $checkPassword = Hash::check($oldpassword,$account['Password']);
+            if(!$checkPassword||empty($checkPassword))
+            {
+                $error = ['current_password'=>'Password mismatched. Please try again'];
+                return $this->response->SetJSON(['error' => $error]);
+            }
+            else
+            {
+                if(($oldpassword==$newpassword))
+                {
+                    $error = ['new_password'=>'The new password cannot be the same as the current password.'];
+                    return $this->response->SetJSON(['error' => $error]);
+                }
+                else
+                {
+                    $HashPassword = Hash::make($newpassword);
+                    $data = ['Password'=>$HashPassword];
+                    $accountModel->update($user,$data);
+                    return $this->response->setJSON(['success' => 'Successfully submitted']);
+                }
+            }
+        }
     }
 }

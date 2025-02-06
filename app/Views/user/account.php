@@ -17,9 +17,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css" integrity="sha512-v8QQ0YQ3H4K6Ic3PJkym91KoeNT5S3PnDKvqnwqFD1oiqIl653crGZplPdU5KKtHjO0QKcQ2aUlQZYjHczkmGw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- CSS Files -->
   <link id="pagestyle" href="<?=base_url('assets/css/soft-ui-dashboard.css?v=1.1.0')?>" rel="stylesheet" />
-  <!-- Nepcha Analytics (nepcha.com) -->
-  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  <style>
+    p{font-size:12px;}
+  </style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -78,6 +78,20 @@
                 </svg>
             </div>
             <span class="nav-link-text ms-1">Feedback</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://csm.depedgentri.com/csm.php" target="_BLANK">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <svg width="12px" height="12px" viewBox="0 0 48 48" version="1" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 48 48">
+                  <path fill="#78909C" d="M40,41H8c-2.2,0-4-1.8-4-4l0-20.9c0-1.3,0.6-2.5,1.7-3.3L24,0l18.3,12.8c1.1,0.7,1.7,2,1.7,3.3V37 C44,39.2,42.2,41,40,41z"/>
+                  <rect x="12" y="11" fill="#ffffff" width="24" height="22"/>
+                  <polygon fill="#9C27B0" points="24,13.6 18,21.4 30,21.4"/>
+                  <path fill="#CFD8DC" d="M40,41H8c-2.2,0-4-1.8-4-4l0-20l20,13l20-13v20C44,39.2,42.2,41,40,41z"/>
+                  <polygon fill="#9C27B0" points="24,28 26,26.7 26,20 22,20 22,26.7"/>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Client Satisfaction</span>
           </a>
         </li>
         <li class="nav-item mt-3">
@@ -187,21 +201,24 @@
                 </div>
             </div>
             <div class="card-body">
-              <form class="row g-3" method="POST">
+              <form class="row g-3" method="POST" id="frmPassword">
                   <div class="col-lg-12">
                     <label>Current Password</label>
                     <input type="password" class="form-control" name="current_password" required/>
+                    <div id="current_password-error" class="error-message text-danger text-sm"></div>
                   </div>
                   <div class="col-lg-12">
                     <label>New Password</label>
                     <input type="password" class="form-control" name="new_password" required/>
+                    <div id="new_password-error" class="error-message text-danger text-sm"></div>
                   </div>
                   <div class="col-lg-12">
                     <label>Confirm Password</label>
                     <input type="password" class="form-control" name="confirm_password" required/>
+                    <div id="confirm_password-error" class="error-message text-danger text-sm"></div>
                   </div>
                   <div class="col-lg-12">
-                    <input type="checkbox" name="showPassword" id="Yes"/><label>Show Password</label>
+                    <input type="checkbox" name="showPassword" value="Yes"/><label>Show Password</label>
                   </div>
                   <div class="col-lg-12">
                     <button type="submit" class="btn btn-info">Save Changes</button>
@@ -273,7 +290,36 @@
   <script src="<?=base_url('assets/js/plugins/smooth-scrollbar.min.js')?>"></script>
   <script src="<?=base_url('assets/js/plugins/chartjs.min.js')?>"></script>
   <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
+    $('#frmPassword').on('submit',function(e){
+      e.preventDefault();
+      let data = $(this).serialize();
+      $('.error-message').html('');
+      $.ajax({
+        url:"<?=site_url('change-password')?>",
+        method:"POST",data:data,
+        success:function(response)
+        {
+          if(response.success){
+              $('#frmPassword')[0].reset();
+                Swal.fire({
+                  title: "Great!",
+                  text: "Successfully applied changes",
+                  icon: "success"
+                });
+              }
+              else{
+                var errors = response.error;
+                // Iterate over each error and display it under the corresponding input field
+                for (var field in errors) {
+                    $('#' + field + '-error').html('<p>' + errors[field]+ '</p>'); // Show the first error message
+                    $('#' + field).addClass('text-danger'); // Highlight the input field with an error
+                }
+              }
+        }
+      });
+    });
   </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;

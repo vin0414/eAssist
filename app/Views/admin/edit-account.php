@@ -204,7 +204,7 @@
                               <input type="email" class="form-control" name="email" value="<?=$account['Email']?>" required/>
                               <div id="email-error" class="error-message text-danger text-sm"></div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-2">
                               <label>Type of User</label>
                               <select class="form-control" name="user_type" id="user_type" required>
                                 <option value="" <?php echo ($account['userType'] == "") ? 'selected' : ''; ?>>Choose</option>
@@ -215,7 +215,7 @@
                               </select>
                               <div id="user_type-error" class="error-message text-danger text-sm"></div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-2">
                               <label>System Role</label>
                               <select class="form-control" name="role" id="role" required>
                                   <option value="">Choose</option>
@@ -224,6 +224,15 @@
                                   <option <?php echo ($account['Role'] == "User") ? 'selected' : ''; ?>>User</option>
                               </select>
                               <div id="role-error" class="error-message text-danger text-sm"></div>
+                            </div>
+                            <div class="col-lg-2">
+                              <label>Status</label>
+                              <select class="form-control" name="status" id="status" required>
+                                  <option value="">Choose</option>
+                                  <option value="1" <?php echo ($account['Status'] == 1) ? 'selected' : ''; ?>>Active</option>
+                                  <option value="0" <?php echo ($account['Status'] == 0) ? 'selected' : ''; ?>>Inactive</option>
+                              </select>
+                              <div id="status-error" class="error-message text-danger text-sm"></div>
                             </div>
                         </div>
                         </div>

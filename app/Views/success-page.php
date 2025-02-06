@@ -14,6 +14,9 @@
   <link href="<?=base_url('assets/css/nucleo-svg.css')?>" rel="stylesheet" />
   <!-- CSS Files -->
   <link id="pagestyle" href="<?=base_url('assets/css/soft-ui-dashboard.css?v=1.1.0')?>" rel="stylesheet" />
+  <style>
+    small{font-size:12px;}
+  </style>
 </head>
 
 <body class="">
@@ -26,47 +29,27 @@
               <div class="card card-plain mt-5">
                 <div class="card-header pb-0 text-center bg-transparent">
                   <img src="<?=base_url('assets/img/logo.png')?>" width="100px"/>
-                  <h3 class="font-weight-bolder text-info text-gradient">Welcome to ASSIST</h3>
-                  <p class="mb-0" style="font-size:12px;">Advanced Support System for Improving Schools and Teachers Performance</p>
+                  <h5 class="font-weight-bolder text-info text-gradient">Account Verification</h5>
                 </div>
                 <div class="card-body">
-                  <?php if(!empty(session()->getFlashdata('fail'))) : ?>
-                    <div class="alert alert-danger" role="alert">
-                        <?= session()->getFlashdata('fail'); ?>
+                  <?php if(!empty(session()->getFlashdata('success'))) : ?>
+                    <div class="text-center">Success! Your account has been created!</div>
+                    <div class="text-center">To get all the good stuff, please activate your account.
+                    You can do this using the activation link we have emailed to your inbox. If you have
+                    not received it please check your spam folder or use the button below to resend the activation link.
                     </div>
                   <?php endif; ?>
-                  <form role="form" method="POST" action="<?=base_url('auth')?>">
-                    <?= csrf_field(); ?>
-                    <label>Email</label>
-                    <div class="mb-3">
-                      <input type="email" class="form-control" name="email" value="<?=old('email')?>" placeholder="Email" aria-label="Email" aria-describedby="email-addon" required/>
-                      <div class="text-danger"><small><?=isset($validation)? display_error($validation,'email') : '' ?></small></div>
-                    </div>
-                    <label>Password</label>
-                    <div class="mb-3">
-                      <input type="password" class="form-control" name="password" placeholder="Password" aria-label="Password" aria-describedby="password-addon" required/>
-                      <div class="text-danger"><small><?=isset($validation)? display_error($validation,'password') : '' ?></small></div>
-                    </div>
-                    <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="rememberMe" checked="">
-                      <label class="form-check-label" for="rememberMe">Remember me</label>
-                    </div>
-                    <div class="text-center">
-                      <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">Sign in</button>
-                    </div>
-                  </form>
                 </div>
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-4 text-sm mx-auto">
-                    Don't have an account?
-                    <a href="<?=site_url('sign-up')?>" class="text-info text-gradient font-weight-bold">Sign up</a>
+                    <a class="btn btn-info" href="<?=site_url('/')?>" class="text-info text-gradient font-weight-bold">Resend Activation Link</a>
                   </p>
                 </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
-                <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image:url('../assets/img/curved-images/curved6.jpg')"></div>
+                <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image:url('../assets/img/curved-images/curved9.jpg')"></div>
               </div>
             </div>
           </div>
@@ -103,6 +86,7 @@
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
   </script>
+  <!-- Github buttons -->
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="<?=base_url('assets/js/soft-ui-dashboard.min.js?v=1.1.0')?>"></script>
 </body>

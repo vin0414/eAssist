@@ -8,7 +8,7 @@ class ActionController extends BaseController
     private $db;
     public function __construct()
     {
-        helper(['url','form']);
+        helper(['url','form','text']);
         $this->db = db_connect();
     }
 
@@ -40,7 +40,7 @@ class ActionController extends BaseController
                     </div>
                 </td>
                 <td class="align-middle">
-                    <button type="button" class="btn btn-sm text-xs editCluster" value="<?php echo $row->clusterID ?>"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Rename</button>
+                    <button type="button" class="btn btn-success btn-sm editCluster" value="<?php echo $row->clusterID ?>"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Rename</button>
                 </td>
             </tr>
             <?php
@@ -111,7 +111,7 @@ class ActionController extends BaseController
                     </div>
                 </td>
                 <td class="align-middle">
-                    <button type="button" class="btn btn-sm text-xs editSubject" value="<?php echo $row['subjectID'] ?>"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Rename</button>
+                    <button type="button" class="btn btn-success btn-sm editSubject" value="<?php echo $row['subjectID'] ?>"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Rename</button>
                 </td>
             </tr>
             <?php
@@ -185,7 +185,7 @@ class ActionController extends BaseController
                 'schoolName' => htmlspecialchars($row->schoolName, ENT_QUOTES),
                 'address' => htmlspecialchars($row->address, ENT_QUOTES),
                 'clusterName' => htmlspecialchars($row->clusterName, ENT_QUOTES),
-                'actions' => '<button class="btn btn-sm view" value="' . htmlspecialchars($row->schoolID, ENT_QUOTES) . '"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Edit</button>'
+                'actions' => '<button class="btn btn-success btn-sm view" value="' . htmlspecialchars($row->schoolID, ENT_QUOTES) . '"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Edit</button>'
             ];
         }
         // Return the response as JSON
@@ -311,6 +311,7 @@ class ActionController extends BaseController
             //additional data
             $status = 1;
             $date = date('Y-m-d');
+            $token_code = random_string('alnum',64);
             //save the data
             $data = ['Email'=>$this->request->getPost('email'), 'Password'=>$password['Password'],
                     'Fullname'=>$this->request->getPost('fullname'),
@@ -321,7 +322,7 @@ class ActionController extends BaseController
                     'schoolID'=>$this->request->getPost('school'),
                     'subjectID'=>$this->request->getPost('subject'),
                     'userType'=>$this->request->getPost('user_type'),
-                    'Status'=>$status,'Token'=>$this->request->getPost('csrf_test_name'),'DateCreated'=>$date];
+                    'Status'=>$status,'Token'=>$token_code,'DateCreated'=>$date];
             $accountModel->save($data);
             return $this->response->setJSON(['success' => 'Successfully registered']);
         }
@@ -434,14 +435,19 @@ class ActionController extends BaseController
                 $code = "TA-".$year."-".str_pad($getData->total, 4, '0', STR_PAD_LEFT);
             }
 
-
             $user = session()->get('loggedUser');
             $users = $this->request->getPost('account');
             $status = 0;$date = date('Y-m-d');
+            $dateTime = new \DateTime();
+            $dateTime->modify('+7 days'); 
+            $endDate = $dateTime->format('Y-m-d');
             $file = $this->request->getFile('file');
             $originalName = $file->getClientName();
             //get the cluster ID and school ID
             $account = $accountModel->WHERE('accountID',$user)->first();
+            //get the school name
+            $schoolModel = new \App\Models\schoolModel();
+            $school = $schoolModel->WHERE('schoolID',$account['schoolID'])->first();
             //save the form
             if(empty($originalName))
             {
@@ -466,9 +472,6 @@ class ActionController extends BaseController
             $form = $formModel->WHERE('Details',$this->request->getPost('details'))
                               ->WHERE('priorityLevel',$this->request->getPost('priority'))
                               ->first();
-            //get the PSDS per cluster
-            $headUser = $accountModel->WHERE('clusterID',$account['clusterID'])
-                                     ->WHERE('userType','PSDS')->first();
             //send to EPS/PSDS
             $count = count($users);
             for($i=0;$i<$count;$i++)
@@ -483,6 +486,26 @@ class ActionController extends BaseController
                     'Status'=>$status,
                     'DateApproved'=>'0000-00-00'];
                     $reviewModel->save($data);
+                
+                    //send email notification
+                    $email = \Config\Services::email();
+                    $email->setTo($row['Email']);
+                    $email->setFrom("vinmogate@gmail.com","ASSIST");
+                    $imgURL = "assets/img/Logo.png";
+                    $email->attach($imgURL);
+                    $cid = $email->setAttachmentCID($imgURL);
+                    $template = "<center>
+                    <img src='cid:". $cid ."' width='100'/>
+                    <table style='padding:20px;background-color:#ffffff;' border='0'><tbody>
+                    <tr><td><center><h1>Technical Assistance</h1></center></td></tr>
+                    <tr><td><center>Hi, ".$row['Fullname']."</center></td></tr>
+                    <tr><td><p><center>".$school['schoolName']." sent you a technical assistance request for your review/approval.</center></p></td><tr>
+                    <tr><td><p><center>Kindly login to your account to take the action until ".$endDate."</center></p></td></tr>
+                    <tr><td><center>ASSIST IT Support</center></td></tr></tbody></table></center>";
+                    $subject = "Technical Assistance | ASSIST";
+                    $email->setSubject($subject);
+                    $email->setMessage($template);
+                    $email->send();
                 }
             }
             return $this->response->setJSON(['success' => 'Successfully submitted']);

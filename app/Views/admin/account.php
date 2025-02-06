@@ -17,9 +17,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css" integrity="sha512-v8QQ0YQ3H4K6Ic3PJkym91KoeNT5S3PnDKvqnwqFD1oiqIl653crGZplPdU5KKtHjO0QKcQ2aUlQZYjHczkmGw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- CSS Files -->
   <link id="pagestyle" href="<?=base_url('assets/css/soft-ui-dashboard.css?v=1.1.0')?>" rel="stylesheet" />
-  <!-- Nepcha Analytics (nepcha.com) -->
-  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  <style>
+    p{font-size:12px;}
+  </style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -210,21 +210,24 @@
                 </div>
             </div>
             <div class="card-body">
-              <form class="row g-3" method="POST">
+              <form class="row g-3" method="POST" id="frmPassword">
                   <div class="col-lg-12">
                     <label>Current Password</label>
                     <input type="password" class="form-control" name="current_password" required/>
+                    <div id="current_password-error" class="error-message text-danger text-sm"></div>
                   </div>
                   <div class="col-lg-12">
                     <label>New Password</label>
                     <input type="password" class="form-control" name="new_password" required/>
+                    <div id="new_password-error" class="error-message text-danger text-sm"></div>
                   </div>
                   <div class="col-lg-12">
                     <label>Confirm Password</label>
                     <input type="password" class="form-control" name="confirm_password" required/>
+                    <div id="confirm_password-error" class="error-message text-danger text-sm"></div>
                   </div>
                   <div class="col-lg-12">
-                    <input type="checkbox" name="showPassword" id="Yes"/><label>Show Password</label>
+                    <input type="checkbox" name="showPassword" value="Yes"/><label>Show Password</label>
                   </div>
                   <div class="col-lg-12">
                     <button type="submit" class="btn btn-info">Save Changes</button>
@@ -295,6 +298,38 @@
   <script src="<?=base_url('assets/js/plugins/perfect-scrollbar.min.js')?>"></script>
   <script src="<?=base_url('assets/js/plugins/smooth-scrollbar.min.js')?>"></script>
   <script src="<?=base_url('assets/js/plugins/chartjs.min.js')?>"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    $('#frmPassword').on('submit',function(e){
+      e.preventDefault();
+      let data = $(this).serialize();
+      $('.error-message').html('');
+      $.ajax({
+        url:"<?=site_url('change-password')?>",
+        method:"POST",data:data,
+        success:function(response)
+        {
+          if(response.success){
+              $('#frmPassword')[0].reset();
+                Swal.fire({
+                  title: "Great!",
+                  text: "Successfully applied changes",
+                  icon: "success"
+                });
+              }
+              else{
+                var errors = response.error;
+                // Iterate over each error and display it under the corresponding input field
+                for (var field in errors) {
+                    $('#' + field + '-error').html('<p>' + errors[field]+ '</p>'); // Show the first error message
+                    $('#' + field).addClass('text-danger'); // Highlight the input field with an error
+                }
+              }
+        }
+      });
+    });
+  </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
