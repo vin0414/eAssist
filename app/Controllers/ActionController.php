@@ -338,7 +338,8 @@ class ActionController extends BaseController
             'fullname'=>'required',
             'email'=>'required',
             'role'=>'required',
-            'user_type'=>'required'
+            'user_type'=>'required',
+            'status'=>'required'
         ]);
         if(!$validation)
         {
@@ -355,7 +356,9 @@ class ActionController extends BaseController
                     'clusterID'=>$this->request->getPost('cluster'),
                     'schoolID'=>$this->request->getPost('school'),
                     'subjectID'=>$this->request->getPost('subject'),
-                    'userType'=>$this->request->getPost('user_type')];
+                    'userType'=>$this->request->getPost('user_type'),
+                    'Status'=>$this->request->getPost('status')
+                ];
             $accountModel->update($this->request->getPost('accountID'),$data);
             return $this->response->setJSON(['success' => 'Successfully registered']);
         }
