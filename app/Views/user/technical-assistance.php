@@ -338,7 +338,7 @@
                   <div class="radio-group">
                     <label>
                         <input type="checkbox" name="account[]" style="width:18px;height:18px;" value="<?php echo $row['accountID'] ?>">
-                        <label class="align-middle"><?php echo $row['Fullname'] ?> - <?php echo $row['Position'] ?></label>
+                        <label class="align-middle"><?php echo $row['Fullname'] ?><br/><span style="font-size:10px;"><?php echo $row['Position'] ?></span></label>
                     </label>
                   </div> 
                 </div>

@@ -69,6 +69,8 @@ $routes->post('denied-form','ActionController::deniedForm');
 $routes->post('complete-form','ActionController::completeForm');
 $routes->post('save-feedback','ActionController::saveFeedback');
 $routes->post('save-action','ActionController::saveAction');
+//report
+$routes->get('export','ReportController::exportReport');
 
 $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
 {

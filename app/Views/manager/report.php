@@ -186,8 +186,8 @@
                   </select>
                 </div>
                 <div class="col-lg-4">
-                  <button type="submit" class="btn btn-info"><i class="fa-solid fa-magnifying-glass"></i>&nbsp;Search</button>
-                  <button type="button" class="btn btn-secondary" id="btnExport"><i class="fa-solid fa-download"></i>&nbsp;Export</button>
+                  <button type="submit" class="btn btn-info" id="btnSearch"><i class="fa-solid fa-magnifying-glass"></i>&nbsp;Search</button>
+                  <a href="<?=site_url('export')?>" class="btn btn-secondary" id="btnExport"><i class="fa-solid fa-download"></i>&nbsp;Export</a>
                 </div>
               </form>
             </div>
@@ -342,9 +342,9 @@
       });
     });
 
-    $('#frmReport').on('click',function(e){
+    $('#btnSearch').on('click',function(e){
       e.preventDefault();
-      let data = $(this).serialize();
+      let data = $('#frmReport').serialize();
       $('#tblresult').html("<tr><td colspan='8'><center>Loading...</center></td></tr>");
       $.ajax({
         url:"<?=site_url('generate-technical-report')?>",
@@ -363,15 +363,15 @@
       });
     });
 
-    document.getElementById('btnExport').addEventListener('click', function () {
-      const table = document.getElementById('table');
-      let html = table.outerHTML;
-      let blob = new Blob([html], { type: 'application/vnd.ms-excel' });
-      let link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'TA-report.xls';
-      link.click();
-    });
+    // document.getElementById('btnExport').addEventListener('click', function () {
+    //   const table = document.getElementById('table');
+    //   let html = table.outerHTML;
+    //   let blob = new Blob([html], { type: 'application/vnd.ms-excel' });
+    //   let link = document.createElement('a');
+    //   link.href = URL.createObjectURL(blob);
+    //   link.download = 'TA-report.xls';
+    //   link.click();
+    // });
   </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
