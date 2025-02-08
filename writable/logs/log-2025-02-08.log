@@ -652,3 +652,206 @@ INFO - 2025-02-08 12:44:00 --> Session: Class initialized using 'CodeIgniter\Ses
 INFO - 2025-02-08 12:44:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
 INFO - 2025-02-08 12:44:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
 INFO - 2025-02-08 12:44:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 12:47:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 12:47:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 12:47:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 12:47:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 12:47:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 12:47:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 12:47:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 12:47:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 12:47:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 12:47:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2025-02-08 12:47:40 --> mysqli_sql_exception: Expression #7 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'db_assist.e.actionName' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by in C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT `a`.`for...', 0)
+#1 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `a`.`for...')
+#2 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `a`.`for...')
+#3 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`for...', Array, false)
+#4 C:\Users\Warvin\Desktop\My Files\eAssist\app\Controllers\ActionController.php(1010): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\Warvin\Desktop\My Files\eAssist\system\CodeIgniter.php(934): App\Controllers\ActionController->generateTAReport()
+#6 C:\Users\Warvin\Desktop\My Files\eAssist\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+#7 C:\Users\Warvin\Desktop\My Files\eAssist\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\Users\Warvin\Desktop\My Files\eAssist\public\index.php(67): CodeIgniter\CodeIgniter->run()
+#9 C:\Users\Warvin\Desktop\My Files\eAssist\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\Warvin...')
+#10 {main}
+CRITICAL - 2025-02-08 12:47:40 --> Expression #7 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'db_assist.e.actionName' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+in SYSTEMPATH\Database\BaseConnection.php on line 645.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`formID`, `a`.`Code`, `a`.`Details`, `b`.`schoolName`, `c`.`clusterName`, `d`.`subjectName`, `e`.`actionName`, `e`.`Recommendation`
+FROM `tblform` `a`
+LEFT JOIN `tblschool` `b` ON `b`.`schoolID`=`a`.`schoolID`
+LEFT JOIN `tblcluster` `c` ON `c`.`clusterID`=`a`.`clusterID`
+LEFT JOIN `tblsubject` `d` ON `d`.`subjectID`=`a`.`subjectID`
+LEFT JOIN `tblaction` `e` ON `e`.`formID`=`a`.`formID`
+WHERE DATE_FORMAT(a.DateCreated,"%m") = :DATE_FORMAT(a.DateCreated,"%m"):
+AND DATE_FORMAT(a.DateCreated,"%Y") = :DATE_FORMAT(a.DateCreated,"%Y"):
+GROUP BY `a`.`formID`', [...], false)
+ 2 APPPATH\Controllers\ActionController.php(1010): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->generateTAReport()
+ 4 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 5 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+ERROR - 2025-02-08 12:47:59 --> mysqli_sql_exception: Expression #7 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'db_assist.e.actionName' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by in C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT `a`.`for...', 0)
+#1 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `a`.`for...')
+#2 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `a`.`for...')
+#3 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`for...', Array, false)
+#4 C:\Users\Warvin\Desktop\My Files\eAssist\app\Controllers\ActionController.php(1010): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\Warvin\Desktop\My Files\eAssist\system\CodeIgniter.php(934): App\Controllers\ActionController->generateTAReport()
+#6 C:\Users\Warvin\Desktop\My Files\eAssist\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+#7 C:\Users\Warvin\Desktop\My Files\eAssist\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\Users\Warvin\Desktop\My Files\eAssist\public\index.php(67): CodeIgniter\CodeIgniter->run()
+#9 C:\Users\Warvin\Desktop\My Files\eAssist\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\Warvin...')
+#10 {main}
+CRITICAL - 2025-02-08 12:47:59 --> Expression #7 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'db_assist.e.actionName' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+in SYSTEMPATH\Database\BaseConnection.php on line 645.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`formID`, `a`.`Code`, `a`.`Details`, `b`.`schoolName`, `c`.`clusterName`, `d`.`subjectName`, `e`.`actionName`, `e`.`Recommendation`
+FROM `tblform` `a`
+LEFT JOIN `tblschool` `b` ON `b`.`schoolID`=`a`.`schoolID`
+LEFT JOIN `tblcluster` `c` ON `c`.`clusterID`=`a`.`clusterID`
+LEFT JOIN `tblsubject` `d` ON `d`.`subjectID`=`a`.`subjectID`
+LEFT JOIN `tblaction` `e` ON `e`.`formID`=`a`.`formID`
+WHERE DATE_FORMAT(a.DateCreated,"%m") = :DATE_FORMAT(a.DateCreated,"%m"):
+AND DATE_FORMAT(a.DateCreated,"%Y") = :DATE_FORMAT(a.DateCreated,"%Y"):
+GROUP BY `a`.`formID`', [...], false)
+ 2 APPPATH\Controllers\ActionController.php(1010): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->generateTAReport()
+ 4 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 5 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+ERROR - 2025-02-08 12:56:19 --> mysqli_sql_exception: Expression #7 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'db_assist.e.actionName' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by in C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT `a`.`for...', 0)
+#1 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `a`.`for...')
+#2 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `a`.`for...')
+#3 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`for...', Array, false)
+#4 C:\Users\Warvin\Desktop\My Files\eAssist\app\Controllers\ActionController.php(1021): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\Warvin\Desktop\My Files\eAssist\system\CodeIgniter.php(934): App\Controllers\ActionController->generateTAReport()
+#6 C:\Users\Warvin\Desktop\My Files\eAssist\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+#7 C:\Users\Warvin\Desktop\My Files\eAssist\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\Users\Warvin\Desktop\My Files\eAssist\public\index.php(67): CodeIgniter\CodeIgniter->run()
+#9 C:\Users\Warvin\Desktop\My Files\eAssist\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\Warvin...')
+#10 {main}
+CRITICAL - 2025-02-08 12:56:19 --> Expression #7 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'db_assist.e.actionName' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+in SYSTEMPATH\Database\BaseConnection.php on line 645.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`formID`, `a`.`Code`, `a`.`Details`, `b`.`schoolName`, `c`.`clusterName`, `d`.`subjectName`, `e`.`actionName`, `e`.`Recommendation`
+FROM `tblform` `a`
+LEFT JOIN `tblschool` `b` ON `b`.`schoolID`=`a`.`schoolID`
+LEFT JOIN `tblcluster` `c` ON `c`.`clusterID`=`a`.`clusterID`
+LEFT JOIN `tblsubject` `d` ON `d`.`subjectID`=`a`.`subjectID`
+INNER JOIN `tblaction` `e` ON `e`.`formID`=`a`.`formID`
+WHERE DATE_FORMAT(a.DateCreated,"%m") = :DATE_FORMAT(a.DateCreated,"%m"):
+AND DATE_FORMAT(a.DateCreated,"%Y") = :DATE_FORMAT(a.DateCreated,"%Y"):
+GROUP BY `a`.`formID`', [...], false)
+ 2 APPPATH\Controllers\ActionController.php(1021): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->generateTAReport()
+ 4 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 5 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+INFO - 2025-02-08 12:56:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 12:56:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 13:33:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 13:33:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 13:33:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 13:33:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2025-02-08 13:33:24 --> mysqli_sql_exception: Expression #7 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'db_assist.e.actionName' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by in C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT `a`.`for...', 0)
+#1 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `a`.`for...')
+#2 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `a`.`for...')
+#3 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`for...', Array, false)
+#4 C:\Users\Warvin\Desktop\My Files\eAssist\app\Controllers\ActionController.php(1021): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\Warvin\Desktop\My Files\eAssist\system\CodeIgniter.php(934): App\Controllers\ActionController->generateTAReport()
+#6 C:\Users\Warvin\Desktop\My Files\eAssist\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+#7 C:\Users\Warvin\Desktop\My Files\eAssist\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\Users\Warvin\Desktop\My Files\eAssist\public\index.php(67): CodeIgniter\CodeIgniter->run()
+#9 C:\Users\Warvin\Desktop\My Files\eAssist\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\Warvin...')
+#10 {main}
+CRITICAL - 2025-02-08 13:33:24 --> Expression #7 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'db_assist.e.actionName' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+in SYSTEMPATH\Database\BaseConnection.php on line 645.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`formID`, `a`.`Code`, `a`.`Details`, `b`.`schoolName`, `c`.`clusterName`, `d`.`subjectName`, `e`.`actionName`, `e`.`Recommendation`
+FROM `tblform` `a`
+LEFT JOIN `tblschool` `b` ON `b`.`schoolID`=`a`.`schoolID`
+LEFT JOIN `tblcluster` `c` ON `c`.`clusterID`=`a`.`clusterID`
+LEFT JOIN `tblsubject` `d` ON `d`.`subjectID`=`a`.`subjectID`
+INNER JOIN `tblaction` `e` ON `e`.`formID`=`a`.`formID`
+WHERE DATE_FORMAT(a.DateCreated,"%m") = :DATE_FORMAT(a.DateCreated,"%m"):
+AND DATE_FORMAT(a.DateCreated,"%Y") = :DATE_FORMAT(a.DateCreated,"%Y"):
+GROUP BY `a`.`formID`', [...], false)
+ 2 APPPATH\Controllers\ActionController.php(1021): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->generateTAReport()
+ 4 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 5 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+ERROR - 2025-02-08 13:33:38 --> mysqli_sql_exception: Expression #7 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'db_assist.e.actionName' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by in C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT `a`.`for...', 0)
+#1 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `a`.`for...')
+#2 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `a`.`for...')
+#3 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`for...', Array, false)
+#4 C:\Users\Warvin\Desktop\My Files\eAssist\app\Controllers\ActionController.php(1021): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\Warvin\Desktop\My Files\eAssist\system\CodeIgniter.php(934): App\Controllers\ActionController->generateTAReport()
+#6 C:\Users\Warvin\Desktop\My Files\eAssist\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+#7 C:\Users\Warvin\Desktop\My Files\eAssist\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\Users\Warvin\Desktop\My Files\eAssist\public\index.php(67): CodeIgniter\CodeIgniter->run()
+#9 C:\Users\Warvin\Desktop\My Files\eAssist\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\Warvin...')
+#10 {main}
+CRITICAL - 2025-02-08 13:33:38 --> Expression #7 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'db_assist.e.actionName' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+in SYSTEMPATH\Database\BaseConnection.php on line 645.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`formID`, `a`.`Code`, `a`.`Details`, `b`.`schoolName`, `c`.`clusterName`, `d`.`subjectName`, `e`.`actionName`, `e`.`Recommendation`
+FROM `tblform` `a`
+LEFT JOIN `tblschool` `b` ON `b`.`schoolID`=`a`.`schoolID`
+LEFT JOIN `tblcluster` `c` ON `c`.`clusterID`=`a`.`clusterID`
+LEFT JOIN `tblsubject` `d` ON `d`.`subjectID`=`a`.`subjectID`
+INNER JOIN `tblaction` `e` ON `e`.`formID`=`a`.`formID`
+WHERE DATE_FORMAT(a.DateCreated,"%m") = :DATE_FORMAT(a.DateCreated,"%m"):
+AND DATE_FORMAT(a.DateCreated,"%Y") = :DATE_FORMAT(a.DateCreated,"%Y"):
+GROUP BY `a`.`formID`', [...], false)
+ 2 APPPATH\Controllers\ActionController.php(1021): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->generateTAReport()
+ 4 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 5 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+ERROR - 2025-02-08 13:46:16 --> mysqli_sql_exception: Expression #7 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'e.actionName' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by in C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT `a`.`for...', 0)
+#1 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `a`.`for...')
+#2 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `a`.`for...')
+#3 C:\Users\Warvin\Desktop\My Files\eAssist\system\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`for...', Array, false)
+#4 C:\Users\Warvin\Desktop\My Files\eAssist\app\Controllers\ActionController.php(1021): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\Warvin\Desktop\My Files\eAssist\system\CodeIgniter.php(934): App\Controllers\ActionController->generateTAReport()
+#6 C:\Users\Warvin\Desktop\My Files\eAssist\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+#7 C:\Users\Warvin\Desktop\My Files\eAssist\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\Users\Warvin\Desktop\My Files\eAssist\public\index.php(67): CodeIgniter\CodeIgniter->run()
+#9 C:\Users\Warvin\Desktop\My Files\eAssist\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\Warvin...')
+#10 {main}
+CRITICAL - 2025-02-08 13:46:16 --> Expression #7 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'e.actionName' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+in SYSTEMPATH\Database\BaseConnection.php on line 645.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`formID`, `a`.`Code`, `a`.`Details`, `b`.`schoolName`, `c`.`clusterName`, `d`.`subjectName`, `e`.`actionName`, `e`.`Recommendation`
+FROM `tblform` `a`
+LEFT JOIN `tblschool` `b` ON `b`.`schoolID`=`a`.`schoolID`
+LEFT JOIN `tblcluster` `c` ON `c`.`clusterID`=`a`.`clusterID`
+LEFT JOIN `tblsubject` `d` ON `d`.`subjectID`=`a`.`subjectID`
+LEFT JOIN (Select formID,actionName,Recommendation from tblaction) e ON `e`.`formID`=`a`.`formID`
+WHERE DATE_FORMAT(a.DateCreated,"%m") = :DATE_FORMAT(a.DateCreated,"%m"):
+AND DATE_FORMAT(a.DateCreated,"%Y") = :DATE_FORMAT(a.DateCreated,"%Y"):
+GROUP BY `a`.`formID`', [...], false)
+ 2 APPPATH\Controllers\ActionController.php(1021): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->generateTAReport()
+ 4 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 5 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+INFO - 2025-02-08 13:49:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 13:49:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 13:49:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 13:49:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 13:49:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 13:51:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-08 13:51:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.

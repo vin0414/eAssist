@@ -22,28 +22,30 @@ class ActionController extends BaseController
         foreach($cluster as $row)
         {
             ?>
-            <tr>
-                <td>
-                    <div class="d-flex px-2 py-1">
-                        <div class="d-flex flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm"><?php echo $row->clusterName ?></h6>
-                        <p class="text-xs text-secondary mb-0">Date Created : <?php echo date('Y-M-d', strtotime($row->DateCreated)) ?></p>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="d-flex px-2 py-1">
-                        <div class="d-flex flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm"><?php echo $row->Fullname ?></h6>
-                        <p class="text-xs text-secondary mb-0"><?php echo $row->Position ?></p>
-                        </div>
-                    </div>
-                </td>
-                <td class="align-middle">
-                    <button type="button" class="btn btn-success btn-sm editCluster" value="<?php echo $row->clusterID ?>"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Rename</button>
-                </td>
-            </tr>
-            <?php
+<tr>
+    <td>
+        <div class="d-flex px-2 py-1">
+            <div class="d-flex flex-column justify-content-center">
+                <h6 class="mb-0 text-sm"><?php echo $row->clusterName ?></h6>
+                <p class="text-xs text-secondary mb-0">Date Created :
+                    <?php echo date('Y-M-d', strtotime($row->DateCreated)) ?></p>
+            </div>
+        </div>
+    </td>
+    <td>
+        <div class="d-flex px-2 py-1">
+            <div class="d-flex flex-column justify-content-center">
+                <h6 class="mb-0 text-sm"><?php echo $row->Fullname ?></h6>
+                <p class="text-xs text-secondary mb-0"><?php echo $row->Position ?></p>
+            </div>
+        </div>
+    </td>
+    <td class="align-middle">
+        <button type="button" class="btn btn-success btn-sm editCluster" value="<?php echo $row->clusterID ?>"><i
+                class="fa-regular fa-pen-to-square"></i>&nbsp;Rename</button>
+    </td>
+</tr>
+<?php
         }
     }
 
@@ -101,20 +103,22 @@ class ActionController extends BaseController
         foreach($subject as $row)
         {
             ?>
-            <tr>
-                <td>
-                    <div class="d-flex px-2 py-1">
-                        <div class="d-flex flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm"><?php echo $row['subjectName'] ?></h6>
-                        <p class="text-xs text-secondary mb-0">Date Created : <?php echo date('Y-M-d', strtotime($row['DateCreated'])) ?></p>
-                        </div>
-                    </div>
-                </td>
-                <td class="align-middle">
-                    <button type="button" class="btn btn-success btn-sm editSubject" value="<?php echo $row['subjectID'] ?>"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Rename</button>
-                </td>
-            </tr>
-            <?php
+<tr>
+    <td>
+        <div class="d-flex px-2 py-1">
+            <div class="d-flex flex-column justify-content-center">
+                <h6 class="mb-0 text-sm"><?php echo $row['subjectName'] ?></h6>
+                <p class="text-xs text-secondary mb-0">Date Created :
+                    <?php echo date('Y-M-d', strtotime($row['DateCreated'])) ?></p>
+            </div>
+        </div>
+    </td>
+    <td class="align-middle">
+        <button type="button" class="btn btn-success btn-sm editSubject" value="<?php echo $row['subjectID'] ?>"><i
+                class="fa-regular fa-pen-to-square"></i>&nbsp;Rename</button>
+    </td>
+</tr>
+<?php
         }
     }
 
@@ -229,36 +233,40 @@ class ActionController extends BaseController
         if($school)
         {
             ?>
-            <form method="POST" id="frmEditSchool">
-                <?= csrf_field(); ?>
-                <input type="hidden" name="schoolID" value="<?php echo $school['schoolID'] ?>"/>
-                <div class="row">
-                <div class="col-12 form-group">
-                    <label>School Name <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="new_school_name" value="<?php echo $school['schoolName'] ?>" required/>
-                    <div id="new_school_name-error" class="error-message text-danger text-sm"></div>
-                </div>
-                <div class="col-12 form-group">
-                    <label>School Address <span class="text-danger">*</span></label>
-                    <textarea class="form-control" name="new_address" required><?php echo $school['address'] ?></textarea>
-                    <div id="new_address-error" class="error-message text-danger text-sm"></div>
-                </div>
-                <div class="col-12 form-group">
-                    <label>Cluster <span class="text-danger">*</span></label>
-                    <select class="form-control" name="new_cluster" required>
-                    <option value="">Choose</option>
-                    <?php foreach($cluster as $row): ?>
-                        <option value="<?php echo $row['clusterID'] ?>" <?php echo ($school['clusterID'] == $row['clusterID']) ? 'selected' : ''; ?>><?php echo $row['clusterName'] ?></option>
-                    <?php endforeach; ?>
-                    </select>
-                    <div id="new_cluster-error" class="error-message text-danger text-sm"></div>
-                </div>
-                <div class="col-12 form-group">
-                    <button type="submit" class="btn btn-primary save"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Save Changes</button>
-                </div>
-                </div>
-            </form>
-            <?php
+<form method="POST" id="frmEditSchool">
+    <?= csrf_field(); ?>
+    <input type="hidden" name="schoolID" value="<?php echo $school['schoolID'] ?>" />
+    <div class="row">
+        <div class="col-12 form-group">
+            <label>School Name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" name="new_school_name" value="<?php echo $school['schoolName'] ?>"
+                required />
+            <div id="new_school_name-error" class="error-message text-danger text-sm"></div>
+        </div>
+        <div class="col-12 form-group">
+            <label>School Address <span class="text-danger">*</span></label>
+            <textarea class="form-control" name="new_address" required><?php echo $school['address'] ?></textarea>
+            <div id="new_address-error" class="error-message text-danger text-sm"></div>
+        </div>
+        <div class="col-12 form-group">
+            <label>Cluster <span class="text-danger">*</span></label>
+            <select class="form-control" name="new_cluster" required>
+                <option value="">Choose</option>
+                <?php foreach($cluster as $row): ?>
+                <option value="<?php echo $row['clusterID'] ?>"
+                    <?php echo ($school['clusterID'] == $row['clusterID']) ? 'selected' : ''; ?>>
+                    <?php echo $row['clusterName'] ?></option>
+                <?php endforeach; ?>
+            </select>
+            <div id="new_cluster-error" class="error-message text-danger text-sm"></div>
+        </div>
+        <div class="col-12 form-group">
+            <button type="submit" class="btn btn-primary save"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Save
+                Changes</button>
+        </div>
+    </div>
+</form>
+<?php
         }
     }
 
@@ -676,73 +684,76 @@ class ActionController extends BaseController
         if($data)
         {
             ?>
-            <form method="POST" class="row g-2" id="frmReview">
-                <?= csrf_field(); ?>
-                <input type="hidden" name="formID" value="<?php echo $data->formID ?>"/>
-                <input type="hidden" name="requestorID" value="<?php echo $data->accountID ?>"/>
-                <div class="col-lg-12">
-                    <div class="row g-2">
-                        <div class="col-lg-6">
-                            <label>Fullname</label>
-                            <input type="text" class="form-control" value="<?php echo $data->Fullname ?>"/>
-                        </div>
-                        <div class="col-lg-6">
-                            <label>Email Address</label>
-                            <input type="email" class="form-control" value="<?php echo $data->Email ?>"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="row g-2">
-                        <div class="col-lg-4">
-                            <label>Cluster</label>
-                            <input type="text" class="form-control" value="<?php echo $data->clusterName ?>"/>
-                        </div>
-                        <div class="col-lg-8">
-                            <label>School</label>
-                            <input type="text" class="form-control" value="<?php echo $data->schoolName ?>"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <label>Area of Concerns</label>
-                    <input type="text" class="form-control" value="<?php echo $data->subjectName ?>"/>
-                </div>
-                <div class="col-lg-12">
-                    <label>Details of Technical Assistance Needed</label>
-                    <textarea class="form-control"><?php echo $data->Details ?></textarea>
-                </div>
-                <?php if(!empty($data->File)){ ?>
-                <div class="col-lg-12">
-                    <label>Attachment</label>
-                    <a class="form-control" href="<?=base_url('files')?>/<?php echo $data->File ?>" target="_BLANK"><?php echo $data->File ?></a>
-                </div>
-                <?php }?>
-                <?php if($data->Status==0){ ?>
-                <div class="col-lg-12">
-                    <label>Date of Implementation</label>
-                    <input type="date" class="form-control" name="date" required/>
-                    <div id="date-error" class="error-message text-danger text-sm"></div>
-                </div>
-                <?php }else if($data->Status==2){ ?>
-                <div class="col-lg-12">
-                    <label>Comment</label>
-                    <?php
+<form method="POST" class="row g-2" id="frmReview">
+    <?= csrf_field(); ?>
+    <input type="hidden" name="formID" value="<?php echo $data->formID ?>" />
+    <input type="hidden" name="requestorID" value="<?php echo $data->accountID ?>" />
+    <div class="col-lg-12">
+        <div class="row g-2">
+            <div class="col-lg-6">
+                <label>Fullname</label>
+                <input type="text" class="form-control" value="<?php echo $data->Fullname ?>" />
+            </div>
+            <div class="col-lg-6">
+                <label>Email Address</label>
+                <input type="email" class="form-control" value="<?php echo $data->Email ?>" />
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="row g-2">
+            <div class="col-lg-4">
+                <label>Cluster</label>
+                <input type="text" class="form-control" value="<?php echo $data->clusterName ?>" />
+            </div>
+            <div class="col-lg-8">
+                <label>School</label>
+                <input type="text" class="form-control" value="<?php echo $data->schoolName ?>" />
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <label>Area of Concerns</label>
+        <input type="text" class="form-control" value="<?php echo $data->subjectName ?>" />
+    </div>
+    <div class="col-lg-12">
+        <label>Details of Technical Assistance Needed</label>
+        <textarea class="form-control"><?php echo $data->Details ?></textarea>
+    </div>
+    <?php if(!empty($data->File)){ ?>
+    <div class="col-lg-12">
+        <label>Attachment</label>
+        <a class="form-control" href="<?=base_url('files')?>/<?php echo $data->File ?>"
+            target="_BLANK"><?php echo $data->File ?></a>
+    </div>
+    <?php }?>
+    <?php if($data->Status==0){ ?>
+    <div class="col-lg-12">
+        <label>Date of Implementation</label>
+        <input type="date" class="form-control" name="date" required />
+        <div id="date-error" class="error-message text-danger text-sm"></div>
+    </div>
+    <?php }else if($data->Status==2){ ?>
+    <div class="col-lg-12">
+        <label>Comment</label>
+        <?php
                     $comment = $commentModel->WHERE('formID',$data->formID)->WHERE('accountID',$user)->first();
                     ?>
-                    <textarea class="form-control"><?php echo $comment['Message'] ?></textarea>
-                </div>
-                <?php } ?>
-                <div class="col-lg-12">
-                    <?php if($data->Status==0){ ?>
-                    <button type="submit" class="btn btn-info accept"><i class="fa-solid fa-check"></i>&nbsp;Accept</button>
-                    <button type="button" class="btn btn-danger decline" value="<?php echo $data->formID ?>"><i class="fa-solid fa-xmark"></i>&nbsp;Revise</button>
-                    <?php }else if($data->Status==3){ ?>
-                    <button type="submit" class="btn btn-info complete" value="<?php echo $data->formID ?>"><i class="fa-solid fa-flag"></i>&nbsp;Complete</button>
-                    <?php } ?>
-                </div>
-            </form>
-            <?php
+        <textarea class="form-control"><?php echo $comment['Message'] ?></textarea>
+    </div>
+    <?php } ?>
+    <div class="col-lg-12">
+        <?php if($data->Status==0){ ?>
+        <button type="submit" class="btn btn-info accept"><i class="fa-solid fa-check"></i>&nbsp;Accept</button>
+        <button type="button" class="btn btn-danger decline" value="<?php echo $data->formID ?>"><i
+                class="fa-solid fa-xmark"></i>&nbsp;Revise</button>
+        <?php }else if($data->Status==3){ ?>
+        <button type="submit" class="btn btn-info complete" value="<?php echo $data->formID ?>"><i
+                class="fa-solid fa-flag"></i>&nbsp;Complete</button>
+        <?php } ?>
+    </div>
+</form>
+<?php
         }
     }
 
@@ -979,17 +990,17 @@ class ActionController extends BaseController
         foreach($data as $row)
         {
             ?>
-            <tr>
-                <td><?php echo $row->DateCreated ?></td>
-                <td><?php echo $row->Code ?></td>
-                <td><?php echo $row->clusterName ?></td>
-                <td><?php echo $row->schoolName ?></td>
-                <td><?php echo $row->subjectName ?></td>
-                <td><?php echo $row->Details ?></td>
-                <td><?php echo $row->actionName ?></td>
-                <td><?php echo $row->Recommendation ?></td>
-            </tr>
-            <?php
+<tr>
+    <td><?php echo $row->DateCreated ?></td>
+    <td><?php echo $row->Code ?></td>
+    <td><?php echo $row->clusterName ?></td>
+    <td><?php echo $row->schoolName ?></td>
+    <td><?php echo $row->subjectName ?></td>
+    <td><?php echo $row->Details ?></td>
+    <td><?php echo $row->actionName ?></td>
+    <td><?php echo $row->Recommendation ?></td>
+</tr>
+<?php
         }
     }
 
@@ -1011,17 +1022,19 @@ class ActionController extends BaseController
         foreach($data as $row)
         {
             ?>
-            <tr>
-                <td><?php echo $row->Code ?></td>
-                <td><?php echo $row->clusterName ?></td>
-                <td><?php echo $row->schoolName ?></td>
-                <td><?php echo $row->subjectName ?></td>
-                <td><?php echo $row->Details ?></td>
-                <td><?php echo $row->actionName ?></td>
-                <td><?php echo $row->Recommendation ?></td>
-                <td><button type="button" class="badge bg-info add" value="<?php echo $row->formID ?>"><span class="fa-solid fa-plus"></span>Add</button></td>
-            </tr>
-            <?php
+<tr>
+    <td><?php echo $row->Code ?></td>
+    <td><?php echo $row->clusterName ?></td>
+    <td><?php echo $row->schoolName ?></td>
+    <td><?php echo $row->subjectName ?></td>
+    <td><?php echo $row->Details ?></td>
+    <td><?php echo $row->actionName ?></td>
+    <td><?php echo $row->Recommendation ?></td>
+    <td><button type="button" class="badge bg-info add" value="<?php echo $row->formID ?>">
+            <span class="fa-solid fa-plus"></span>Add</button>
+    </td>
+</tr>
+<?php
         }
     }
 
