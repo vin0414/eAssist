@@ -177,7 +177,8 @@
                                             <span class="text-white text-sm">Technical Assistance</span>
                                         </div>
                                         <div class="col-4">
-                                            <p class="text-white text-sm text-end font-weight-bolder mt-auto mb-0">+55%
+                                            <p class="text-white text-sm text-end font-weight-bolder mt-auto mb-0">
+                                                <?php if($difference>=0){echo "+".$difference;}else{echo "-".$difference;}?>
                                             </p>
                                         </div>
                                     </div>
@@ -198,10 +199,6 @@
                                                 <?=$pending?>
                                             </h5>
                                             <span class="text-white text-sm">Pending</span>
-                                        </div>
-                                        <div class="col-4">
-                                            <p class="text-white text-sm text-end font-weight-bolder mt-auto mb-0">+124%
-                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -224,10 +221,6 @@
                                             </h5>
                                             <span class="text-white text-sm">Resolved</span>
                                         </div>
-                                        <div class="col-4">
-                                            <p class="text-white text-sm text-end font-weight-bolder mt-auto mb-0">+15%
-                                            </p>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -248,7 +241,8 @@
                                             <span class="text-white text-sm">Feedback</span>
                                         </div>
                                         <div class="col-4">
-                                            <p class="text-white text-sm text-end font-weight-bolder mt-auto mb-0">+90%
+                                            <p class="text-white text-sm text-end font-weight-bolder mt-auto mb-0">
+                                                <?=$totalPercent ?>%
                                             </p>
                                         </div>
                                     </div>
@@ -269,26 +263,13 @@
                                         <div class="d-flex mb-2">
                                             <span class="me-2 text-sm font-weight-bold text-dark">Positive
                                                 Reviews</span>
-                                            <span class="ms-auto text-sm font-weight-bold">80%</span>
+                                            <span class="ms-auto text-sm font-weight-bold"><?=$positive ?>%</span>
                                         </div>
                                         <div>
                                             <div class="progress progress-md">
-                                                <div class="progress-bar bg-primary w-80" role="progressbar"
-                                                    aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
-                                    <div class="w-100">
-                                        <div class="d-flex mb-2">
-                                            <span class="me-2 text-sm font-weight-bold text-dark">Neutral Reviews</span>
-                                            <span class="ms-auto text-sm font-weight-bold">17%</span>
-                                        </div>
-                                        <div>
-                                            <div class="progress progress-md">
-                                                <div class="progress-bar bg-primary w-10" role="progressbar"
-                                                    aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar bg-primary w-<?=$positive ?>"
+                                                    role="progressbar" aria-valuenow="<?=$positive ?>" aria-valuemin="0"
+                                                    aria-valuemax="100"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -298,12 +279,29 @@
                                         <div class="d-flex mb-2">
                                             <span class="me-2 text-sm font-weight-bold text-dark">Negative
                                                 Reviews</span>
-                                            <span class="ms-auto text-sm font-weight-bold">3%</span>
+                                            <span class="ms-auto text-sm font-weight-bold"><?=$negative ?>%</span>
                                         </div>
                                         <div>
                                             <div class="progress progress-md">
-                                                <div class="progress-bar bg-primary w-5" role="progressbar"
-                                                    aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar bg-primary w-<?=$negative ?>"
+                                                    role="progressbar" aria-valuenow="<?=$negative ?>" aria-valuemin="0"
+                                                    aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
+                                    <div class="w-100">
+                                        <div class="d-flex mb-2">
+                                            <span class="me-2 text-sm font-weight-bold text-dark">Overall
+                                                Reviews</span>
+                                            <span class="ms-auto text-sm font-weight-bold"><?=$totalPercent ?>%</span>
+                                        </div>
+                                        <div>
+                                            <div class="progress progress-md">
+                                                <div class="progress-bar bg-primary w-<?=$totalPercent ?>"
+                                                    role="progressbar" aria-valuenow="<?=$totalPercent ?>"
+                                                    aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -313,13 +311,16 @@
                         <div class="card-footer pt-0 p-3 d-flex align-items-center">
                             <div class="w-60">
                                 <p class="text-sm">
-                                    More than <b>1,500,000</b> developers used Creative Tim's products and over
-                                    <b>700,000</b> projects were created.
+                                    We’ve identified areas for improvement and will focus on enhancing our support
+                                    services in the coming months.
                                 </p>
                             </div>
+                            <?php if(session()->get('user_type')=="PSDS"){ ?>
                             <div class="w-40 text-end">
-                                <a class="btn btn-dark mb-0 text-end" href="javascript:;">View all reviews</a>
+                                <a class="btn btn-dark mb-0 text-end" href="<?=site_url('feedback')?>">View all
+                                    reviews</a>
                             </div>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>

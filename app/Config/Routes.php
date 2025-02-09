@@ -81,6 +81,8 @@ $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
 
 $routes->group('',['filter'=>'AuthCheck'],function($routes)
 {
+    //feedback and rates
+    $routes->get('/feedback','Home::viewFeedback');
     //admin
     $routes->get('/overview','Home::adminDashboard');
     $routes->get('/technical-assistance','Home::techAssistance');

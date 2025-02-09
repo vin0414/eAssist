@@ -182,8 +182,61 @@ class Home extends BaseController
             //feedback
             $feedbackModel = new \App\Models\feedbackModel();
             $feed = $feedbackModel->countAllResults();
+            //get the total feedback
+            $positive = [6,7,8,9,10];
+            $negative = [1,2,3,4,5];
+            $totalFeedback = $feedbackModel->countAllResults();
+            $positiveFeedback = $feedbackModel->WHEREIN('Rate',$positive)->countAllResults();
+            $negativeFeedback = $feedbackModel->WHEREIN('Rate',$negative)->countAllResults();
+            //generate percentage
+            $positivePercent = ($positiveFeedback/$totalFeedback)*100;
+            $negativePercent = ($negativeFeedback/$totalFeedback)*100;
+            //compute the sum of all rates
+            $builder = $this->db->table('tblfeedback');
+            $builder->select('sum(Rate)total');
+            $sumRate = $builder->get()->getRow();
+            $totalPercent = ($sumRate->total/($totalFeedback*10))*100;
+            //compute the difference between previous and current month
+            $currentMonth = date('m'); // Current month (e.g., 02 for February)
+            $currentYear = date('Y');  // Current year (e.g., 2025)
 
-            $data = ['title'=>$title,'total'=>$totalForm,'pending'=>$pendingForm,'resolved'=>$resolvedForm,'feed'=>$feed];
+            $previousMonth = $currentMonth - 1;
+            $previousYear = $currentYear;
+
+            if ($previousMonth == 0) {
+                $previousMonth = 12;
+                $previousYear -= 1;  // If the current month is January, previous month is December
+            }
+            $queryCurrentMonth = "SELECT COUNT(Rate) AS total FROM tblfeedback
+                      WHERE DATE_FORMAT(DateCreated,'%m') = $currentMonth
+                      AND DATE_FORMAT(DateCreated,'%Y') = $currentYear";
+
+            $resultCurrentMonth = $this->db->query($queryCurrentMonth);
+            $currentResult = $resultCurrentMonth->getRow();
+
+            // Query to get the average feedback for the previous month
+            $queryPreviousMonth = "SELECT COUNT(Rate) AS total FROM tblfeedback
+                                WHERE DATE_FORMAT(DateCreated,'%m') = $previousMonth 
+                                AND DATE_FORMAT(DateCreated,'%Y') = $previousYear";
+
+            $resultPreviousMonth = $this->db->query($queryPreviousMonth);
+            $previousResult = $resultPreviousMonth->getRow();
+
+            if ($currentResult->total === NULL) {
+                $currentResult->total = 0;  // If no feedback for the current month, set to 0
+            }
+            
+            if ($previousResult->total === NULL) {
+                $previousResult->total = 0;  // If no feedback for the previous month, set to 0
+            }
+            
+            $absoluteDifference = $currentResult->total - $previousResult->total;
+
+            $data = ['title'=>$title,'total'=>$totalForm,
+                    'pending'=>$pendingForm,'resolved'=>$resolvedForm,
+                    'feed'=>$feed,'positive'=>$positivePercent,
+                    'negative'=>$negativePercent,'totalPercent'=>$totalPercent,
+                    'difference'=>$absoluteDifference];
             return view('admin/index',$data);
         }
         return redirect()->back();
@@ -340,8 +393,61 @@ class Home extends BaseController
             //feedback
             $feedbackModel = new \App\Models\feedbackModel();
             $feed = $feedbackModel->countAllResults();
+            //get the total feedback
+            $positive = [6,7,8,9,10];
+            $negative = [1,2,3,4,5];
+            $totalFeedback = $feedbackModel->countAllResults();
+            $positiveFeedback = $feedbackModel->WHEREIN('Rate',$positive)->countAllResults();
+            $negativeFeedback = $feedbackModel->WHEREIN('Rate',$negative)->countAllResults();
+            //generate percentage
+            $positivePercent = ($positiveFeedback/$totalFeedback)*100;
+            $negativePercent = ($negativeFeedback/$totalFeedback)*100;
+            //compute the sum of all rates
+            $builder = $this->db->table('tblfeedback');
+            $builder->select('sum(Rate)total');
+            $sumRate = $builder->get()->getRow();
+            $totalPercent = ($sumRate->total/($totalFeedback*10))*100;
+            //compute the difference between previous and current month
+            $currentMonth = date('m'); // Current month (e.g., 02 for February)
+            $currentYear = date('Y');  // Current year (e.g., 2025)
 
-            $data = ['title'=>$title,'total'=>$totalForm,'pending'=>$pendingForm,'resolved'=>$resolvedForm,'feed'=>$feed];
+            $previousMonth = $currentMonth - 1;
+            $previousYear = $currentYear;
+
+            if ($previousMonth == 0) {
+                $previousMonth = 12;
+                $previousYear -= 1;  // If the current month is January, previous month is December
+            }
+            $queryCurrentMonth = "SELECT COUNT(Rate) AS total FROM tblfeedback
+                      WHERE DATE_FORMAT(DateCreated,'%m') = $currentMonth
+                      AND DATE_FORMAT(DateCreated,'%Y') = $currentYear";
+
+            $resultCurrentMonth = $this->db->query($queryCurrentMonth);
+            $currentResult = $resultCurrentMonth->getRow();
+
+            // Query to get the average feedback for the previous month
+            $queryPreviousMonth = "SELECT COUNT(Rate) AS total FROM tblfeedback
+                                WHERE DATE_FORMAT(DateCreated,'%m') = $previousMonth 
+                                AND DATE_FORMAT(DateCreated,'%Y') = $previousYear";
+
+            $resultPreviousMonth = $this->db->query($queryPreviousMonth);
+            $previousResult = $resultPreviousMonth->getRow();
+
+            if ($currentResult->total === NULL) {
+                $currentResult->total = 0;  // If no feedback for the current month, set to 0
+            }
+            
+            if ($previousResult->total === NULL) {
+                $previousResult->total = 0;  // If no feedback for the previous month, set to 0
+            }
+            
+            $absoluteDifference = $currentResult->total - $previousResult->total;
+
+            $data = ['title'=>$title,'total'=>$totalForm,
+                    'pending'=>$pendingForm,'resolved'=>$resolvedForm,
+                    'feed'=>$feed,'positive'=>$positivePercent,
+                    'negative'=>$negativePercent,'totalPercent'=>$totalPercent,
+                    'difference'=>$absoluteDifference];
             return view('manager/index',$data);
         }
         return redirect()->back();
@@ -400,8 +506,62 @@ class Home extends BaseController
             //feedback
             $feedbackModel = new \App\Models\feedbackModel();
             $feed = $feedbackModel->countAllResults();
+            //get the total feedback
+            $positive = [6,7,8,9,10];
+            $negative = [1,2,3,4,5];
+            $totalFeedback = $feedbackModel->countAllResults();
+            $positiveFeedback = $feedbackModel->WHEREIN('Rate',$positive)->countAllResults();
+            $negativeFeedback = $feedbackModel->WHEREIN('Rate',$negative)->countAllResults();
+            //generate percentage
+            $positivePercent = ($positiveFeedback/$totalFeedback)*100;
+            $negativePercent = ($negativeFeedback/$totalFeedback)*100;
+            //compute the sum of all rates
+            $builder = $this->db->table('tblfeedback');
+            $builder->select('sum(Rate)total');
+            $sumRate = $builder->get()->getRow();
+            $totalPercent = ($sumRate->total/($totalFeedback*10))*100;
+            //compute the difference between previous and current month
+            $currentMonth = date('m'); // Current month (e.g., 02 for February)
+            $currentYear = date('Y');  // Current year (e.g., 2025)
 
-            $data = ['title'=>$title,'total'=>$totalForm,'pending'=>$pendingForm,'resolved'=>$resolvedForm,'feed'=>$feed];
+            $previousMonth = $currentMonth - 1;
+            $previousYear = $currentYear;
+
+            if ($previousMonth == 0) {
+                $previousMonth = 12;
+                $previousYear -= 1;  // If the current month is January, previous month is December
+            }
+            $queryCurrentMonth = "SELECT COUNT(Rate) AS total FROM tblfeedback
+                      WHERE DATE_FORMAT(DateCreated,'%m') = $currentMonth
+                      AND DATE_FORMAT(DateCreated,'%Y') = $currentYear";
+
+            $resultCurrentMonth = $this->db->query($queryCurrentMonth);
+            $currentResult = $resultCurrentMonth->getRow();
+
+            // Query to get the average feedback for the previous month
+            $queryPreviousMonth = "SELECT COUNT(Rate) AS total FROM tblfeedback
+                                WHERE DATE_FORMAT(DateCreated,'%m') = $previousMonth 
+                                AND DATE_FORMAT(DateCreated,'%Y') = $previousYear";
+
+            $resultPreviousMonth = $this->db->query($queryPreviousMonth);
+            $previousResult = $resultPreviousMonth->getRow();
+
+            if ($currentResult->total === NULL) {
+                $currentResult->total = 0;  // If no feedback for the current month, set to 0
+            }
+            
+            if ($previousResult->total === NULL) {
+                $previousResult->total = 0;  // If no feedback for the previous month, set to 0
+            }
+            
+            $absoluteDifference = $currentResult->total - $previousResult->total;
+
+
+            $data = ['title'=>$title,'total'=>$totalForm,
+                    'pending'=>$pendingForm,'resolved'=>$resolvedForm,
+                    'feed'=>$feed,'positive'=>$positivePercent,
+                    'negative'=>$negativePercent,'totalPercent'=>$totalPercent,
+                    'difference'=>$absoluteDifference];
             return view('user/index',$data);
         }
         return redirect()->back();
@@ -500,5 +660,24 @@ class Home extends BaseController
                 }
             }
         }
+    }
+
+    public function viewFeedback()
+    {
+        if(session()->get('role')=="Administrator" && session()->get('user_type')=="PSDS")
+        {
+            $title = "Feedback and Rates";
+            //feedback
+            $builder = $this->db->table('tblfeedback a');
+            $builder->select('a.*,b.Fullname,c.schoolName');
+            $builder->join('tblaccount b','b.accountID=a.accountID','LEFT');
+            $builder->join('tblschool c','c.schoolID=a.schoolID','LEFT');
+            $builder->groupBy('a.feedID');
+            $feed = $builder->get()->getResult();
+
+            $data = ['title'=>$title,'feed'=>$feed];
+            return view('feedback',$data);
+        }
+        return redirect()->back();
     }
 }

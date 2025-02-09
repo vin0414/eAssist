@@ -481,7 +481,11 @@ class ActionController extends BaseController
             }
             //get the form ID
             $form = $formModel->WHERE('Details',$this->request->getPost('details'))
+                              ->WHERE('subjectID',$this->request->getPost('area'))
                               ->WHERE('priorityLevel',$this->request->getPost('priority'))
+                              ->WHERE('DateCreated',$date)
+                              ->WHERE('accountID',$user)
+                              ->WHERE('Status',0)
                               ->first();
             //send to EPS/PSDS
             $count = count($users);

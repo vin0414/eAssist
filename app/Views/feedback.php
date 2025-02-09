@@ -12,6 +12,7 @@
     <!-- Nucleo Icons -->
     <link href="<?=base_url('assets/css/nucleo-icons.css')?>" rel="stylesheet" />
     <link href="<?=base_url('assets/css/nucleo-svg.css')?>" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.dataTables.css" />
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
@@ -21,9 +22,11 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- CSS Files -->
     <link id="pagestyle" href="<?=base_url('assets/css/soft-ui-dashboard.css?v=1.1.0')?>" rel="stylesheet" />
-    <!-- Nepcha Analytics (nepcha.com) -->
-    <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-    <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+    <style>
+    p {
+        font-size: 12px;
+    }
+    </style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -41,7 +44,7 @@
         <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main" style="height: 100%;">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="<?=site_url('user/overview')?>">
+                    <a class="nav-link" href="<?=site_url('/overview')?>">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1"
@@ -68,7 +71,25 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?=site_url('user/technical-assistance')?>">
+                    <a class="nav-link active" href="<?=site_url('/feedback')?>">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <svg fill="#000000" version="1.1" baseProfile="tiny" id="Layer_1" xmlns:x="&ns_extend;"
+                                xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink"
+                                xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" width="12px" height="12px"
+                                viewBox="0 0 42 42" xml:space="preserve">
+                                <path d="M6.5,25.5v4c0.016,2.812,1.344,2.375,2.328,1.531L14.5,25.91v2.59c0,2.43,0.56,3,3,3h9c0,0,5.209,6.125,5.25,6.084
+                                c0.75,0.916,2.781,0.604,2.75-1.084v-5h3c2.45,0,3-0.609,3-3v-15c0-2.4-0.59-3-3-3h-10v-2c0-2.47-0.46-3-3-3h-21c-2.36,0-3,0.51-3,3
+                                v13c0,2.439,0.55,4,3,4H6.5z M31.5,28.5v4.721l-4-4.721h-9c-0.75,0-1-0.27-1-1v-13c0-0.67,0.31-1,1-1h18c0.689,0,1,0.37,1,0.94V27.5
+                                c0,0.721-0.359,1-1,1H31.5z" />
+                            </svg>
+                        </div>
+                        <span class="nav-link-text ms-1">Feedback</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?=site_url('/technical-assistance')?>">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 24 24" fill="none"
@@ -78,11 +99,42 @@
                                     stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Request</span>
+                        <span class="nav-link-text ms-1">Technical Assistance</span>
+                    </a>
+                </li>
+                <?php if(session()->get('user_type')=="ADMIN"){ ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?=site_url('/cluster-and-schools')?>">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <svg width="12px" height="12px" viewBox="0 0 15 15" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M7.5 4.5L11.5 6.5V14.5H3.5V6.5L7.5 4.5ZM7.5 4.5V0M0 14.5H15M1.5 14.5V8.5H3.5M13.5 14.5V8.5H11.5M6.5 14.5V11.5H8.5V14.5M7.5 0.5H10.5V2.5H7.5M7.5 9.5C6.94772 9.5 6.5 9.05228 6.5 8.5C6.5 7.94772 6.94772 7.5 7.5 7.5C8.05228 7.5 8.5 7.94772 8.5 8.5C8.5 9.05228 8.05228 9.5 7.5 9.5Z"
+                                    stroke="#000000" />
+                            </svg>
+                        </div>
+                        <span class="nav-link-text ms-1">Cluster & Schools</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  " href="<?=site_url('user/feedback')?>">
+                    <a class="nav-link" href="<?=site_url('/user-accounts')?>">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <svg fill="#000000" width="18px" height="18px" viewBox="-6 0 32 32" version="1.1"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <title>users</title>
+                                <path
+                                    d="M17 11.8c-0.28-1.4-1.4-2.52-2.84-2.84-0.36-1.68-1.84-2.92-3.6-2.92h-6.88c-2.040 0-3.68 1.64-3.68 3.68v6.88c0 1.76 1.24 3.24 2.92 3.6 0.28 1.4 1.4 2.52 2.84 2.84 0.36 1.68 1.84 2.92 3.6 2.92h6.88c2.040 0 3.68-1.64 3.68-3.68v-6.88c0-1.76-1.24-3.24-2.92-3.6zM18.24 15.4v6.88c0 0.080 0 0.16 0 0.24-0.48-1.12-1.32-2.080-2.4-2.72 0.24-0.48 0.36-1 0.36-1.56 0-1.88-1.52-3.4-3.4-3.4s-3.4 1.52-3.4 3.4c0 0.56 0.12 1.080 0.36 1.56-1.080 0.64-1.88 1.6-2.4 2.72 0-0.080 0-0.16 0-0.24v-6.88c0-1.12 0.88-2 2-2h6.88c1.12 0 2 0.88 2 2zM11.040 18.28c0-0.96 0.76-1.72 1.72-1.72s1.72 0.76 1.72 1.72c0 0.96-0.76 1.72-1.72 1.72-0.92 0-1.72-0.76-1.72-1.72zM1.68 16.6v-6.88c0-1.12 0.88-2 2-2h6.88c0.8 0 1.48 0.48 1.8 1.16h-5.84c-2.040 0-3.68 1.64-3.68 3.68v5.88c-0.68-0.32-1.16-1.040-1.16-1.84zM4.52 19.44v-6.88c0-1.12 0.88-2 2-2h6.88c0.8 0 1.48 0.48 1.8 1.16h-5.84c-2.040 0-3.68 1.64-3.68 3.68v5.88c-0.68-0.32-1.16-1.040-1.16-1.84zM9.36 24.28c-0.28 0-0.52-0.040-0.76-0.16 0-0.040 0.040-0.080 0.040-0.12 0.28-1.24 1.12-2.32 2.28-2.92 0.56 0.36 1.2 0.56 1.88 0.56s1.36-0.2 1.88-0.56c1.16 0.6 2 1.64 2.28 2.92 0 0.040 0.040 0.080 0.040 0.12-0.24 0.080-0.48 0.16-0.76 0.16h-6.88z">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="nav-link-text ms-1">User Accounts</span>
+                    </a>
+                </li>
+                <?php } ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?=site_url('/reports')?>">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1"
@@ -98,32 +150,14 @@
                                 </g>
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Feedback</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://csm.depedgentri.com/csm.php" target="_BLANK">
-                        <div
-                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <svg width="12px" height="12px" viewBox="0 0 48 48" version="1"
-                                xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 48 48">
-                                <path fill="#78909C"
-                                    d="M40,41H8c-2.2,0-4-1.8-4-4l0-20.9c0-1.3,0.6-2.5,1.7-3.3L24,0l18.3,12.8c1.1,0.7,1.7,2,1.7,3.3V37 C44,39.2,42.2,41,40,41z" />
-                                <rect x="12" y="11" fill="#ffffff" width="24" height="22" />
-                                <polygon fill="#9C27B0" points="24,13.6 18,21.4 30,21.4" />
-                                <path fill="#CFD8DC"
-                                    d="M40,41H8c-2.2,0-4-1.8-4-4l0-20l20,13l20-13v20C44,39.2,42.2,41,40,41z" />
-                                <polygon fill="#9C27B0" points="24,28 26,26.7 26,20 22,20 22,26.7" />
-                            </svg>
-                        </div>
-                        <span class="nav-link-text ms-1">Client Satisfaction</span>
+                        <span class="nav-link-text ms-1">Reports</span>
                     </a>
                 </li>
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  " href="<?=site_url('user/account')?>">
+                    <a class="nav-link" href="<?=site_url('account')?>">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1"
@@ -173,196 +207,56 @@
     </aside>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        <?= $this->include('templates/header'); ?>
+        <?= $this->include('admin/templates/header'); ?>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
-            <div class="row">
-                <div class="col-lg-6 col-12">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-12">
-                            <div class="card">
-                                <span class="mask bg-primary opacity-10 border-radius-lg"></span>
-                                <div class="card-body p-3 position-relative">
-                                    <div class="row">
-                                        <div class="col-8 text-start">
-                                            <div class="icon icon-shape bg-white shadow text-center border-radius-2xl">
-                                                <i
-                                                    class="fa-solid fa-tty text-dark text-gradient text-lg opacity-10"></i>
-                                            </div>
-                                            <h5 class="text-white font-weight-bolder mb-0 mt-3">
-                                                <?=$total?>
-                                            </h5>
-                                            <span class="text-white text-sm">Technical Assistance</span>
-                                        </div>
-                                        <div class="col-4">
-                                            <p class="text-white text-sm text-end font-weight-bolder mt-auto mb-0">
-                                                <?php if($difference>=0){echo "+".$difference;}else{echo "-".$difference;}?>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-12 mt-4 mt-md-0">
-                            <div class="card">
-                                <span class="mask bg-dark border-radius-lg"></span>
-                                <div class="card-body p-3 position-relative">
-                                    <div class="row">
-                                        <div class="col-8 text-start">
-                                            <div class="icon icon-shape bg-white shadow text-center border-radius-2xl">
-                                                <i
-                                                    class="fa-solid fa-envelope-open-text text-dark text-gradient text-lg opacity-10"></i>
-                                            </div>
-                                            <h5 class="text-white font-weight-bolder mb-0 mt-3">
-                                                <?=$pending?>
-                                            </h5>
-                                            <span class="text-white text-sm">Pending</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-lg-6 col-md-6 col-12">
-                            <div class="card">
-                                <span class="mask bg-gradient-success opacity-10 border-radius-lg"></span>
-                                <div class="card-body p-3 position-relative">
-                                    <div class="row">
-                                        <div class="col-8 text-start">
-                                            <div class="icon icon-shape bg-white shadow text-center border-radius-2xl">
-                                                <i
-                                                    class="fa-solid fa-envelope-circle-check text-dark text-gradient text-lg opacity-10"></i>
-                                            </div>
-                                            <h5 class="text-white font-weight-bolder mb-0 mt-3">
-                                                <?=$resolved?>
-                                            </h5>
-                                            <span class="text-white text-sm">Resolved</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-12 mt-4 mt-md-0">
-                            <div class="card">
-                                <span class="mask bg-dark opacity-10 border-radius-lg"></span>
-                                <div class="card-body p-3 position-relative">
-                                    <div class="row">
-                                        <div class="col-8 text-start">
-                                            <div class="icon icon-shape bg-white shadow text-center border-radius-2xl">
-                                                <i
-                                                    class="fa-regular fa-comment-dots text-dark text-gradient text-lg opacity-10"></i>
-                                            </div>
-                                            <h5 class="text-white font-weight-bolder mb-0 mt-3">
-                                                <?=$feed?>
-                                            </h5>
-                                            <span class="text-white text-sm">Feedback</span>
-                                        </div>
-                                        <div class="col-4">
-                                            <p class="text-white text-sm text-end font-weight-bolder mt-auto mb-0">
-                                                <?=$totalPercent ?>%
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <div class="card">
+                <div class="card-header p-3 pb-0">
+                    <div class="d-flex align-items-center">
+                        <h6 class="mb-0">
+                            <img src="<?=base_url('assets/img/logo.png')?>" width="30px" />&nbsp;Feedback and Rates
+                        </h6>
                     </div>
                 </div>
-                <div class="col-lg-6 col-12 mt-4 mt-lg-0">
-                    <div class="card shadow h-100">
-                        <div class="card-header pb-0 p-3">
-                            <h6 class="mb-0">Reviews</h6>
-                        </div>
-                        <div class="card-body pb-0 p-3">
-                            <ul class="list-group">
-                                <li class="list-group-item border-0 d-flex align-items-center px-0 mb-0">
-                                    <div class="w-100">
-                                        <div class="d-flex mb-2">
-                                            <span class="me-2 text-sm font-weight-bold text-dark">Positive
-                                                Reviews</span>
-                                            <span class="ms-auto text-sm font-weight-bold"><?=$positive ?>%</span>
-                                        </div>
-                                        <div>
-                                            <div class="progress progress-md">
-                                                <div class="progress-bar bg-primary w-<?=$positive ?>"
-                                                    role="progressbar" aria-valuenow="<?=$positive ?>" aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
-                                    <div class="w-100">
-                                        <div class="d-flex mb-2">
-                                            <span class="me-2 text-sm font-weight-bold text-dark">Negative
-                                                Reviews</span>
-                                            <span class="ms-auto text-sm font-weight-bold"><?=$negative ?>%</span>
-                                        </div>
-                                        <div>
-                                            <div class="progress progress-md">
-                                                <div class="progress-bar bg-primary w-<?=$negative ?>"
-                                                    role="progressbar" aria-valuenow="<?=$negative ?>" aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
-                                    <div class="w-100">
-                                        <div class="d-flex mb-2">
-                                            <span class="me-2 text-sm font-weight-bold text-dark">Overall
-                                                Reviews</span>
-                                            <span class="ms-auto text-sm font-weight-bold"><?=$totalPercent ?>%</span>
-                                        </div>
-                                        <div>
-                                            <div class="progress progress-md">
-                                                <div class="progress-bar bg-primary w-<?=$totalPercent ?>"
-                                                    role="progressbar" aria-valuenow="<?=$totalPercent ?>"
-                                                    aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="card-footer pt-0 p-3 d-flex align-items-center">
-                            <div class="w-60">
-                                <p class="text-sm">
-                                    We’ve identified areas for improvement and will focus on enhancing our support
-                                    services in the coming months.
-                                </p>
-                            </div>
-                        </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-flush" id="datatable-search" style="font-size:12px;">
+                            <thead class="thead-light">
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Date Created
+                                </th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Fullname
+                                </th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    School Name
+                                </th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    T.A. ID
+                                </th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Rate
+                                </th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Message
+                                </th>
+                            </thead>
+                            <tbody>
+                                <?php foreach($feed as $row): ?>
+                                <tr>
+                                    <td><?php echo date('Y-M-d',strtotime($row->DateCreated)) ?></td>
+                                    <td><?php echo $row->Fullname ?></td>
+                                    <td><?php echo $row->schoolName ?></td>
+                                    <td><?php echo $row->Code ?></td>
+                                    <td><?php echo $row->Rate ?>&nbsp;Stars</td>
+                                    <td><?php echo $row->Message ?></td>
+                                </tr>
+                                <?php endforeach;?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            <div class="row my-4">
-                <div class="col-lg-12 mb-md-0 mb-4">
-                    <div class="card card-calendar">
-                        <div class="card-body p-3">
-                            <div class="calendar" data-bs-toggle="calendar" id="calendar"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <footer class="footer pt-3  ">
-                <div class="container-fluid">
-                    <div class="row align-items-center justify-content-lg-between">
-                        <div class="col-lg-6 mb-lg-0 mb-4">
-                            <div class="copyright text-center text-sm text-muted text-lg-start">
-                                © <script>
-                                document.write(new Date().getFullYear())
-                                </script>,
-                                made with <i class="fa fa-heart"></i> by
-                                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative
-                                    Tim</a>
-                                for a better web.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
         </div>
     </main>
     <div class="fixed-plugin">
@@ -433,60 +327,13 @@
     <script src="<?=base_url('assets/js/plugins/perfect-scrollbar.min.js')?>"></script>
     <script src="<?=base_url('assets/js/plugins/smooth-scrollbar.min.js')?>"></script>
     <script src="<?=base_url('assets/js/plugins/chartjs.min.js')?>"></script>
-    <script src="<?=base_url('assets/js/fullcalendar.min.js')?>"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
     <script>
-    <?php $eventData = array();?>
-    <?php 
-        $db = db_connect();
-        $builder = $db->table('tblaction a');
-        $builder->select('a.formID,a.ImplementationDate,b.Code,c.subjectName');
-        $builder->join('tblform  b','b.formID=a.formID','LEFT');
-        $builder->join('tblsubject c','c.subjectID=b.subjectID','LEFT');
-        $builder->WHERE('b.Status',3)->groupBy('a.actionID');
-        $data = $builder->get();
-        foreach($data->getResult() as $row)
-        {
-            $tempArray = array( "title" =>$row->Code,"description" =>$row->subjectName,"start" => $row->ImplementationDate,"end" => $row->ImplementationDate);
-            array_push($eventData, $tempArray);
-        }
-      ?>
-    const jsonData = <?php echo json_encode($eventData); ?>;
-    var calendar = new FullCalendar.Calendar(document.getElementById("calendar"), {
-        contentHeight: 'auto',
-        initialView: "dayGridMonth",
-        headerToolbar: {
-            start: 'title', // will normally be on the left. if RTL, will be on the right
-            center: '',
-            end: 'today prev,next' // will normally be on the right. if RTL, will be on the left
-        },
-        selectable: true,
-        editable: true,
-        views: {
-            month: {
-                titleFormat: {
-                    month: "long",
-                    year: "numeric"
-                }
-            },
-            agendaWeek: {
-                titleFormat: {
-                    month: "long",
-                    year: "numeric",
-                    day: "numeric"
-                }
-            },
-            agendaDay: {
-                titleFormat: {
-                    month: "short",
-                    year: "numeric",
-                    day: "numeric"
-                }
-            }
-        },
-        events: jsonData
+    $(document).ready(function() {
+        $('#datatable-search').DataTable();
     });
-
-    calendar.render();
     </script>
     <script>
     var win = navigator.platform.indexOf('Win') > -1;
