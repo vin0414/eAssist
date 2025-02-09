@@ -207,7 +207,7 @@ class Home extends BaseController
                 $previousMonth = 12;
                 $previousYear -= 1;  // If the current month is January, previous month is December
             }
-            $queryCurrentMonth = "SELECT COUNT(Rate) AS total FROM tblfeedback
+            $queryCurrentMonth = "SELECT COUNT(formID) AS total FROM tblform
                       WHERE DATE_FORMAT(DateCreated,'%m') = $currentMonth
                       AND DATE_FORMAT(DateCreated,'%Y') = $currentYear";
 
@@ -215,7 +215,7 @@ class Home extends BaseController
             $currentResult = $resultCurrentMonth->getRow();
 
             // Query to get the average feedback for the previous month
-            $queryPreviousMonth = "SELECT COUNT(Rate) AS total FROM tblfeedback
+            $queryPreviousMonth = "SELECT COUNT(formID) AS total FROM tblform
                                 WHERE DATE_FORMAT(DateCreated,'%m') = $previousMonth 
                                 AND DATE_FORMAT(DateCreated,'%Y') = $previousYear";
 
@@ -418,7 +418,7 @@ class Home extends BaseController
                 $previousMonth = 12;
                 $previousYear -= 1;  // If the current month is January, previous month is December
             }
-            $queryCurrentMonth = "SELECT COUNT(Rate) AS total FROM tblfeedback
+            $queryCurrentMonth = "SELECT COUNT(formID) AS total FROM tblform
                       WHERE DATE_FORMAT(DateCreated,'%m') = $currentMonth
                       AND DATE_FORMAT(DateCreated,'%Y') = $currentYear";
 
@@ -426,7 +426,7 @@ class Home extends BaseController
             $currentResult = $resultCurrentMonth->getRow();
 
             // Query to get the average feedback for the previous month
-            $queryPreviousMonth = "SELECT COUNT(Rate) AS total FROM tblfeedback
+            $queryPreviousMonth = "SELECT COUNT(formID) AS total FROM tblform
                                 WHERE DATE_FORMAT(DateCreated,'%m') = $previousMonth 
                                 AND DATE_FORMAT(DateCreated,'%Y') = $previousYear";
 
@@ -531,7 +531,7 @@ class Home extends BaseController
                 $previousMonth = 12;
                 $previousYear -= 1;  // If the current month is January, previous month is December
             }
-            $queryCurrentMonth = "SELECT COUNT(Rate) AS total FROM tblfeedback
+            $queryCurrentMonth = "SELECT COUNT(formID) AS total FROM tblform
                       WHERE DATE_FORMAT(DateCreated,'%m') = $currentMonth
                       AND DATE_FORMAT(DateCreated,'%Y') = $currentYear";
 
@@ -539,7 +539,7 @@ class Home extends BaseController
             $currentResult = $resultCurrentMonth->getRow();
 
             // Query to get the average feedback for the previous month
-            $queryPreviousMonth = "SELECT COUNT(Rate) AS total FROM tblfeedback
+            $queryPreviousMonth = "SELECT COUNT(formID) AS total FROM tblform
                                 WHERE DATE_FORMAT(DateCreated,'%m') = $previousMonth 
                                 AND DATE_FORMAT(DateCreated,'%Y') = $previousYear";
 
