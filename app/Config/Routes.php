@@ -92,6 +92,7 @@ $routes->group('',['filter'=>'AuthCheck'],function($routes)
     $routes->get('/cluster-and-schools','Home::clusterAndSchools');
     $routes->get('/reports','Home::reports');
     $routes->get('/account','Home::myAccount');
+    $routes->get('/about','Home::systemInfo');
     //manager
     $routes->get('/manager/overview','Home::managerDashboard');
     $routes->get('/manager/technical-assistance','Home::managerTechnicalAssistance');

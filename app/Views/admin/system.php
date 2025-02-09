@@ -116,7 +116,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  " href="<?=site_url('/about')?>">
+                    <a class="nav-link active" href="<?=site_url('/about')?>">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg fill="#000000" width="18px" height="18px" viewBox="0 0 100 100" data-name="Layer 1"
@@ -156,7 +156,7 @@
                     <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="<?=site_url('account')?>">
+                    <a class="nav-link" href="<?=site_url('account')?>">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1"
@@ -209,102 +209,26 @@
         <?= view('admin/templates/header'); ?>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
-            <div class="row g-3">
-                <div class="col-lg-8">
-                    <div class="card">
-                        <div class="card-header p-3 pb-0">
-                            <div class="d-flex align-items-center">
-                                <h6 class="mb-0">
-                                    <i class="fa-solid fa-user-shield"></i>&nbsp;Basic Information
-                                </h6>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <?php if($account): ?>
-                            <div class="row g-3">
-                                <div class="col-lg-12">
-                                    <label>Fullname</label>
-                                    <input type="text" class="form-control"
-                                        value="<?php echo $account['Fullname'] ?>" />
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="row g-3">
-                                        <div class="col-lg-6">
-                                            <label>Position/Designation</label>
-                                            <input type="text" class="form-control"
-                                                value="<?php echo $account['Position'] ?>" />
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label>Office</label>
-                                            <input type="text" class="form-control"
-                                                value="<?php echo $account['Office'] ?>" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="row g-3">
-                                        <div class="col-lg-6">
-                                            <label>Email Address</label>
-                                            <input type="email" class="form-control"
-                                                value="<?php echo $account['Email'] ?>" />
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <label>User Type</label>
-                                            <input type="text" class="form-control"
-                                                value="<?php echo $account['userType'] ?>" />
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <label>System Role</label>
-                                            <input type="text" class="form-control"
-                                                value="<?php echo $account['Role'] ?>" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <label>Account Token</label>
-                                    <input type="text" class="form-control" value="<?php echo $account['Token'] ?>" />
-                                </div>
-                            </div>
-                            <?php endif; ?>
-                        </div>
-                    </div>
+            <ul class="nav nav-tabs" id="myTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"
+                        aria-controls="home" aria-selected="true">About</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="log-tab" data-bs-toggle="tab" href="#log" role="tab" aria-controls="log"
+                        aria-selected="false">System Logs</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="repo-tab" data-bs-toggle="tab" href="#profile" role="tab"
+                        aria-controls="profile" aria-selected="false">Back-Up & Restore</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabsContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 </div>
-                <div class="col-lg-4">
-                    <div class="card">
-                        <div class="card-header p-3 pb-0">
-                            <div class="d-flex align-items-center">
-                                <h6 class="mb-0">
-                                    <i class="fa-solid fa-lock"></i>&nbsp;Account Security
-                                </h6>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <form class="row g-3" method="POST" id="frmPassword">
-                                <div class="col-lg-12">
-                                    <label>Current Password</label>
-                                    <input type="password" class="form-control" name="current_password" required />
-                                    <div id="current_password-error" class="error-message text-danger text-sm"></div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <label>New Password</label>
-                                    <input type="password" class="form-control" name="new_password" required />
-                                    <div id="new_password-error" class="error-message text-danger text-sm"></div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <label>Confirm Password</label>
-                                    <input type="password" class="form-control" name="confirm_password" required />
-                                    <div id="confirm_password-error" class="error-message text-danger text-sm"></div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <input type="checkbox" name="showPassword" value="Yes" /><label>Show
-                                        Password</label>
-                                </div>
-                                <div class="col-lg-12">
-                                    <button type="submit" class="btn btn-info">Save Changes</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                <div class="tab-pane fade" id="log" role="tabpanel" aria-labelledby="log-tab">
+                </div>
+                <div class="tab-pane fade" id="repo" role="tabpanel" aria-labelledby="repo-tab">
                 </div>
             </div>
         </div>
@@ -379,37 +303,6 @@
     <script src="<?=base_url('assets/js/plugins/chartjs.min.js')?>"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-    $('#frmPassword').on('submit', function(e) {
-        e.preventDefault();
-        let data = $(this).serialize();
-        $('.error-message').html('');
-        $.ajax({
-            url: "<?=site_url('change-password')?>",
-            method: "POST",
-            data: data,
-            success: function(response) {
-                if (response.success) {
-                    $('#frmPassword')[0].reset();
-                    Swal.fire({
-                        title: "Great!",
-                        text: "Successfully applied changes",
-                        icon: "success"
-                    });
-                } else {
-                    var errors = response.error;
-                    // Iterate over each error and display it under the corresponding input field
-                    for (var field in errors) {
-                        $('#' + field + '-error').html('<p>' + errors[field] +
-                            '</p>'); // Show the first error message
-                        $('#' + field).addClass(
-                            'text-danger'); // Highlight the input field with an error
-                    }
-                }
-            }
-        });
-    });
-    </script>
     <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

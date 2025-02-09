@@ -377,6 +377,13 @@ class Home extends BaseController
         return redirect()->back();
     }
 
+    public function systemInfo()
+    {
+        $title = "System and Logs";
+        $data = ['title'=>$title];
+        return view('admin/system',$data);
+    }
+
     /// manager
     public function managerDashboard()
     {
