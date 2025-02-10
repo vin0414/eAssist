@@ -4,9 +4,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('assets/img/logo.png')?>">
-  <link rel="icon" type="image/png" href="<?=base_url('assets/img/logo.png')?>">
-  <title>Assist</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
+  <link rel="icon" type="image/png" href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
+  <title><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
   <!-- Nucleo Icons -->
@@ -25,9 +27,9 @@
             <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
               <div class="card card-plain mt-5">
                 <div class="card-header pb-0 text-center bg-transparent">
-                  <img src="<?=base_url('assets/img/logo.png')?>" width="100px"/>
-                  <h3 class="font-weight-bolder text-info text-gradient">Welcome to ASSIST</h3>
-                  <p class="mb-0" style="font-size:12px;">Advanced Support System for Improving Schools and Teachers Performance</p>
+                  <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>" width="100px"/>
+                  <h3 class="font-weight-bolder text-info text-gradient">Welcome to <?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></h3>
+                  <p class="mb-0" style="font-size:12px;"><?=isset($about['systemDetails']) ? $about['systemDetails'] : "No Details"?></p>
                 </div>
                 <div class="card-body">
                   <?php if(!empty(session()->getFlashdata('fail'))) : ?>

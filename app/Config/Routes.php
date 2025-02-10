@@ -71,6 +71,7 @@ $routes->post('save-feedback','ActionController::saveFeedback');
 $routes->post('save-action','ActionController::saveAction');
 //report
 $routes->get('export','ReportController::exportReport');
+$routes->post('save-logo','Home::saveLogo');
 
 $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
 {

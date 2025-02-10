@@ -13,14 +13,21 @@ class Home extends BaseController
     }
     public function index()
     {
-        return view('welcome_message');
+        $systemModel = new \App\Models\systemModel();
+        $system = $systemModel->first();
+
+        $data = ['about'=>$system];
+        return view('welcome_message',$data);
     }
 
     public function signUp()
     {
         $schoolModel = new \App\Models\schoolModel();
         $school = $schoolModel->findAll();
-        $data = ['school'=>$school];
+        //system
+        $systemModel = new \App\Models\systemModel();
+        $system = $systemModel->first();
+        $data = ['school'=>$school,'about'=>$system];
         return view('sign-up',$data);
     }
 
@@ -107,6 +114,7 @@ class Home extends BaseController
 
     public function Auth()
     {
+        date_default_timezone_set('Asia/Manila');
         $accountModel = new \App\Models\accountModel();
         //data
         $validation = $this->validate([
@@ -135,6 +143,10 @@ class Home extends BaseController
                 session()->set('fullname', $account['Fullname']);
                 session()->set('role',$account['Role']);
                 session()->set('user_type',$account['userType']);
+                //create log
+                $logModel = new \App\Models\logModel();
+                $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Logged In','DateCreated'=>date('Y-m-d H:i:s a')];
+                $logModel->save($data);
                 
                 switch($account['Role'])
                 {
@@ -157,6 +169,11 @@ class Home extends BaseController
 
     public function logout()
     {
+        //create log
+        date_default_timezone_set('Asia/Manila');
+        $logModel = new \App\Models\logModel();
+        $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Logged Out','DateCreated'=>date('Y-m-d H:i:s a')];
+        $logModel->save($data);
         if(session()->has('loggedUser'))
         {
             session()->remove('loggedUser');
@@ -172,6 +189,9 @@ class Home extends BaseController
         if(session()->get('role')=="Administrator")
         {
             $title = "Dashboard";
+            //system
+            $systemModel = new \App\Models\systemModel();
+            $system = $systemModel->first();
             $formModel = new \App\Models\formModel();
             //count all the form
             $totalForm = $formModel->countAllResults();
@@ -189,13 +209,26 @@ class Home extends BaseController
             $positiveFeedback = $feedbackModel->WHEREIN('Rate',$positive)->countAllResults();
             $negativeFeedback = $feedbackModel->WHEREIN('Rate',$negative)->countAllResults();
             //generate percentage
-            $positivePercent = ($positiveFeedback/$totalFeedback)*100;
-            $negativePercent = ($negativeFeedback/$totalFeedback)*100;
+            if ($totalFeedback != 0) {
+                $positivePercent = ($positiveFeedback / $totalFeedback) * 100;
+                $negativePercent = ($negativeFeedback/$totalFeedback)*100;
+            } else {
+                $positivePercent = 0; // or handle it in any other way you prefer
+                $negativePercent = 0;
+            }
+            
             //compute the sum of all rates
             $builder = $this->db->table('tblfeedback');
             $builder->select('sum(Rate)total');
             $sumRate = $builder->get()->getRow();
-            $totalPercent = ($sumRate->total/($totalFeedback*10))*100;
+            if($sumRate->total!=0)
+            {
+                $totalPercent = ($sumRate->total/($totalFeedback*10))*100;
+            }
+            else
+            {
+                $totalPercent = 0;
+            }
             //compute the difference between previous and current month
             $currentMonth = date('m'); // Current month (e.g., 02 for February)
             $currentYear = date('Y');  // Current year (e.g., 2025)
@@ -236,7 +269,7 @@ class Home extends BaseController
                     'pending'=>$pendingForm,'resolved'=>$resolvedForm,
                     'feed'=>$feed,'positive'=>$positivePercent,
                     'negative'=>$negativePercent,'totalPercent'=>$totalPercent,
-                    'difference'=>$absoluteDifference];
+                    'difference'=>$absoluteDifference,'about'=>$system];
             return view('admin/index',$data);
         }
         return redirect()->back();
@@ -247,6 +280,9 @@ class Home extends BaseController
         if(session()->get('role')=="Administrator" && session()->get('user_type')=="PSDS")
         {
             $title = "Technical Assistance";
+            //system
+            $systemModel = new \App\Models\systemModel();
+            $system = $systemModel->first();
             //data
             $accountModel = new \App\Models\accountModel();
             $account = $accountModel->WHERE('accountID',session()->get('loggedUser'))->first();
@@ -258,7 +294,7 @@ class Home extends BaseController
             $builder->WHERE('b.clusterID',$account['clusterID']);
             $builder->groupBy('b.formID');
             $feed = $builder->get()->getResult();
-            $data = ['title'=>$title,'feedback'=>$feed];
+            $data = ['title'=>$title,'feedback'=>$feed,'about'=>$system];
             return view('admin/technical-assistance',$data);
         }
         return redirect()->back();
@@ -269,13 +305,17 @@ class Home extends BaseController
         if(session()->get('role')=="Administrator")
         {
             $title = "User Accounts";
+            //system
+            $systemModel = new \App\Models\systemModel();
+            $system = $systemModel->first();
+            //accounts
             $builder = $this->db->table('tblaccount a');
             $builder->select('a.*,b.clusterName,c.schoolName');
             $builder->join('tblcluster b','b.clusterID=a.clusterID','LEFT');
             $builder->join('tblschool c','c.schoolID=a.schoolID','LEFT');
             $builder->groupBy('a.accountID');
             $account = $builder->get()->getResult();
-            $data = ['title'=>$title,'account'=>$account];
+            $data = ['title'=>$title,'account'=>$account,'about'=>$system];
             return view('admin/manage-account',$data);
         }
         return redirect()->back();
@@ -286,6 +326,9 @@ class Home extends BaseController
         if(session()->get('role')=="Administrator")
         {
             $title = "New Account";
+            //system
+            $systemModel = new \App\Models\systemModel();
+            $system = $systemModel->first();
             //cluster
             $clusterModel = new \App\Models\clusterModel();
             $cluster = $clusterModel->findAll();
@@ -296,7 +339,7 @@ class Home extends BaseController
             $subjectModel = new \App\Models\subjectModel();
             $subject = $subjectModel->findAll();
 
-            $data = ['title'=>$title,'cluster'=>$cluster,'school'=>$school,'subject'=>$subject];
+            $data = ['title'=>$title,'cluster'=>$cluster,'school'=>$school,'subject'=>$subject,'about'=>$system];
             return view('admin/new-account',$data);
         }
         return redirect()->back();
@@ -307,6 +350,9 @@ class Home extends BaseController
         if(session()->get('role')=="Administrator")
         {
             $title = "Edit Account";
+            //system
+            $systemModel = new \App\Models\systemModel();
+            $system = $systemModel->first();
             //cluster
             $clusterModel = new \App\Models\clusterModel();
             $cluster = $clusterModel->findAll();
@@ -320,7 +366,7 @@ class Home extends BaseController
             $accountModel = new \App\Models\accountModel();
             $account = $accountModel->where('Token',$id)->first();
 
-            $data = ['title'=>$title,'cluster'=>$cluster,'school'=>$school,'subject'=>$subject,'account'=>$account];
+            $data = ['title'=>$title,'cluster'=>$cluster,'school'=>$school,'subject'=>$subject,'account'=>$account,'about'=>$system];
             return view('admin/edit-account',$data);
         }
         return redirect()->back();
@@ -331,10 +377,13 @@ class Home extends BaseController
         if(session()->get('role')=="Administrator")
         {
             $title = "Cluster & Schools";
+            //system
+            $systemModel = new \App\Models\systemModel();
+            $system = $systemModel->first();
             //cluster
             $clusterModel = new \App\Models\clusterModel();
             $cluster = $clusterModel->findAll();
-            $data = ['title'=>$title,'cluster'=>$cluster];
+            $data = ['title'=>$title,'cluster'=>$cluster,'about'=>$system];
             return view('admin/manage-schools',$data);
         }
         return redirect()->back();
@@ -345,8 +394,10 @@ class Home extends BaseController
         if(session()->get('role')=="Administrator")
         {
             $title = "Edit School";
-
-            $data = ['title'=>$title];
+            //system
+            $systemModel = new \App\Models\systemModel();
+            $system = $systemModel->first();
+            $data = ['title'=>$title,'about'=>$system];
             return view('admin/edit-school',$data);
         }
         return redirect()->back();
@@ -357,7 +408,10 @@ class Home extends BaseController
         if(session()->get('role')=="Administrator" && session()->get('user_type')=="PSDS")
         {
             $title = "Reports";
-            $data = ['title'=>$title];
+            //system
+            $systemModel = new \App\Models\systemModel();
+            $system = $systemModel->first();
+            $data = ['title'=>$title,'about'=>$system];
             return view('admin/report',$data);
         }
         return redirect()->back();
@@ -368,10 +422,14 @@ class Home extends BaseController
         if(session()->get('role')=="Administrator")
         {
             $title = "My Account";
+            //system
+            $systemModel = new \App\Models\systemModel();
+            $system = $systemModel->first();
+            //accounts
             $accountModel = new \App\Models\accountModel();
             $user = session()->get('loggedUser');
             $account = $accountModel->WHERE('accountID',$user)->first();
-            $data = ['title'=>$title,'account'=>$account];
+            $data = ['title'=>$title,'account'=>$account,'about'=>$system];
             return view('admin/account',$data);
         }
         return redirect()->back();
@@ -380,7 +438,16 @@ class Home extends BaseController
     public function systemInfo()
     {
         $title = "System and Logs";
-        $data = ['title'=>$title];
+        //system
+        $systemModel = new \App\Models\systemModel();
+        $system = $systemModel->first();
+        //logs
+        $builder = $this->db->table('tblrecord a');
+        $builder->select('a.*,b.Fullname');
+        $builder->join('tblaccount b','b.accountID=a.accountID','LEFT');
+        $log = $builder->get()->getResult();
+
+        $data = ['title'=>$title,'log'=>$log,'system'=>$system,'about'=>$system];
         return view('admin/system',$data);
     }
 
@@ -390,6 +457,9 @@ class Home extends BaseController
         if(session()->get('role')=="Manager")
         {
             $title = "Dashboard";
+            //system
+            $systemModel = new \App\Models\systemModel();
+            $system = $systemModel->first();
             $formModel = new \App\Models\formModel();
             //count all the form
             $totalForm = $formModel->countAllResults();
@@ -407,13 +477,26 @@ class Home extends BaseController
             $positiveFeedback = $feedbackModel->WHEREIN('Rate',$positive)->countAllResults();
             $negativeFeedback = $feedbackModel->WHEREIN('Rate',$negative)->countAllResults();
             //generate percentage
-            $positivePercent = ($positiveFeedback/$totalFeedback)*100;
-            $negativePercent = ($negativeFeedback/$totalFeedback)*100;
+            if ($totalFeedback != 0) {
+                $positivePercent = ($positiveFeedback / $totalFeedback) * 100;
+                $negativePercent = ($negativeFeedback/$totalFeedback)*100;
+            } else {
+                $positivePercent = 0; // or handle it in any other way you prefer
+                $negativePercent = 0;
+            }
+            
             //compute the sum of all rates
             $builder = $this->db->table('tblfeedback');
             $builder->select('sum(Rate)total');
             $sumRate = $builder->get()->getRow();
-            $totalPercent = ($sumRate->total/($totalFeedback*10))*100;
+            if($sumRate->total!=0)
+            {
+                $totalPercent = ($sumRate->total/($totalFeedback*10))*100;
+            }
+            else
+            {
+                $totalPercent = 0;
+            }
             //compute the difference between previous and current month
             $currentMonth = date('m'); // Current month (e.g., 02 for February)
             $currentYear = date('Y');  // Current year (e.g., 2025)
@@ -454,7 +537,7 @@ class Home extends BaseController
                     'pending'=>$pendingForm,'resolved'=>$resolvedForm,
                     'feed'=>$feed,'positive'=>$positivePercent,
                     'negative'=>$negativePercent,'totalPercent'=>$totalPercent,
-                    'difference'=>$absoluteDifference];
+                    'difference'=>$absoluteDifference,'about'=>$system];
             return view('manager/index',$data);
         }
         return redirect()->back();
@@ -465,7 +548,10 @@ class Home extends BaseController
         if(session()->get('role')=="Manager")
         {
             $title = "Technical Assistance";
-            $data = ['title'=>$title];
+            //system
+            $systemModel = new \App\Models\systemModel();
+            $system = $systemModel->first();
+            $data = ['title'=>$title,'about'=>$system];
             return view('manager/technical-assistance',$data);
         }
         return redirect()->back();
@@ -476,7 +562,10 @@ class Home extends BaseController
         if(session()->get('role')=="Manager")
         {
             $title = "Reports";
-            $data = ['title'=>$title];
+            //system
+            $systemModel = new \App\Models\systemModel();
+            $system = $systemModel->first();
+            $data = ['title'=>$title,'about'=>$system];
             return view('manager/report',$data);
         }
         return redirect()->back();
@@ -487,10 +576,13 @@ class Home extends BaseController
         if(session()->get('role')=="Manager")
         {
             $title = "My Account";
+            //system
+            $systemModel = new \App\Models\systemModel();
+            $system = $systemModel->first();
             $accountModel = new \App\Models\accountModel();
             $user = session()->get('loggedUser');
             $account = $accountModel->WHERE('accountID',$user)->first();
-            $data = ['title'=>$title,'account'=>$account];
+            $data = ['title'=>$title,'account'=>$account,'about'=>$system];
             return view('manager/account',$data);
         }
         return redirect()->back();
@@ -503,6 +595,9 @@ class Home extends BaseController
         if(session()->get('role')=="User")
         {
             $title = "Dashboard";
+            //system
+            $systemModel = new \App\Models\systemModel();
+            $system = $systemModel->first();
             $formModel = new \App\Models\formModel();
             //count all the form
             $totalForm = $formModel->countAllResults();
@@ -520,13 +615,26 @@ class Home extends BaseController
             $positiveFeedback = $feedbackModel->WHEREIN('Rate',$positive)->countAllResults();
             $negativeFeedback = $feedbackModel->WHEREIN('Rate',$negative)->countAllResults();
             //generate percentage
-            $positivePercent = ($positiveFeedback/$totalFeedback)*100;
-            $negativePercent = ($negativeFeedback/$totalFeedback)*100;
+            if ($totalFeedback != 0) {
+                $positivePercent = ($positiveFeedback / $totalFeedback) * 100;
+                $negativePercent = ($negativeFeedback/$totalFeedback)*100;
+            } else {
+                $positivePercent = 0; // or handle it in any other way you prefer
+                $negativePercent = 0;
+            }
+            
             //compute the sum of all rates
             $builder = $this->db->table('tblfeedback');
             $builder->select('sum(Rate)total');
             $sumRate = $builder->get()->getRow();
-            $totalPercent = ($sumRate->total/($totalFeedback*10))*100;
+            if($sumRate->total!=0)
+            {
+                $totalPercent = ($sumRate->total/($totalFeedback*10))*100;
+            }
+            else
+            {
+                $totalPercent = 0;
+            }
             //compute the difference between previous and current month
             $currentMonth = date('m'); // Current month (e.g., 02 for February)
             $currentYear = date('Y');  // Current year (e.g., 2025)
@@ -568,7 +676,7 @@ class Home extends BaseController
                     'pending'=>$pendingForm,'resolved'=>$resolvedForm,
                     'feed'=>$feed,'positive'=>$positivePercent,
                     'negative'=>$negativePercent,'totalPercent'=>$totalPercent,
-                    'difference'=>$absoluteDifference];
+                    'difference'=>$absoluteDifference,'about'=>$system];
             return view('user/index',$data);
         }
         return redirect()->back();
@@ -579,7 +687,9 @@ class Home extends BaseController
         if(session()->get('role')=="User")
         {
             $title = "Technical Assistance";
-            $user = session()->get('loggedUser');
+            //system
+            $systemModel = new \App\Models\systemModel();
+            $system = $systemModel->first();
             //area of concerns
             $subjectModel = new \App\Models\subjectModel();
             $subject = $subjectModel->findAll();
@@ -588,7 +698,7 @@ class Home extends BaseController
             $accountModel = new \App\Models\accountModel();
             $account = $accountModel->WHEREIN('userType',$type_users)->findAll();
 
-            $data = ['title'=>$title,'subject'=>$subject,'account'=>$account];
+            $data = ['title'=>$title,'subject'=>$subject,'account'=>$account,'about'=>$system];
             return view('user/technical-assistance',$data);
         }
         return redirect()->back();
@@ -599,11 +709,14 @@ class Home extends BaseController
         if(session()->get('role')=="User")
         {
             $title = "Feedback";
+            //system
+            $systemModel = new \App\Models\systemModel();
+            $system = $systemModel->first();
             //feedback
             $user = session()->get('loggedUser');
             $feedbackModel = new \App\Models\feedbackModel();
             $feed = $feedbackModel->WHERE('accountID',$user)->findAll();
-            $data = ['title'=>$title,'feed'=>$feed];
+            $data = ['title'=>$title,'feed'=>$feed,'about'=>$system];
             return view('user/feedback',$data);
         }
         return redirect()->back();
@@ -614,11 +727,14 @@ class Home extends BaseController
         if(session()->get('role')=="User")
         {
             $title = "My Account";
+            //system
+            $systemModel = new \App\Models\systemModel();
+            $system = $systemModel->first();
             //data
             $accountModel = new \App\Models\accountModel();
             $user = session()->get('loggedUser');
             $account = $accountModel->WHERE('accountID',$user)->first();
-            $data = ['title'=>$title,'account'=>$account];
+            $data = ['title'=>$title,'account'=>$account,'about'=>$system];
             return view('user/account',$data);
         }
         return redirect()->back();
@@ -674,6 +790,9 @@ class Home extends BaseController
         if(session()->get('role')=="Administrator" && session()->get('user_type')=="PSDS")
         {
             $title = "Feedback and Rates";
+            //system
+            $systemModel = new \App\Models\systemModel();
+            $system = $systemModel->first();
             //feedback
             $builder = $this->db->table('tblfeedback a');
             $builder->select('a.*,b.Fullname,c.schoolName');
@@ -682,9 +801,42 @@ class Home extends BaseController
             $builder->groupBy('a.feedID');
             $feed = $builder->get()->getResult();
 
-            $data = ['title'=>$title,'feed'=>$feed];
+            $data = ['title'=>$title,'feed'=>$feed,'about'=>$system];
             return view('feedback',$data);
         }
         return redirect()->back();
+    }
+
+    public function saveLogo()
+    {
+        $systemModel = new \App\Models\systemModel();
+        $system = $systemModel->first();
+        //file
+        $file = $this->request->getFile('file');
+        $originalName = $file->getClientName();
+        //update image
+        if(!empty($originalName))
+        {
+            $file->move('assets/img/logos/',$originalName);
+        }
+        //save and update the form
+        if(empty($system))
+        {
+            $data = ['systemTitle'=>$this->request->getPost('app_name'),
+                    'systemDetails'=>$this->request->getPost('app_details'),
+                    'systemLogo'=>$originalName,
+                    'DateCreated'=>date('Y-m-d')];
+            $systemModel->save($data);
+        }
+        else
+        {
+            $data = ['systemTitle'=>$this->request->getPost('app_name'),
+            'systemDetails'=>$this->request->getPost('app_details'),
+            'systemLogo'=>$originalName,
+            'DateCreated'=>date('Y-m-d')];
+            $systemModel->update($system['systemID'],$data);
+        }
+        session()->setFlashdata('success','Great! Successfully applied changes');
+        return redirect()->to('/about')->withInput();
     }
 }

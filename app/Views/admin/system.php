@@ -4,14 +4,15 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('assets/img/logo.png')?>">
-    <link rel="icon" type="image/png" href="<?=base_url('assets/img/logo.png')?>">
-    <title>Assist</title>
+    <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
+    <link rel="icon" type="image/png" href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
+    <title><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
     <!-- Nucleo Icons -->
     <link href="<?=base_url('assets/css/nucleo-icons.css')?>" rel="stylesheet" />
     <link href="<?=base_url('assets/css/nucleo-svg.css')?>" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.dataTables.css" />
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
@@ -21,11 +22,6 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- CSS Files -->
     <link id="pagestyle" href="<?=base_url('assets/css/soft-ui-dashboard.css?v=1.1.0')?>" rel="stylesheet" />
-    <style>
-    p {
-        font-size: 12px;
-    }
-    </style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -35,8 +31,8 @@
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                 aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href="<?=site_url('/')?>" target="_blank">
-                <img src="<?=base_url('assets/img/logo.png')?>" class="navbar-brand-img h-100" alt="main_logo">
-                <span class="ms-1 font-weight-bold">Assist</span>
+                <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>" class="navbar-brand-img h-100" alt="main_logo">
+                <span class="ms-1 font-weight-bold"><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></span>
             </a>
         </div>
         <hr class="horizontal dark mt-0">
@@ -225,8 +221,86 @@
             </ul>
             <div class="tab-content" id="myTabsContent">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <br/>
+                    <div class="card">
+                        <div class="card-header p-3 pb-0">
+                            <div class="d-flex align-items-center">
+                                <h6 class="mb-0">
+                                    <i class="fa-solid fa-circle-info"></i>&nbsp;About
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <?php if(!empty(session()->getFlashdata('success'))) : ?>
+                                <div class="alert alert-success" role="alert">
+                                    <?= session()->getFlashdata('success'); ?>
+                                </div>
+                            <?php endif; ?>
+                            <form method="POST" class="row g-3" enctype="multipart/form-data" action="<?=base_url('save-logo')?>" id="frmApplication">
+                                <div class="col-lg-12">
+                                    <label>Application Name</label>
+                                    <?php if(empty($system)){ ?>
+                                    <input type="text" class="form-control" name="app_name"  required/>
+                                    <?php }else { ?>
+                                    <input type="text" class="form-control" name="app_name" value="<?=$system['systemTitle']?>" required/>
+                                    <?php } ?>
+                                </div>
+                                <div class="col-lg-12">
+                                    <label>Application Details</label>
+                                    <?php if(empty($system)){ ?>
+                                    <textarea class="form-control h-100px" name="app_details"></textarea>
+                                    <?php }else { ?>
+                                    <textarea class="form-control h-100px" name="app_details"><?=$system['systemDetails']?></textarea>
+                                    <?php } ?>
+                                </div>
+                                <div class="col-lg-12">
+                                    <label>Logo</label>
+                                    <input type="file" class="form-control" name="file" required/>
+                                </div>
+                                <div class="col-lg-12">
+                                    <button type="submit" class="btn btn-info">Save Changes</button>
+                                </div>
+                            </form>  
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="log" role="tabpanel" aria-labelledby="log-tab">
+                    <br/>
+                    <div class="card">
+                        <div class="card-header p-3 pb-0">
+                            <div class="d-flex align-items-center">
+                                <h6 class="mb-0">
+                                    <i class="fa-solid fa-clipboard"></i>&nbsp;System Logs
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-flush" id="datatable-search" style="font-size:12px;">
+                                    <thead class="thead-light">
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Date
+                                        </th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Fullname
+                                        </th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Activity
+                                        </th>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach($log as $row): ?>
+                                    <tr>
+                                        <td><?php echo date('Y-M-d H:i:s a',strtotime($row->DateCreated)) ?></td>
+                                        <td><?php echo $row->Fullname ?></td>
+                                        <td><?php echo $row->Activity ?></td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div> 
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="repo" role="tabpanel" aria-labelledby="repo-tab">
                 </div>
@@ -302,7 +376,14 @@
     <script src="<?=base_url('assets/js/plugins/smooth-scrollbar.min.js')?>"></script>
     <script src="<?=base_url('assets/js/plugins/chartjs.min.js')?>"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            $('#datatable-search').DataTable();
+        });
+    </script>
     <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

@@ -68,6 +68,11 @@ class ActionController extends BaseController
             $date = date('Y-m-d');
             $data = ['clusterName'=>$this->request->getPost('cluster_name'),'Status'=>$status,'DateCreated'=>$date];
             $clusterModel->save($data);
+            //create log
+            date_default_timezone_set('Asia/Manila');
+            $logModel = new \App\Models\logModel();
+            $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Added new cluster','DateCreated'=>date('Y-m-d H:i:s a')];
+            $logModel->save($data);
             return $this->response->setJSON(['success' => 'Successfully applied']);
         }
     }
@@ -90,6 +95,11 @@ class ActionController extends BaseController
         {
             $data = ['clusterName'=>$this->request->getPost('new_cluster_name')];
             $clusterModel->update($this->request->getPost('clusterID'),$data);
+            //create log
+            date_default_timezone_set('Asia/Manila');
+            $logModel = new \App\Models\logModel();
+            $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Rename cluster','DateCreated'=>date('Y-m-d H:i:s a')];
+            $logModel->save($data);
             return $this->response->setJSON(['success' => 'Successfully applied']);
         }
     }
@@ -140,6 +150,11 @@ class ActionController extends BaseController
             $date = date('Y-m-d');
             $data = ['subjectName'=>$this->request->getPost('subject_name'),'Status'=>$status,'DateCreated'=>$date];
             $subjectModel->save($data);
+            //create log
+            date_default_timezone_set('Asia/Manila');
+            $logModel = new \App\Models\logModel();
+            $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Added new area of concern','DateCreated'=>date('Y-m-d H:i:s a')];
+            $logModel->save($data);
             return $this->response->setJSON(['success' => 'Successfully applied']);
         }
     }
@@ -161,6 +176,11 @@ class ActionController extends BaseController
         {
             $data = ['subjectName'=>$this->request->getPost('new_subject_name')];
             $subjectModel->update($this->request->getPost('subjectID'),$data);
+            //create log
+            date_default_timezone_set('Asia/Manila');
+            $logModel = new \App\Models\logModel();
+            $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Rename selected area of concern','DateCreated'=>date('Y-m-d H:i:s a')];
+            $logModel->save($data);
             return $this->response->setJSON(['success' => 'Successfully applied']);
         }
     }
@@ -219,6 +239,11 @@ class ActionController extends BaseController
                     'clusterID'=>$this->request->getPost('cluster'),
                     'Status'=>$status,'DateCreated'=>$date];
             $schoolModel->save($data);
+            //create log
+            date_default_timezone_set('Asia/Manila');
+            $logModel = new \App\Models\logModel();
+            $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Added new school','DateCreated'=>date('Y-m-d H:i:s a')];
+            $logModel->save($data);
             return $this->response->setJSON(['success' => 'Successfully applied']);
         }
     }
@@ -290,6 +315,11 @@ class ActionController extends BaseController
                     'address'=>$this->request->getPost('new_address'),
                     'clusterID'=>$this->request->getPost('new_cluster')];
             $schoolModel->update($this->request->getPost('schoolID'),$data);
+             //create log
+             date_default_timezone_set('Asia/Manila');
+             $logModel = new \App\Models\logModel();
+             $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Update selected school','DateCreated'=>date('Y-m-d H:i:s a')];
+             $logModel->save($data);
             return $this->response->setJSON(['success' => 'Successfully applied']);
         }
     }
@@ -332,6 +362,11 @@ class ActionController extends BaseController
                     'userType'=>$this->request->getPost('user_type'),
                     'Status'=>$status,'Token'=>$token_code,'DateCreated'=>$date];
             $accountModel->save($data);
+             //create log
+             date_default_timezone_set('Asia/Manila');
+             $logModel = new \App\Models\logModel();
+             $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Register new account','DateCreated'=>date('Y-m-d H:i:s a')];
+             $logModel->save($data);
             return $this->response->setJSON(['success' => 'Successfully registered']);
         }
     }
@@ -368,6 +403,11 @@ class ActionController extends BaseController
                     'Status'=>$this->request->getPost('status')
                 ];
             $accountModel->update($this->request->getPost('accountID'),$data);
+             //create log
+             date_default_timezone_set('Asia/Manila');
+             $logModel = new \App\Models\logModel();
+             $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Update selected account','DateCreated'=>date('Y-m-d H:i:s a')];
+             $logModel->save($data);
             return $this->response->setJSON(['success' => 'Successfully registered']);
         }
     }
@@ -399,6 +439,11 @@ class ActionController extends BaseController
                 $data = ['Password'=>$newPassword,'DateCreated'=>$date];
                 $passwordModel->update($passwordData['passwordID'],$data);
             }
+             //create log
+             date_default_timezone_set('Asia/Manila');
+             $logModel = new \App\Models\logModel();
+             $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Added/Update system password','DateCreated'=>date('Y-m-d H:i:s a')];
+             $logModel->save($data);
             return $this->response->setJSON(['success' => 'Successfully applied']);
         }
     }
@@ -412,6 +457,11 @@ class ActionController extends BaseController
         $passwordData = $passwordModel->first();
         $data = ['Password'=>$passwordData['Password']];
         $accountModel->update($val,$data);
+         //create log
+         date_default_timezone_set('Asia/Manila');
+         $logModel = new \App\Models\logModel();
+         $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Reset account password','DateCreated'=>date('Y-m-d H:i:s a')];
+         $logModel->save($data);
         echo "Successfully applied changes";
     }
 
@@ -480,13 +530,7 @@ class ActionController extends BaseController
                 $formModel->save($data);
             }
             //get the form ID
-            $form = $formModel->WHERE('Details',$this->request->getPost('details'))
-                              ->WHERE('subjectID',$this->request->getPost('area'))
-                              ->WHERE('priorityLevel',$this->request->getPost('priority'))
-                              ->WHERE('DateCreated',$date)
-                              ->WHERE('accountID',$user)
-                              ->WHERE('Status',0)
-                              ->first();
+            $form = $formModel->WHERE('Code',$code)->first();
             //send to EPS/PSDS
             $count = count($users);
             for($i=0;$i<$count;$i++)
@@ -523,6 +567,11 @@ class ActionController extends BaseController
                     $email->send();
                 }
             }
+             //create log
+             date_default_timezone_set('Asia/Manila');
+             $logModel = new \App\Models\logModel();
+             $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Create new Technical Assistance','DateCreated'=>date('Y-m-d H:i:s a')];
+             $logModel->save($data);
             return $this->response->setJSON(['success' => 'Successfully submitted']);
         }
     }
@@ -794,7 +843,12 @@ class ActionController extends BaseController
             $reviewModel->update($review['reviewID'],$records); 
             //update the form
             $newData = ['Status'=>3];
-            $formModel->update($this->request->getPost('formID'),$newData);           
+            $formModel->update($this->request->getPost('formID'),$newData);  
+             //create log
+             date_default_timezone_set('Asia/Manila');
+             $logModel = new \App\Models\logModel();
+             $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Accepted the new T.A. request','DateCreated'=>date('Y-m-d H:i:s a')];
+             $logModel->save($data);         
             return $this->response->setJSON(['success' => 'Successfully submitted']);
         }
     }
@@ -831,6 +885,11 @@ class ActionController extends BaseController
             //add comment
             $newData = ['formID'=>$val,'accountID'=>$user,'Message'=>$msg,'DateCreated'=>$date];
             $commentModel->save($newData);
+             //create log
+             date_default_timezone_set('Asia/Manila');
+             $logModel = new \App\Models\logModel();
+             $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Rejected new T.A. request','DateCreated'=>date('Y-m-d H:i:s a')];
+             $logModel->save($data);
             echo "success";
         }
     }
@@ -859,6 +918,11 @@ class ActionController extends BaseController
             //update the review status
             $record = ['Status'=>$status];
             $reviewModel->update($review['reviewID'],$record);
+             //create log
+             date_default_timezone_set('Asia/Manila');
+             $logModel = new \App\Models\logModel();
+             $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Tagged T.A. as completed','DateCreated'=>date('Y-m-d H:i:s a')];
+             $logModel->save($data);
             echo "success";
         }
     }
@@ -972,6 +1036,11 @@ class ActionController extends BaseController
             $data = ['schoolID'=>$form['schoolID'],'accountID'=>$user,'formID'=>$form['formID'],
                     'Code'=>$code,'Rate'=>$rate,'Message'=>$msg,'DateCreated'=>$date];
             $feedbackModel->save($data);
+             //create log
+             date_default_timezone_set('Asia/Manila');
+             $logModel = new \App\Models\logModel();
+             $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Submit a feedback','DateCreated'=>date('Y-m-d H:i:s a')];
+             $logModel->save($data);
             return $this->response->setJSON(['success' => 'Successfully submitted']);
         }
     }
@@ -1063,6 +1132,11 @@ class ActionController extends BaseController
             $data = ['actionName'=>$this->request->getPost('action'),
                     'Recommendation'=>$this->request->getPost('recommendation')];
             $actionModel->update($action['actionID'],$data);
+             //create log
+             date_default_timezone_set('Asia/Manila');
+             $logModel = new \App\Models\logModel();
+             $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Added new action plan and recommendation','DateCreated'=>date('Y-m-d H:i:s a')];
+             $logModel->save($data);
             return $this->response->setJSON(['success' => 'Successfully submitted']);
         }
     }

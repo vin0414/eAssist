@@ -4,9 +4,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('assets/img/logo.png')?>">
-  <link rel="icon" type="image/png" href="<?=base_url('assets/img/logo.png')?>">
-  <title>Assist</title>
+  <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
+  <link rel="icon" type="image/png" href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
+  <title><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
   <!-- Nucleo Icons -->
@@ -28,8 +28,8 @@
             <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
               <div class="card card-plain mt-5">
                 <div class="card-header pb-0 text-center bg-transparent">
-                  <img src="<?=base_url('assets/img/logo.png')?>" width="100px"/>
-                  <h5 class="font-weight-bolder text-info text-gradient">Register account to use ASSIST</h5>
+                  <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>" width="100px"/>
+                  <h5 class="font-weight-bolder text-info text-gradient">Register account to use <?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></h5>
                 </div>
                 <div class="card-body">
                   <form role="form" method="POST" action="<?=base_url('register')?>">

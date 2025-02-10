@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('assets/img/logo.png')?>">
-    <link rel="icon" type="image/png" href="<?=base_url('assets/img/logo.png')?>">
-    <title>Assist</title>
+    <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
+    <link rel="icon" type="image/png" href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
+    <title><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
     <!-- Nucleo Icons -->
@@ -55,8 +55,8 @@
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                 aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href="<?=site_url('/')?>" target="_blank">
-                <img src="<?=base_url('assets/img/logo.png')?>" class="navbar-brand-img h-100" alt="main_logo">
-                <span class="ms-1 font-weight-bold">Assist</span>
+                <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>" class="navbar-brand-img h-100" alt="main_logo">
+                <span class="ms-1 font-weight-bold"><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></span>
             </a>
         </div>
         <hr class="horizontal dark mt-0">
@@ -245,7 +245,7 @@
                         <div class="card-header p-3 pb-0">
                             <div class="d-flex align-items-center">
                                 <h6 class="mb-0">
-                                    <img src="<?=base_url('assets/img/logo.png')?>" width="30px" />&nbsp;Technical
+                                    <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>" width="30px" />&nbsp;Technical
                                     Assistance
                                 </h6>
                                 <button type="button" class="btn btn-secondary btn-sm add ms-auto mb-0"
@@ -285,7 +285,7 @@
                         <div class="card-header p-3 pb-0">
                             <div class="d-flex align-items-center">
                                 <h6 class="mb-0">
-                                    <img src="<?=base_url('assets/img/logo.png')?>" width="30px" />&nbsp;Schools and
+                                    <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>" width="30px" />&nbsp;Schools and
                                     User Feedback
                                 </h6>
                                 <button type="button" class="btn btn-secondary btn-sm add ms-auto mb-0"
