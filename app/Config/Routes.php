@@ -40,6 +40,8 @@ $routes->post('change-password','Home::changePassword');
 $routes->post('save-logo','Home::saveLogo');
 $routes->get('resend/(:any)','Home::resend/$1');
 $routes->get('auto-approval','Home::autoApprove');
+$routes->get('download','Download::downloadFile');
+$routes->post('restore','Restore::restoreFile');
 // fetch using ajax
 $routes->get('fetch-cluster','ActionController::fetchCluster');
 $routes->get('fetch-subject','ActionController::fetchSubject');

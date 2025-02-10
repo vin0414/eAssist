@@ -215,7 +215,7 @@
                         aria-selected="false">System Logs</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="repo-tab" data-bs-toggle="tab" href="#profile" role="tab"
+                    <a class="nav-link" id="repo-tab" data-bs-toggle="tab" href="#repo" role="tab"
                         aria-controls="profile" aria-selected="false">Back-Up & Restore</a>
                 </li>
             </ul>
@@ -303,6 +303,68 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="repo" role="tabpanel" aria-labelledby="repo-tab">
+                    <br/>
+                    <div class="row g-3">
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title"><i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Restore</div>
+                                </div>
+                                <div class="card-body pt-0">
+                                    <?php if(!empty(session()->getFlashdata('fail'))) : ?>
+                                        <div class="alert alert-danger" role="alert">
+                                        <?= session()->getFlashdata('fail'); ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    <?php if(!empty(session()->getFlashdata('success'))) : ?>
+                                        <div class="alert alert-success" role="alert">
+                                        <?= session()->getFlashdata('success'); ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    <form method="POST" class="row g-3" enctype="multipart/form-data" action="<?=base_url('restore')?>">
+                                        <div class="col-lg-12">
+                                            <span class="menu-title">Server/Host</span>
+                                            <input type="text" class="form-control bg-transparent" name="server" value="localhost" required/>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="row g-3">
+                                                <div class="col-lg-4">
+                                                    <span class="menu-title">Username</span>
+                                                    <input type="text" class="form-control bg-transparent" name="username" value="root" required/>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <span class="menu-title">Password</span>
+                                                    <input type="password" class="form-control bg-transparent" name="password" value="" required/>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <span class="menu-title">Schema</span>
+                                                    <input type="text" class="form-control bg-transparent" name="database" value="" required/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <span class="menu-title">SQL File</span>
+                                            <input type="file" class="form-control bg-transparent" name="file" required/>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <button type="submit" class="btn btn-info"><i class="fa-solid fa-circle-arrow-up"></i>&nbsp;Upload Data</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card ">
+                                <div class="card-header">
+                                    <div class="card-title"><i class="fa-solid fa-cloud-arrow-down"></i>&nbsp;Back-Up</div>
+                                </div>
+                                <div class="card-body pt-0">
+                                    <p class="text-muted">Backing up collected data is an important part of data management. Backups protect against human error, hardware failure, virus attacks, power outages and natural disasters.</p>
+                                    <a href="<?=site_url('download')?>" class="btn btn-info"><i class="fa-solid fa-circle-arrow-down"></i>&nbsp;Download Data</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
