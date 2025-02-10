@@ -291,7 +291,7 @@
                                     <tbody>
                                     <?php foreach($log as $row): ?>
                                     <tr>
-                                        <td><?php echo date('Y-M-d H:i:s a',strtotime($row->DateCreated)) ?></td>
+                                        <td><?php echo $row->DateCreated ?></td>
                                         <td><?php echo $row->Fullname ?></td>
                                         <td><?php echo $row->Activity ?></td>
                                     </tr>

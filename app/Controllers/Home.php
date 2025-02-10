@@ -45,7 +45,10 @@ class Home extends BaseController
         {
             $schoolModel = new \App\Models\schoolModel();
             $school = $schoolModel->findAll();
-            return view('sign-up',['validation'=>$this->validator,'school'=>$school]);
+            //system
+            $systemModel = new \App\Models\systemModel();
+            $system = $systemModel->first();
+            return view('sign-up',['validation'=>$this->validator,'school'=>$school,'about'=>$system]);
         }
         else
         {
@@ -82,16 +85,44 @@ class Home extends BaseController
             <tr><td><center><h1>Account Activation</h1></center></td></tr>
             <tr><td><center>Hi, ".$this->request->getPost('fullname')."</center></td></tr>
             <tr><td><p><center>Please click the link below to activate your account.</center></p></td><tr>
-            <tr><td><center><b>".anchor('activate/'.$this->request->getPost('csrf_test_name'),'Activate Account')."</b></center></td></tr>
+            <tr><td><center><b>".anchor('activate/'.$token_code,'Activate Account')."</b></center></td></tr>
             <tr><td><p><center>If you did not sign-up in ASSIST Website,<br/> please ignore this message or contact us @ division.gentri@deped.gov.ph</center></p></td></tr>
-            <tr><td>ASSIST IT Support</td></tr></tbody></table></center>";
+            <tr><td><center>ASSIST IT Support</center></td></tr></tbody></table></center>";
             $subject = "Account Activation | ASSIST";
             $email->setSubject($subject);
             $email->setMessage($template);
             $email->send();
             session()->setFlashdata('success','Great! Successfully sent activation link');
-            return redirect()->to('/success')->withInput();
+            return redirect()->to('/success/'.$token_code)->withInput();
         }
+    }
+
+    public function resend($id)
+    {
+        $accountModel = new \App\Models\accountModel();
+        $account = $accountModel->WHERE('Token',$id)->first();
+        //send email activation link
+        $email = \Config\Services::email();
+        $email->setTo($account['Email']);
+        $email->setFrom("vinmogate@gmail.com","ASSIST");
+        $imgURL = "assets/img/Logo.png";
+        $email->attach($imgURL);
+        $cid = $email->setAttachmentCID($imgURL);
+        $template = "<center>
+        <img src='cid:". $cid ."' width='100'/>
+        <table style='padding:20px;background-color:#ffffff;' border='0'><tbody>
+        <tr><td><center><h1>Account Activation</h1></center></td></tr>
+        <tr><td><center>Hi, ".$account['Fullname']."</center></td></tr>
+        <tr><td><p><center>Please click the link below to activate your account.</center></p></td><tr>
+        <tr><td><center><b>".anchor('activate/'.$id,'Activate Account')."</b></center></td></tr>
+        <tr><td><p><center>If you did not sign-up in ASSIST Website,<br/> please ignore this message or contact us @ division.gentri@deped.gov.ph</center></p></td></tr>
+        <tr><td><center>ASSIST IT Support</center></td></tr></tbody></table></center>";
+        $subject = "Account Activation | ASSIST";
+        $email->setSubject($subject);
+        $email->setMessage($template);
+        $email->send();
+        session()->setFlashdata('success','Great! Successfully sent activation link');
+        return redirect()->to('/success/'.$id)->withInput();
     }
 
     public function activateAccount($id)
@@ -107,9 +138,41 @@ class Home extends BaseController
         return $this->response->redirect(site_url('user/overview'));
     }
 
-    public function successLink()
+    public function successLink($id)
     {
-        return view('success-page');
+        $systemModel = new \App\Models\systemModel();
+        $system = $systemModel->first();
+
+        $data = ['about'=>$system,'token'=>$id];
+        return view('success-page',$data);
+    }
+
+    public function autoApprove()
+    {
+        $formModel = new \App\Models\formModel();
+        $form = $formModel->WHERE('Status',0)->findAll();
+        foreach($form as $row)
+        {
+            $dateCreated = $row['DateCreated'];
+            $now = date('Y-m-d');
+            // Create DateTime objects for both dates
+            $dateCreatedObj = new \DateTime($dateCreated);
+            $nowObj = new \DateTime($now);
+
+            // Calculate the difference
+            $interval = $dateCreatedObj->diff($nowObj);
+            if($interval->format('%d')==0)
+            {
+                //auto approve
+                $data = ['Status'=>3];
+                $formModel->update($row['formID'],$data);
+                //auto update the status in review table
+                $reviewModel = new \App\Models\reviewModel();
+                $review = $reviewModel->WHERE('formID',$row['formID'])->first();
+                $newData = ['Status'=>3,'DateApproved'=>$now];
+                $reviewModel->update($review['reviewID'],$newData);
+            }
+        }
     }
 
     public function Auth()
@@ -443,8 +506,9 @@ class Home extends BaseController
         $system = $systemModel->first();
         //logs
         $builder = $this->db->table('tblrecord a');
-        $builder->select('a.*,b.Fullname');
+        $builder->select('a.DateCreated,a.Activity,b.Fullname');
         $builder->join('tblaccount b','b.accountID=a.accountID','LEFT');
+        $builder->groupBy('a.recordID');
         $log = $builder->get()->getResult();
 
         $data = ['title'=>$title,'log'=>$log,'system'=>$system,'about'=>$system];
@@ -616,7 +680,7 @@ class Home extends BaseController
             $negativeFeedback = $feedbackModel->WHEREIN('Rate',$negative)->countAllResults();
             //generate percentage
             if ($totalFeedback != 0) {
-                $positivePercent = ($positiveFeedback / $totalFeedback) * 100;
+                $positivePercent = ($positiveFeedback/$totalFeedback)*100;
                 $negativePercent = ($negativeFeedback/$totalFeedback)*100;
             } else {
                 $positivePercent = 0; // or handle it in any other way you prefer

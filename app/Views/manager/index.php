@@ -312,12 +312,6 @@
                                     services in the coming months.
                                 </p>
                             </div>
-                            <?php if(session()->get('user_type')=="PSDS"){ ?>
-                            <div class="w-40 text-end">
-                                <a class="btn btn-dark mb-0 text-end" href="<?=site_url('feedback')?>">View all
-                                    reviews</a>
-                            </div>
-                            <?php } ?>
                         </div>
                     </div>
                 </div>

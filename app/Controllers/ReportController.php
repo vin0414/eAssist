@@ -24,7 +24,7 @@ class ReportController extends BaseController
         $dompdf->setOptions($options);
         $template = "";
         //get the deped
-        $depedPath = 'assets/img/logos/deped.png';
+        $depedPath = 'assets/img/logos/deped_logo.webp';
         $type_deped = pathinfo($depedPath, PATHINFO_EXTENSION);
         $imageData = file_get_contents($depedPath);
         $base64_deped = 'data:image/' . $type_deped . ';base64,' . base64_encode($imageData);
@@ -81,6 +81,57 @@ class ReportController extends BaseController
                 $mm = "December";
                 break;
         }
+        
+        $template.='
+        <head>
+            <style>
+            #table{font-size:10px;}
+            #table {
+            font-family: Bookman Old Style;
+            border-collapse: collapse;
+            width: 100%;
+            }
+            
+            #table td, #table th {
+            border: 1px solid #000;
+            padding: 5px;font-size:10px;
+            }
+            
+            #table tr:hover {background-color: #000;}
+            
+            #table th {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            text-align: center;
+            color: #000000;
+            }
+            </style>
+        </head>
+        <body>
+            <table style="width:100%;">
+            <tbody>
+                <tr><td colspan="3"><center><img src='.$base64_deped.' width="75px"/></center></td></tr>
+                <tr><td colspan="3"><center><b style="font-size:10px;">Republic of the Philippines</b></center></td></tr>
+                <tr><td colspan="3"><center style="font-size:18px;font-weight:bold;">Department of Education</center></td></tr>
+                <tr><td colspan="3"><center><b style="font-size:10px;">REGION IV-A CALABARZON</b></center></td></tr>
+                <tr><td colspan="3"><center><b style="font-size:10px;">SCHOOL DIVISION OFFICE OF GENERAL TRIAS CITY</b></center></td></tr>
+                <tr><td colspan="3"><hr></td></tr>
+                <tr><td colspan="3"><center style="font-size:18px;font-weight:bold;">TECHNICAL ASSISTANCE PLAN</center></td></tr>
+                <tr><td colspan="3"><center><i style="font-size:10px;">For the month of : '.$mm.' '.$year.'</i></center></td></tr>
+            </tbody>';
+        $template.='<tr>
+            <td colspan="3">
+                <table id="table" style="width:100%;">
+                    <thead>
+                    <th>T.A. ID</th>
+                    <th>CLUSTER</th>
+                    <th>SCHOOL NAME</th>
+                    <th>AREA OF CONCERN</th>
+                    <th>DETAILS OF TECHNICAL ASSISTANCE NEEDED</th>
+                    <th>TECHNICAL ASSISTANCE PROVIDED</th>
+                    <th>RECOMMENDATION</th>
+                    </thead>
+                    <tbody>';
         //builder
         $builder = $this->db->table('tblform a');
         $builder->select('a.DateCreated,a.Code,a.Details,b.schoolName,c.clusterName,d.subjectName,e.actionName,e.Recommendation');
@@ -94,32 +145,23 @@ class ReportController extends BaseController
         $data = $builder->get()->getResult();
         foreach($data as $row)
         {
-            $template.='
-            <head>
-                <style>
-                #table{font-size:12px;}
-                #table td, #table th {
-                    border: 1px solid #000;
-                    padding: 5px;font-size:12px;
-                  }
-                </style>
-            </head>
-            <body>
-                <table style="width:100%;">
-                <tbody>
-                    <tr><td colspan="3"><center><img src="'.$base64_deped.' width="30px"/></center></td></tr>
-                    <tr><td colspan="3"><center><b style="font-size:12px;">Republic of the Philippines</b></center></td></tr>
-                    <tr><td colspan="3"><center style="font-size:20px;font-weight:bold;">Department of Education</center></td></tr>
-                    <tr><td colspan="3"><center><b style="font-size:12px;">REGION IV-A CALABARZON</b></center></td></tr>
-                    <tr><td colspan="3"><center><b style="font-size:12px;">SCHOOL DIVISION OFFICE OF GENERAL TRIAS CITY</b></center></td></tr>
-                    <tr><td colspan="3"><hr></td></tr>
-                    <tr><td colspan="3"><center style="font-size:20px;font-weight:bold;">TECHNICAL ASSISTANCE PLAN</center></td></tr>
-                    <tr><td colspan="3"><center><i style="font-size:12px;">For the month of : '.$mm.' '.$year.'</i></center></td></tr>
-                </tbody>
-                </table>
-            <body>
-            ';
+            $template.='<tr>
+                            <td>'.$row->Code.'</td>
+                            <td>'.$row->clusterName.'</td>
+                            <td>'.$row->schoolName.'</td>
+                            <td>'.$row->subjectName.'</td>
+                            <td>'.$row->Details.'</td>
+                            <td>'.$row->actionName.'</td>
+                            <td>'.$row->Recommendation.'</td>
+                        </tr>';   
         }
+        $template.='</tbody>
+                </table>
+            </td>
+        </tr>';
+        $template.='</table>
+        <body>
+        ';
         $dompdf->loadHtml($template);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();

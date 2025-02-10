@@ -296,7 +296,7 @@
             <div class="modal-content">
                 <div class="modal-header bg-info text-white">
                     <h5 class="modal-title text-white" id="exampleModalLabel"><img
-                            src="<?=base_url('assets/img/logo.png')?>" width="30px" />&nbsp;Technical Assistance Details
+                            src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>" width="30px" />&nbsp;Technical Assistance Details
                     </h5>
                     <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
                     </button>

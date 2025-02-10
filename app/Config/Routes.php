@@ -37,6 +37,9 @@ $routes->post('register','Home::register');
 $routes->get('activate/(:any)','Home::activateAccount/$1');
 // submit form
 $routes->post('change-password','Home::changePassword');
+$routes->post('save-logo','Home::saveLogo');
+$routes->get('resend/(:any)','Home::resend/$1');
+$routes->get('auto-approval','Home::autoApprove');
 // fetch using ajax
 $routes->get('fetch-cluster','ActionController::fetchCluster');
 $routes->get('fetch-subject','ActionController::fetchSubject');
@@ -71,13 +74,12 @@ $routes->post('save-feedback','ActionController::saveFeedback');
 $routes->post('save-action','ActionController::saveAction');
 //report
 $routes->get('export','ReportController::exportReport');
-$routes->post('save-logo','Home::saveLogo');
 
 $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
 {
     $routes->get('/', 'Home::index');
     $routes->get('sign-up','Home::signUp');
-    $routes->get('success','Home::successLink');
+    $routes->get('success/(:any)','Home::successLink/$1');
 });
 
 $routes->group('',['filter'=>'AuthCheck'],function($routes)
