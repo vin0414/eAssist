@@ -340,7 +340,7 @@ class Home extends BaseController
 
     public function techAssistance()
     {
-        if(session()->get('role')=="Administrator" && session()->get('user_type')=="PSDS")
+        if(session()->get('role')=="Administrator" && session()->get('user_type')=="ADMIN")
         {
             $title = "Technical Assistance";
             //system
@@ -468,7 +468,7 @@ class Home extends BaseController
 
     public function reports()
     {
-        if(session()->get('role')=="Administrator" && session()->get('user_type')=="PSDS")
+        if(session()->get('role')=="Administrator" && session()->get('user_type')=="ADMIN")
         {
             $title = "Reports";
             //system
@@ -758,9 +758,8 @@ class Home extends BaseController
             $subjectModel = new \App\Models\subjectModel();
             $subject = $subjectModel->findAll();
             //users
-            $type_users = ['EPS'];
             $accountModel = new \App\Models\accountModel();
-            $account = $accountModel->WHEREIN('userType',$type_users)->findAll();
+            $account = $accountModel->WHERE('Role','Manager')->findAll();
 
             $data = ['title'=>$title,'subject'=>$subject,'account'=>$account,'about'=>$system];
             return view('user/technical-assistance',$data);
@@ -851,7 +850,7 @@ class Home extends BaseController
 
     public function viewFeedback()
     {
-        if(session()->get('role')=="Administrator" && session()->get('user_type')=="PSDS")
+        if(session()->get('role')=="Administrator" && session()->get('user_type')=="ADMIN")
         {
             $title = "Feedback and Rates";
             //system

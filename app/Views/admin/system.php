@@ -4,8 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
-    <link rel="icon" type="image/png" href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
+    <link rel="apple-touch-icon" sizes="76x76"
+        href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
+    <link rel="icon" type="image/png"
+        href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
     <title><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
@@ -31,8 +33,10 @@
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                 aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href="<?=site_url('/')?>" target="_blank">
-                <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>" class="navbar-brand-img h-100" alt="main_logo">
-                <span class="ms-1 font-weight-bold"><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></span>
+                <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>"
+                    class="navbar-brand-img h-100" alt="main_logo">
+                <span
+                    class="ms-1 font-weight-bold"><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></span>
             </a>
         </div>
         <hr class="horizontal dark mt-0">
@@ -65,7 +69,6 @@
                         <span class="nav-link-text ms-1">Dashboard</span>
                     </a>
                 </li>
-                <?php if(session()->get('user_type')=="PSDS"){ ?>
                 <li class="nav-item">
                     <a class="nav-link" href="<?=site_url('/technical-assistance')?>">
                         <div
@@ -80,8 +83,6 @@
                         <span class="nav-link-text ms-1">Technical Assistance</span>
                     </a>
                 </li>
-                <?php } ?>
-                <?php if(session()->get('user_type')=="ADMIN"){ ?>
                 <li class="nav-item">
                     <a class="nav-link" href="<?=site_url('/cluster-and-schools')?>">
                         <div
@@ -125,8 +126,6 @@
                         <span class="nav-link-text ms-1">System and Logs</span>
                     </a>
                 </li>
-                <?php } ?>
-                <?php if(session()->get('user_type')=="PSDS"){ ?>
                 <li class="nav-item">
                     <a class="nav-link" href="<?=site_url('/reports')?>">
                         <div
@@ -147,7 +146,6 @@
                         <span class="nav-link-text ms-1">Reports</span>
                     </a>
                 </li>
-                <?php } ?>
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
                 </li>
@@ -221,7 +219,7 @@
             </ul>
             <div class="tab-content" id="myTabsContent">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <br/>
+                    <br />
                     <div class="card">
                         <div class="card-header p-3 pb-0">
                             <div class="d-flex align-items-center">
@@ -232,17 +230,19 @@
                         </div>
                         <div class="card-body">
                             <?php if(!empty(session()->getFlashdata('success'))) : ?>
-                                <div class="alert alert-success" role="alert">
-                                    <?= session()->getFlashdata('success'); ?>
-                                </div>
+                            <div class="alert alert-success" role="alert">
+                                <?= session()->getFlashdata('success'); ?>
+                            </div>
                             <?php endif; ?>
-                            <form method="POST" class="row g-3" enctype="multipart/form-data" action="<?=base_url('save-logo')?>" id="frmApplication">
+                            <form method="POST" class="row g-3" enctype="multipart/form-data"
+                                action="<?=base_url('save-logo')?>" id="frmApplication">
                                 <div class="col-lg-12">
                                     <label>Application Name</label>
                                     <?php if(empty($system)){ ?>
-                                    <input type="text" class="form-control" name="app_name"  required/>
+                                    <input type="text" class="form-control" name="app_name" required />
                                     <?php }else { ?>
-                                    <input type="text" class="form-control" name="app_name" value="<?=$system['systemTitle']?>" required/>
+                                    <input type="text" class="form-control" name="app_name"
+                                        value="<?=$system['systemTitle']?>" required />
                                     <?php } ?>
                                 </div>
                                 <div class="col-lg-12">
@@ -250,22 +250,23 @@
                                     <?php if(empty($system)){ ?>
                                     <textarea class="form-control h-100px" name="app_details"></textarea>
                                     <?php }else { ?>
-                                    <textarea class="form-control h-100px" name="app_details"><?=$system['systemDetails']?></textarea>
+                                    <textarea class="form-control h-100px"
+                                        name="app_details"><?=$system['systemDetails']?></textarea>
                                     <?php } ?>
                                 </div>
                                 <div class="col-lg-12">
                                     <label>Logo</label>
-                                    <input type="file" class="form-control" name="file" required/>
+                                    <input type="file" class="form-control" name="file" required />
                                 </div>
                                 <div class="col-lg-12">
                                     <button type="submit" class="btn btn-info">Save Changes</button>
                                 </div>
-                            </form>  
+                            </form>
                         </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="log" role="tabpanel" aria-labelledby="log-tab">
-                    <br/>
+                    <br />
                     <div class="card">
                         <div class="card-header p-3 pb-0">
                             <div class="d-flex align-items-center">
@@ -289,65 +290,73 @@
                                         </th>
                                     </thead>
                                     <tbody>
-                                    <?php foreach($log as $row): ?>
-                                    <tr>
-                                        <td><?php echo $row->DateCreated ?></td>
-                                        <td><?php echo $row->Fullname ?></td>
-                                        <td><?php echo $row->Activity ?></td>
-                                    </tr>
-                                    <?php endforeach; ?>
+                                        <?php foreach($log as $row): ?>
+                                        <tr>
+                                            <td><?php echo $row->DateCreated ?></td>
+                                            <td><?php echo $row->Fullname ?></td>
+                                            <td><?php echo $row->Activity ?></td>
+                                        </tr>
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
-                            </div> 
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="repo" role="tabpanel" aria-labelledby="repo-tab">
-                    <br/>
+                    <br />
                     <div class="row g-3">
                         <div class="col-lg-8">
                             <div class="card">
                                 <div class="card-header">
-                                    <div class="card-title"><i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Restore</div>
+                                    <div class="card-title"><i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Restore
+                                    </div>
                                 </div>
                                 <div class="card-body pt-0">
                                     <?php if(!empty(session()->getFlashdata('fail'))) : ?>
-                                        <div class="alert alert-danger" role="alert">
+                                    <div class="alert alert-danger" role="alert">
                                         <?= session()->getFlashdata('fail'); ?>
-                                        </div>
+                                    </div>
                                     <?php endif; ?>
                                     <?php if(!empty(session()->getFlashdata('success'))) : ?>
-                                        <div class="alert alert-success" role="alert">
+                                    <div class="alert alert-success" role="alert">
                                         <?= session()->getFlashdata('success'); ?>
-                                        </div>
+                                    </div>
                                     <?php endif; ?>
-                                    <form method="POST" class="row g-3" enctype="multipart/form-data" action="<?=base_url('restore')?>">
+                                    <form method="POST" class="row g-3" enctype="multipart/form-data"
+                                        action="<?=base_url('restore')?>">
                                         <div class="col-lg-12">
                                             <span class="menu-title">Server/Host</span>
-                                            <input type="text" class="form-control bg-transparent" name="server" value="localhost" required/>
+                                            <input type="text" class="form-control bg-transparent" name="server"
+                                                value="localhost" required />
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="row g-3">
                                                 <div class="col-lg-4">
                                                     <span class="menu-title">Username</span>
-                                                    <input type="text" class="form-control bg-transparent" name="username" value="root" required/>
+                                                    <input type="text" class="form-control bg-transparent"
+                                                        name="username" value="root" required />
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <span class="menu-title">Password</span>
-                                                    <input type="password" class="form-control bg-transparent" name="password" value="" required/>
+                                                    <input type="password" class="form-control bg-transparent"
+                                                        name="password" value="" required />
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <span class="menu-title">Schema</span>
-                                                    <input type="text" class="form-control bg-transparent" name="database" value="" required/>
+                                                    <input type="text" class="form-control bg-transparent"
+                                                        name="database" value="" required />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-12">
                                             <span class="menu-title">SQL File</span>
-                                            <input type="file" class="form-control bg-transparent" name="file" required/>
+                                            <input type="file" class="form-control bg-transparent" name="file"
+                                                required />
                                         </div>
                                         <div class="col-lg-12">
-                                            <button type="submit" class="btn btn-info"><i class="fa-solid fa-circle-arrow-up"></i>&nbsp;Upload Data</button>
+                                            <button type="submit" class="btn btn-info"><i
+                                                    class="fa-solid fa-circle-arrow-up"></i>&nbsp;Upload Data</button>
                                         </div>
                                     </form>
                                 </div>
@@ -356,11 +365,15 @@
                         <div class="col-lg-4">
                             <div class="card ">
                                 <div class="card-header">
-                                    <div class="card-title"><i class="fa-solid fa-cloud-arrow-down"></i>&nbsp;Back-Up</div>
+                                    <div class="card-title"><i class="fa-solid fa-cloud-arrow-down"></i>&nbsp;Back-Up
+                                    </div>
                                 </div>
                                 <div class="card-body pt-0">
-                                    <p class="text-muted">Backing up collected data is an important part of data management. Backups protect against human error, hardware failure, virus attacks, power outages and natural disasters.</p>
-                                    <a href="<?=site_url('download')?>" class="btn btn-info"><i class="fa-solid fa-circle-arrow-down"></i>&nbsp;Download Data</a>
+                                    <p class="text-muted">Backing up collected data is an important part of data
+                                        management. Backups protect against human error, hardware failure, virus
+                                        attacks, power outages and natural disasters.</p>
+                                    <a href="<?=site_url('download')?>" class="btn btn-info"><i
+                                            class="fa-solid fa-circle-arrow-down"></i>&nbsp;Download Data</a>
                                 </div>
                             </div>
                         </div>
@@ -442,9 +455,9 @@
     <script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        $(document).ready(function() {
-            $('#datatable-search').DataTable();
-        });
+    $(document).ready(function() {
+        $('#datatable-search').DataTable();
+    });
     </script>
     <script>
     var win = navigator.platform.indexOf('Win') > -1;

@@ -4,8 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
-    <link rel="icon" type="image/png" href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
+    <link rel="apple-touch-icon" sizes="76x76"
+        href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
+    <link rel="icon" type="image/png"
+        href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
     <title><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
@@ -36,8 +38,10 @@
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                 aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href="<?=site_url('/')?>" target="_blank">
-                <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>" class="navbar-brand-img h-100" alt="main_logo">
-                <span class="ms-1 font-weight-bold"><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></span>
+                <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>"
+                    class="navbar-brand-img h-100" alt="main_logo">
+                <span
+                    class="ms-1 font-weight-bold"><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></span>
             </a>
         </div>
         <hr class="horizontal dark mt-0">
@@ -102,7 +106,6 @@
                         <span class="nav-link-text ms-1">Technical Assistance</span>
                     </a>
                 </li>
-                <?php if(session()->get('user_type')=="ADMIN"){ ?>
                 <li class="nav-item">
                     <a class="nav-link" href="<?=site_url('/cluster-and-schools')?>">
                         <div
@@ -132,7 +135,20 @@
                         <span class="nav-link-text ms-1">User Accounts</span>
                     </a>
                 </li>
-                <?php } ?>
+                <li class="nav-item">
+                    <a class="nav-link  " href="<?=site_url('/about')?>">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <svg fill="#000000" width="18px" height="18px" viewBox="0 0 100 100" data-name="Layer 1"
+                                id="Layer_1" xmlns="http://www.w3.org/2000/svg">
+                                <title />
+                                <path
+                                    d="M80,58.27H77.59V27.46a2,2,0,0,0-2-2H24.41a2,2,0,0,0-2,2V58.27H20a2,2,0,0,0-2,2v2.66A11.63,11.63,0,0,0,29.61,74.54H70.39A11.63,11.63,0,0,0,82,62.93V60.27A2,2,0,0,0,80,58.27ZM73.59,29.46V58.27H26.41V29.46Zm-30,32.81H56.42V64H43.58ZM78,62.93a7.61,7.61,0,0,1-7.61,7.61H29.61A7.61,7.61,0,0,1,22,62.93v-.66H39.58V66a2,2,0,0,0,2,2H58.42a2,2,0,0,0,2-2V62.27H78Z" />
+                            </svg>
+                        </div>
+                        <span class="nav-link-text ms-1">System and Logs</span>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="<?=site_url('/reports')?>">
                         <div
@@ -214,7 +230,8 @@
                 <div class="card-header p-3 pb-0">
                     <div class="d-flex align-items-center">
                         <h6 class="mb-0">
-                            <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>" width="30px" />&nbsp;Feedback and Rates
+                            <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>"
+                                width="30px" />&nbsp;Feedback and Rates
                         </h6>
                     </div>
                 </div>
