@@ -22,6 +22,10 @@ class ReportController extends BaseController
         $options->set('isPhpEnabled', true); // For enabling PHP functions if required
         $options->set("isImageEnabled", true);
         $dompdf->setOptions($options);
+        $name = session()->get('fullname');
+        //get the first administrator
+        $accountModel = new \App\Models\accountModel();
+        $account = $accountModel->WHERE('Position','Chief Education Supervisor')->first();
         $template = "";
         //get the deped
         $depedPath = 'assets/img/logos/deped_logo.webp';
@@ -105,6 +109,10 @@ class ReportController extends BaseController
             text-align: center;
             color: #000000;
             }
+            .footer
+            {
+                position:fixed;bottom:0;width:100%;font-size:10px;
+            }
             </style>
         </head>
         <body>
@@ -157,8 +165,25 @@ class ReportController extends BaseController
                 </table>
             </td>
         </tr>';
+        $template.='<tr><td colspan="3"><br/></td></tr>';
+        $template.='<tr><td colspan="3"><br/></td></tr>';
+        $template.='<tr><td colspan="3"><br/></td></tr>';
         //prepared and approved
-        $template.='<tr><td colspan="2"><i style="font-size:10px;">Prepared By</i></td><td><i style="font-size:10px;">Approved By</i></td></tr>';
+        $template.='<tr><td colspan="2"><span style="font-size:10px;">Prepared By</span></td><td><span style="font-size:10px;">Approved By</span></td></tr>';
+        $template.='<tr><td colspan="3"><br/></td></tr>';
+        $template.='<tr><td colspan="2"><i style="font-size:10px;">'.strtoupper($name).'</i></td><td><i style="font-size:10px;">'.strtoupper($account['Fullname']).'</i></td></tr>';
+        $template.='<tr><td colspan="2"><i style="font-size:10px;">EPS/PSDS/UNIT/SECTION HEAD</i></td><td><i style="font-size:10px;">ADMINISTRATIVE OFFICER V/ CHIEF EDUCATION SUPERVISOR</i></td></tr>';
+        $template.='<tr><td colspan="3">
+                        <div class="footer">
+                        <hr><br/>
+                        <table>
+                        <tr>
+                        <td><img src='.$base64_matatag.' width="140px"/><img src='.$base64.' width="70px"/></td>
+                        <td style="vertical-align:top;">Address : Brgy. Santa Clara, General Trias City, Cavite<br/>Telephone No.: (046) 419-8720<br/>Email Address: division.gentri@deped.gov.ph<br/>Website: www.depedgentri.com</td>
+                        </tr>
+                        </table> 
+                        </div>
+                    </td></tr>';
         $template.='</table>
         <body>
         ';
