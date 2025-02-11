@@ -4,8 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
-    <link rel="icon" type="image/png" href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
+    <link rel="apple-touch-icon" sizes="76x76"
+        href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
+    <link rel="icon" type="image/png"
+        href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
     <title><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
@@ -54,8 +56,10 @@
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                 aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href="<?=site_url('/')?>" target="_blank">
-                <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>" class="navbar-brand-img h-100" alt="main_logo">
-                <span class="ms-1 font-weight-bold"><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></span>
+                <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>"
+                    class="navbar-brand-img h-100" alt="main_logo">
+                <span
+                    class="ms-1 font-weight-bold"><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></span>
             </a>
         </div>
         <hr class="horizontal dark mt-0">
@@ -187,7 +191,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form method="GET" class="row g-3" id="frmReport">
+                            <form method="GET" class="row g-3" id="frmReport" action="<?=site_url('export')?>">
                                 <?= csrf_field(); ?>
                                 <div class="col-lg-3">
                                     <select class="form-control" name="month">
@@ -208,25 +212,25 @@
                                 </div>
                                 <div class="col-lg-2">
                                     <?php
-                  $currentYear = date("Y");$years = [];
-                  ?>
+                                    $currentYear = date("Y");$years = [];
+                                    ?>
                                     <select class="form-control" name="year">
                                         <option value="">Year</option>
                                         <?php
-                    for ($i = 0; $i <= 5; $i++) {
-                      $years[] = $currentYear - $i; // Subtract i to get the years going backwards
-                      ?>
+                                            for ($i = 0; $i <= 5; $i++) {
+                                            $years[] = $currentYear - $i; // Subtract i to get the years going backwards
+                                            ?>
                                         <option><?php echo $years[$i] ?></option>
                                         <?php
-                    }
-                    ?>
+                                            }
+                                        ?>
                                     </select>
                                 </div>
                                 <div class="col-lg-4">
-                                    <button type="submit" class="btn btn-info" id="btnSearch"><i
+                                    <button type="button" class="btn btn-info" id="btnSearch"><i
                                             class="fa-solid fa-magnifying-glass"></i>&nbsp;Search</button>
-                                    <a href="<?=site_url('export')?>" class="btn btn-secondary" id="btnExport"><i
-                                            class="fa-solid fa-download"></i>&nbsp;Export</a>
+                                    <button type="submit" class="btn btn-secondary" id="btnExport"><i
+                                            class="fa-solid fa-download"></i>&nbsp;Export</button>
                                 </div>
                             </form>
                         </div>

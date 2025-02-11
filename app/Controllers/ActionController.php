@@ -709,7 +709,7 @@ class ActionController extends BaseController
     public function totalReview()
     {
         $user = session()->get('loggedUser');
-        $status = ['0',3];
+        $status = [0];
         $builder = $this->db->table('tblreview');
         $builder->select('COUNT(*)as total');
         $builder->WHERE('accountID',$user)->WHEREIN('Status',$status);

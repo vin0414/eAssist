@@ -77,6 +77,7 @@ $routes->post('save-action','ActionController::saveAction');
 $routes->post('save-user','ActionController::saveUser');
 //report
 $routes->get('export','ReportController::exportReport');
+$routes->get('export-plan','ReportController::exportPlan');
 
 $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
 {

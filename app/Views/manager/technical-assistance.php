@@ -4,8 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
-    <link rel="icon" type="image/png" href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
+    <link rel="apple-touch-icon" sizes="76x76"
+        href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
+    <link rel="icon" type="image/png"
+        href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
     <title><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
@@ -31,8 +33,10 @@
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                 aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href="<?=site_url('/')?>" target="_blank">
-                <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>" class="navbar-brand-img h-100" alt="main_logo">
-                <span class="ms-1 font-weight-bold"><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></span>
+                <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>"
+                    class="navbar-brand-img h-100" alt="main_logo">
+                <span
+                    class="ms-1 font-weight-bold"><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></span>
             </a>
         </div>
         <hr class="horizontal dark mt-0">
@@ -166,6 +170,12 @@
                     <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
                         aria-controls="profile" aria-selected="false">T.A. Plan</a>
                 </li>
+                <li class="nav-item" role="presentation">
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                        data-bs-target="#exportModal">
+                        <i class="fa-solid fa-download"></i>&nbsp;Export
+                    </button>
+                </li>
             </ul>
             <div class="tab-content" id="myTabsContent">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -296,7 +306,8 @@
             <div class="modal-content">
                 <div class="modal-header bg-info text-white">
                     <h5 class="modal-title text-white" id="exampleModalLabel"><img
-                            src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>" width="30px" />&nbsp;Technical Assistance Details
+                            src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>"
+                            width="30px" />&nbsp;Technical Assistance Details
                     </h5>
                     <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
                     </button>
@@ -307,8 +318,68 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title text-white" id="exampleModalLabel"><img
+                            src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>"
+                            width="30px" />&nbsp;Generate</h5>
+                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="GET" id="frmUser" action="<?=site_url('export-plan')?>">
+                        <?= csrf_field(); ?>
+                        <div class="row">
+                            <div class="col-12 form-group">
+                                <select class="form-control" name="month">
+                                    <option value="">Month</option>
+                                    <option value="01">January</option>
+                                    <option value="02">February</option>
+                                    <option value="03">March</option>
+                                    <option value="04">April</option>
+                                    <option value="05">May</option>
+                                    <option value="06">June</option>
+                                    <option value="07">July</option>
+                                    <option value="08">August</option>
+                                    <option value="09">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                            </div>
+                            <div class="col-12 form-group">
+                                <?php
+                                $currentYear = date("Y");$years = [];
+                                ?>
+                                <select class="form-control" name="year">
+                                    <option value="">Year</option>
+                                    <?php
+                                        for ($i = 0; $i <= 5; $i++) {
+                                        $years[] = $currentYear - $i; // Subtract i to get the years going backwards
+                                        ?>
+                                    <option><?php echo $years[$i] ?></option>
+                                    <?php
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-12 form-group">
+                                <button type="submit" class="btn btn-primary form-control">
+                                    <i class="fa-solid fa-file-pdf"></i>&nbsp;Generate
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--   Core JS Files   -->
-    <script src="<?=base_url('assets/js/core/popper.min.js')?>"></script>
+    <script src="<?=base_url('assecore/popper.min.js')?>"></script>
     <script src="<?=base_url('assets/js/core/bootstrap.min.js')?>"></script>
     <script src="<?=base_url('assets/js/plugins/perfect-scrollbar.min.js')?>"></script>
     <script src="<?=base_url('assets/js/plugins/smooth-scrollbar.min.js')?>"></script>
