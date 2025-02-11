@@ -979,7 +979,6 @@ class ActionController extends BaseController
         $builder->join('tblschool d','d.schoolID=b.schoolID','LEFT');
         $builder->join('tblsubject e','e.subjectID=b.subjectID','LEFT');
         $builder->join('tblaction f','f.formID=b.formID','LEFT');
-        $builder->WHERE('b.Status<>',2)->WHERE('b.clusterID',$account['clusterID']);
         $builder->groupBy('b.formID');
         $review = $builder->get()->getResult();
 
@@ -1056,8 +1055,8 @@ class ActionController extends BaseController
         $builder->join('tblcluster c','c.clusterID=a.clusterID','LEFT');
         $builder->join('tblsubject d','d.subjectID=a.subjectID','LEFT');
         $builder->join('tblaction e','e.formID=a.formID','LEFT');
-        $builder->WHERE('DATE_FORMAT(a.DateCreated,"%m")',$month)
-                ->WHERE('DATE_FORMAT(a.DateCreated,"%Y")',$year)
+        $builder->WHERE('DATE_FORMAT(e.ImplementationDate,"%m")',$month)
+                ->WHERE('DATE_FORMAT(e.ImplementationDate,"%Y")',$year)
                 ->groupBy('a.formID');
         $data = $builder->get()->getResult();
         foreach($data as $row)
@@ -1088,8 +1087,8 @@ class ActionController extends BaseController
         $builder->join('tblcluster c','c.clusterID=a.clusterID','LEFT');
         $builder->join('tblsubject d','d.subjectID=a.subjectID','LEFT');
         $builder->join('tblaction e','e.formID=a.formID','LEFT');
-        $builder->WHERE('DATE_FORMAT(a.DateCreated,"%m")',$month)
-                ->WHERE('DATE_FORMAT(a.DateCreated,"%Y")',$year)
+        $builder->WHERE('DATE_FORMAT(e.ImplementationDate,"%m")',$month)
+                ->WHERE('DATE_FORMAT(e.ImplementationDate,"%Y")',$year)
                 ->groupBy('a.formID');
         $data = $builder->get()->getResult();
         foreach($data as $row)
@@ -1137,6 +1136,26 @@ class ActionController extends BaseController
              $logModel = new \App\Models\logModel();
              $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Added new action plan and recommendation','DateCreated'=>date('Y-m-d H:i:s a')];
              $logModel->save($data);
+            return $this->response->setJSON(['success' => 'Successfully submitted']);
+        }
+    }
+
+    public function saveUser()
+    {
+        $userTypeModel = new \App\Models\userTypeModel();
+        $validation = $this->validate([
+            'csrf_test_name'=>'required',
+            'user_type'=>'required|is_unique[tbluser_type.userType]'
+        ]);
+
+        if(!$validation)
+        {
+            return $this->response->SetJSON(['error' => $this->validator->getErrors()]);
+        }
+        else
+        {
+            $data = ['userType'=>$this->request->getPost('user_type'),'DateCreated'=>date('Y-m-d')];
+            $userTypeModel->save($data);
             return $this->response->setJSON(['success' => 'Successfully submitted']);
         }
     }

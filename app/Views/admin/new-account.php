@@ -267,10 +267,9 @@
                                             <label>Type of User</label>
                                             <select class="form-control" name="user_type" id="user_type" required>
                                                 <option value="">Choose</option>
-                                                <option>ADMIN</option>
-                                                <option>PSDS</option>
-                                                <option>EPS</option>
-                                                <option>GUEST</option>
+                                                <?php foreach($user as $row): ?>
+                                                    <option><?php echo $row['userType'] ?></option>
+                                                <?php endforeach; ?>
                                             </select>
                                             <div id="user_type-error" class="error-message text-danger text-sm"></div>
                                         </div>
@@ -393,12 +392,15 @@
     $('#user_type').change(function() {
         $('#role').find("option").remove();
         let val = $(this).val();
-        if (val === "PSDS" || val === "EPS") {
-            $('#role').append("<option>Manager</option>");
-        } else if (val === "GUEST") {
+        if (val === "GUEST") 
+        {
             $('#role').append("<option>User</option>");
         } else if (val === "ADMIN") {
             $('#role').append("<option>Administrator</option>");
+        }
+        else if(val !== "")
+        {
+            $('#role').append("<option>Manager</option>");
         }
     });
 

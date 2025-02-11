@@ -272,21 +272,9 @@
                                         <div class="col-lg-2">
                                             <label>Type of User</label>
                                             <select class="form-control" name="user_type" id="user_type" required>
-                                                <option value=""
-                                                    <?php echo ($account['userType'] == "") ? 'selected' : ''; ?>>Choose
-                                                </option>
-                                                <option
-                                                    <?php echo ($account['userType'] == "ADMIN") ? 'selected' : ''; ?>>
-                                                    ADMIN</option>
-                                                <option
-                                                    <?php echo ($account['userType'] == "PSDS") ? 'selected' : ''; ?>>
-                                                    PSDS</option>
-                                                <option
-                                                    <?php echo ($account['userType'] == "EPS") ? 'selected' : ''; ?>>EPS
-                                                </option>
-                                                <option
-                                                    <?php echo ($account['userType'] == "GUEST") ? 'selected' : ''; ?>>
-                                                    GUEST</option>
+                                            <?php foreach($user as $row): ?>
+                                                    <option <?php echo ($account['userType'] == $row['userType']) ? 'selected' : ''; ?>><?php echo $row['userType'] ?></option>
+                                                <?php endforeach; ?>
                                             </select>
                                             <div id="user_type-error" class="error-message text-danger text-sm"></div>
                                         </div>
@@ -438,12 +426,15 @@
     $('#user_type').change(function() {
         $('#role').find("option").remove();
         let val = $(this).val();
-        if (val === "PSDS" || val === "EPS") {
-            $('#role').append("<option>Manager</option>");
-        } else if (val === "GUEST") {
+        if (val === "GUEST") 
+        {
             $('#role').append("<option>User</option>");
         } else if (val === "ADMIN") {
             $('#role').append("<option>Administrator</option>");
+        }
+        else if(val !== "")
+        {
+            $('#role').append("<option>Manager</option>");
         }
     });
 

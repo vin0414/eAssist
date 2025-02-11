@@ -128,13 +128,12 @@ class ReportController extends BaseController
                     <th>SCHOOL NAME</th>
                     <th>AREA OF CONCERN</th>
                     <th>DETAILS OF TECHNICAL ASSISTANCE NEEDED</th>
-                    <th>TECHNICAL ASSISTANCE PROVIDED</th>
-                    <th>RECOMMENDATION</th>
+                    <th>DATE OF IMPLEMENTATION</th>
                     </thead>
                     <tbody>';
         //builder
         $builder = $this->db->table('tblform a');
-        $builder->select('a.DateCreated,a.Code,a.Details,b.schoolName,c.clusterName,d.subjectName,e.actionName,e.Recommendation');
+        $builder->select('a.DateCreated,a.Code,a.Details,b.schoolName,c.clusterName,d.subjectName,e.ImplementationDate');
         $builder->join('tblschool b','b.schoolID=a.schoolID','LEFT');
         $builder->join('tblcluster c','c.clusterID=a.clusterID','LEFT');
         $builder->join('tblsubject d','d.subjectID=a.subjectID','LEFT');
@@ -151,14 +150,15 @@ class ReportController extends BaseController
                             <td>'.$row->schoolName.'</td>
                             <td>'.$row->subjectName.'</td>
                             <td>'.$row->Details.'</td>
-                            <td>'.$row->actionName.'</td>
-                            <td>'.$row->Recommendation.'</td>
+                            <td>'.$row->ImplementationDate.'</td>
                         </tr>';   
         }
         $template.='</tbody>
                 </table>
             </td>
         </tr>';
+        //prepared and approved
+        $template.='<tr><td colspan="2"><i style="font-size:10px;">Prepared By</i></td><td><i style="font-size:10px;">Approved By</i></td></tr>';
         $template.='</table>
         <body>
         ';

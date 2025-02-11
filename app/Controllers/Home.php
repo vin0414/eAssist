@@ -188,7 +188,10 @@ class Home extends BaseController
 
         if(!$validation)
         {
-            return view('welcome_message',['validation'=>$this->validator]);
+            //system
+            $systemModel = new \App\Models\systemModel();
+            $system = $systemModel->first();
+            return view('welcome_message',['validation'=>$this->validator,'about'=>$system]);
         }
         else
         {
@@ -347,14 +350,11 @@ class Home extends BaseController
             $systemModel = new \App\Models\systemModel();
             $system = $systemModel->first();
             //data
-            $accountModel = new \App\Models\accountModel();
-            $account = $accountModel->WHERE('accountID',session()->get('loggedUser'))->first();
             $builder = $this->db->table('tblform b');
             $builder->select('b.Code,c.Rate,c.Message,c.DateCreated,d.clusterName,e.schoolName');
             $builder->join('tblfeedback c','c.formID=b.formID','INNER');
             $builder->join('tblcluster d','d.clusterID=b.clusterID','LEFT');
             $builder->join('tblschool e','e.schoolID=b.schoolID','LEFT');
-            $builder->WHERE('b.clusterID',$account['clusterID']);
             $builder->groupBy('b.formID');
             $feed = $builder->get()->getResult();
             $data = ['title'=>$title,'feedback'=>$feed,'about'=>$system];
@@ -401,8 +401,12 @@ class Home extends BaseController
             //subject
             $subjectModel = new \App\Models\subjectModel();
             $subject = $subjectModel->findAll();
+            //user Type
+            $userTypeModel = new \App\Models\userTypeModel();
+            $user = $userTypeModel->findAll();
 
-            $data = ['title'=>$title,'cluster'=>$cluster,'school'=>$school,'subject'=>$subject,'about'=>$system];
+            $data = ['title'=>$title,'cluster'=>$cluster,'school'=>$school,
+                    'subject'=>$subject,'about'=>$system,'user'=>$user];
             return view('admin/new-account',$data);
         }
         return redirect()->back();
@@ -428,8 +432,12 @@ class Home extends BaseController
             //account
             $accountModel = new \App\Models\accountModel();
             $account = $accountModel->where('Token',$id)->first();
+            //user Type
+            $userTypeModel = new \App\Models\userTypeModel();
+            $user = $userTypeModel->findAll();
 
-            $data = ['title'=>$title,'cluster'=>$cluster,'school'=>$school,'subject'=>$subject,'account'=>$account,'about'=>$system];
+            $data = ['title'=>$title,'cluster'=>$cluster,'school'=>$school,
+                    'subject'=>$subject,'account'=>$account,'about'=>$system,'user'=>$user];
             return view('admin/edit-account',$data);
         }
         return redirect()->back();

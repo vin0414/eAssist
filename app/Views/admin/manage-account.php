@@ -207,18 +207,25 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header p-3 pb-0">
-                            <div class="d-flex align-items-center">
+                            <div class="d-sm-flex justify-content-between">
                                 <h6 class="mb-0">
                                     <i class="fa-solid fa-users-gear"></i>&nbsp;User Accounts
                                 </h6>
-                                <a href="<?=site_url('new-account')?>"
-                                    class="btn btn-sm btn-info text-white ms-auto mb-0" style="margin-right:5px;">
-                                    <i class="fa-solid fa-user-plus"></i> New Account
-                                </a>
-                                <button type="button" class="btn btn-sm btn-secondary text-white mb-0"
-                                    data-bs-toggle="modal" data-bs-target="#addPasswordModal">
-                                    <i class="fa-solid fa-plus"></i> Set Password
-                                </button>
+                                <div class="d-flex">
+                                    <div class="dropdown d-inline" style="margin-right:5px;">
+                                        <a href="javascript:;" class="btn btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
+                                        More
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3" aria-labelledby="navbarDropdownMenuLink2" data-popper-placement="left-start">
+                                            <li><a class="dropdown-item border-radius-md" href="javascript:;" data-bs-toggle="modal" data-bs-target="#addPasswordModal"><i class="fa-solid fa-key"></i>&nbsp;Set Password</a></li>
+                                            <li><a class="dropdown-item border-radius-md" href="javascript:;" data-bs-toggle="modal" data-bs-target="#addUserModal"><i class="fa-solid fa-circle-plus"></i>&nbsp;Add User Type</a></li>
+                                        </ul>
+                                    </div>
+                                    <a href="<?=site_url('new-account')?>"
+                                        class="btn btn-sm btn-info text-white">
+                                        <i class="fa-solid fa-user-plus"></i> New Account
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         <div class="card-body">
@@ -378,6 +385,36 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New User Type</h5>
+                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" id="frmUser">
+                        <?= csrf_field(); ?>
+                        <div class="row">
+                            <div class="col-12 form-group">
+                                <label>Type of User <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="user_type" required/>
+                                <div id="user_type-error" class="error-message text-danger text-sm"></div>
+                            </div>
+                            <div class="col-12 form-group">
+                                <button type="submit" class="btn btn-primary"><i
+                                        class="fa-regular fa-floppy-disk"></i>&nbsp;Save
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--   Core JS Files   -->
     <script src="<?=base_url('assets/js/core/popper.min.js')?>"></script>
     <script src="<?=base_url('assets/js/core/bootstrap.min.js')?>"></script>
@@ -400,6 +437,38 @@
             x.type = "password";
         }
     }
+
+    $('#frmUser').on('submit',function(e){
+        e.preventDefault();
+        $('.error-message').html('');
+        let data = $(this).serialize();
+        $.ajax({
+            url: "<?=site_url('save-user')?>",
+            method: "POST",
+            data: data,
+            success: function(response) {
+                if (response.success) {
+                    $('#frmUser')[0].reset();
+                    $('#addUserModal').modal('hide');
+                    Swal.fire({
+                        title: "Great!",
+                        text: "Successfully saved",
+                        icon: "success"
+                    });
+                } else {
+                    var errors = response.error;
+                    // Iterate over each error and display it under the corresponding input field
+                    for (var field in errors) {
+                        $('#' + field + '-error').html('<p>' + errors[field] +
+                            '</p>'); // Show the first error message
+                        $('#' + field).addClass(
+                            'text-danger'); // Highlight the input field with an error
+                    }
+                }
+            }
+        });
+    });
+
     $('#frmPassword').on('submit', function(e) {
         e.preventDefault();
         $('.error-message').html('');
