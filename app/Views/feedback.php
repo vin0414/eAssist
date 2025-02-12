@@ -24,11 +24,6 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- CSS Files -->
     <link id="pagestyle" href="<?=base_url('assets/css/soft-ui-dashboard.css?v=1.1.0')?>" rel="stylesheet" />
-    <style>
-    p {
-        font-size: 12px;
-    }
-    </style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -92,6 +87,7 @@
                         <span class="nav-link-text ms-1">Feedback</span>
                     </a>
                 </li>
+                <?php if(session()->get('user_type')=="CHIEF"){ ?>
                 <li class="nav-item">
                     <a class="nav-link" href="<?=site_url('/technical-assistance')?>">
                         <div
@@ -103,11 +99,36 @@
                                     stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Technical Assistance</span>
+                        <span class="nav-link-text ms-1">Office Plan</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?=site_url('/cluster-and-schools')?>">
+                    <a class="nav-link  " href="<?=site_url('/reports')?>">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1"
+                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <title>report-barchart</title>
+                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g id="add" fill="#000000" transform="translate(42.666667, 85.333333)">
+                                        <path
+                                            d="M341.333333,1.42108547e-14 L426.666667,85.3333333 L426.666667,341.333333 L3.55271368e-14,341.333333 L3.55271368e-14,1.42108547e-14 L341.333333,1.42108547e-14 Z M330.666667,42.6666667 L42.6666667,42.6666667 L42.6666667,298.666667 L384,298.666667 L384,96 L330.666667,42.6666667 Z M106.666667,85.3333333 L106.666,234.666 L341.333333,234.666667 L341.333333,256 L85.3333333,256 L85.3333333,85.3333333 L106.666667,85.3333333 Z M170.666667,149.333333 L170.666667,213.333333 L128,213.333333 L128,149.333333 L170.666667,149.333333 Z M234.666667,106.666667 L234.666667,213.333333 L192,213.333333 L192,106.666667 L234.666667,106.666667 Z M298.666667,170.666667 L298.666667,213.333333 L256,213.333333 L256,170.666667 L298.666667,170.666667 Z"
+                                            id="Combined-Shape">
+                                        </path>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                        <span class="nav-link-text ms-1">Office Report</span>
+                    </a>
+                </li>
+                <?php } ?>
+                <?php if(session()->get('user_type')=="ADMIN"){ ?>
+                <li class="nav-item mt-3">
+                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Manage</h6>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  " href="<?=site_url('/cluster-and-schools')?>">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 15 15" fill="none"
@@ -121,7 +142,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?=site_url('/user-accounts')?>">
+                    <a class="nav-link  " href="<?=site_url('/user-accounts')?>">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg fill="#000000" width="18px" height="18px" viewBox="-6 0 32 32" version="1.1"
@@ -149,31 +170,12 @@
                         <span class="nav-link-text ms-1">System and Logs</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?=site_url('/reports')?>">
-                        <div
-                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <title>report-barchart</title>
-                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <g id="add" fill="#000000" transform="translate(42.666667, 85.333333)">
-                                        <path
-                                            d="M341.333333,1.42108547e-14 L426.666667,85.3333333 L426.666667,341.333333 L3.55271368e-14,341.333333 L3.55271368e-14,1.42108547e-14 L341.333333,1.42108547e-14 Z M330.666667,42.6666667 L42.6666667,42.6666667 L42.6666667,298.666667 L384,298.666667 L384,96 L330.666667,42.6666667 Z M106.666667,85.3333333 L106.666,234.666 L341.333333,234.666667 L341.333333,256 L85.3333333,256 L85.3333333,85.3333333 L106.666667,85.3333333 Z M170.666667,149.333333 L170.666667,213.333333 L128,213.333333 L128,149.333333 L170.666667,149.333333 Z M234.666667,106.666667 L234.666667,213.333333 L192,213.333333 L192,106.666667 L234.666667,106.666667 Z M298.666667,170.666667 L298.666667,213.333333 L256,213.333333 L256,170.666667 L298.666667,170.666667 Z"
-                                            id="Combined-Shape">
-                                        </path>
-                                    </g>
-                                </g>
-                            </svg>
-                        </div>
-                        <span class="nav-link-text ms-1">Reports</span>
-                    </a>
-                </li>
+                <?php } ?>
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?=site_url('account')?>">
+                    <a class="nav-link  " href="<?=site_url('account')?>">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1"
@@ -252,10 +254,10 @@
                                     T.A. ID
                                 </th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                    Rate
+                                    Rating
                                 </th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                    Message
+                                    Feedback
                                 </th>
                             </thead>
                             <tbody>

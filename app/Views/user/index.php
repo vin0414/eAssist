@@ -4,8 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
-    <link rel="icon" type="image/png" href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
+    <link rel="apple-touch-icon" sizes="76x76"
+        href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
+    <link rel="icon" type="image/png"
+        href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
     <title><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
@@ -33,8 +35,10 @@
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                 aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href="<?=site_url('/')?>" target="_blank">
-                <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>" class="navbar-brand-img h-100" alt="main_logo">
-                <span class="ms-1 font-weight-bold"><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></span>
+                <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>"
+                    class="navbar-brand-img h-100" alt="main_logo">
+                <span
+                    class="ms-1 font-weight-bold"><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></span>
             </a>
         </div>
         <hr class="horizontal dark mt-0">
@@ -99,24 +103,6 @@
                             </svg>
                         </div>
                         <span class="nav-link-text ms-1">Feedback</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://csm.depedgentri.com/csm.php" target="_BLANK">
-                        <div
-                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <svg width="12px" height="12px" viewBox="0 0 48 48" version="1"
-                                xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 48 48">
-                                <path fill="#78909C"
-                                    d="M40,41H8c-2.2,0-4-1.8-4-4l0-20.9c0-1.3,0.6-2.5,1.7-3.3L24,0l18.3,12.8c1.1,0.7,1.7,2,1.7,3.3V37 C44,39.2,42.2,41,40,41z" />
-                                <rect x="12" y="11" fill="#ffffff" width="24" height="22" />
-                                <polygon fill="#9C27B0" points="24,13.6 18,21.4 30,21.4" />
-                                <path fill="#CFD8DC"
-                                    d="M40,41H8c-2.2,0-4-1.8-4-4l0-20l20,13l20-13v20C44,39.2,42.2,41,40,41z" />
-                                <polygon fill="#9C27B0" points="24,28 26,26.7 26,20 22,20 22,26.7" />
-                            </svg>
-                        </div>
-                        <span class="nav-link-text ms-1">Client Satisfaction</span>
                     </a>
                 </li>
                 <li class="nav-item mt-3">
@@ -366,9 +352,7 @@
         </div>
     </main>
     <div class="fixed-plugin">
-        <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
-            <i class="fa fa-cog py-2"> </i>
-        </a>
+        <!-- https://csm.depedgentri.com/csm.php-->
         <div class="card shadow-lg ">
             <div class="card-header pb-0 pt-3 ">
                 <div class="float-start">

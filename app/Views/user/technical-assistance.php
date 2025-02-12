@@ -4,8 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
-    <link rel="icon" type="image/png" href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
+    <link rel="apple-touch-icon" sizes="76x76"
+        href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
+    <link rel="icon" type="image/png"
+        href="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>">
     <title><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
@@ -23,38 +25,26 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="<?=base_url('assets/css/soft-ui-dashboard.css?v=1.1.0')?>" rel="stylesheet" />
     <style>
-    .rating {
-        display: inline-block;
-        direction: rtl;
+    ::-webkit-scrollbar {
+        width: 2px;
+        /* Sets the width of the scrollbar */
+        height: 5px;
     }
 
-    .rating input {
-        display: none;
+    /* Style the scrollbar track */
+    ::-webkit-scrollbar-track {
+        background-color: #f1f1f1;
     }
 
-    .rating label {
-        font-size: 30px;
-        color: #d3d3d3;
-        cursor: pointer;
-        transition: color 0.3s;
+    /* Style the scrollbar thumb (the draggable part) */
+    ::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 10px;
     }
 
-    .rating input:checked~label {
-        color: gold;
-    }
-
-    .rating input:checked+label,
-    .rating label:hover,
-    .rating label:hover~label {
-        color: gold;
-    }
-
-    .rating input:focus+label {
-        outline: none;
-    }
-
-    .rating label:active {
-        transform: scale(1.1);
+    /* Style the thumb when hovered */
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
     }
     </style>
 </head>
@@ -66,8 +56,10 @@
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                 aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href="<?=site_url('/')?>" target="_blank">
-                <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>" class="navbar-brand-img h-100" alt="main_logo">
-                <span class="ms-1 font-weight-bold"><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></span>
+                <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>"
+                    class="navbar-brand-img h-100" alt="main_logo">
+                <span
+                    class="ms-1 font-weight-bold"><?=isset($about['systemTitle']) ? $about['systemTitle'] : "No Application Title"?></span>
             </a>
         </div>
         <hr class="horizontal dark mt-0">
@@ -134,24 +126,6 @@
                         <span class="nav-link-text ms-1">Feedback</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://csm.depedgentri.com/csm.php" target="_BLANK">
-                        <div
-                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <svg width="12px" height="12px" viewBox="0 0 48 48" version="1"
-                                xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 48 48">
-                                <path fill="#78909C"
-                                    d="M40,41H8c-2.2,0-4-1.8-4-4l0-20.9c0-1.3,0.6-2.5,1.7-3.3L24,0l18.3,12.8c1.1,0.7,1.7,2,1.7,3.3V37 C44,39.2,42.2,41,40,41z" />
-                                <rect x="12" y="11" fill="#ffffff" width="24" height="22" />
-                                <polygon fill="#9C27B0" points="24,13.6 18,21.4 30,21.4" />
-                                <path fill="#CFD8DC"
-                                    d="M40,41H8c-2.2,0-4-1.8-4-4l0-20l20,13l20-13v20C44,39.2,42.2,41,40,41z" />
-                                <polygon fill="#9C27B0" points="24,28 26,26.7 26,20 22,20 22,26.7" />
-                            </svg>
-                        </div>
-                        <span class="nav-link-text ms-1">Client Satisfaction</span>
-                    </a>
-                </li>
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
                 </li>
@@ -209,101 +183,49 @@
         <?= view('templates/header'); ?>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
-            <ul class="nav nav-tabs" id="myTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
-                        aria-controls="profile" aria-selected="false">Technical Assistance Tracking</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="others-tab" data-bs-toggle="tab" href="#others" role="tab"
-                        aria-controls="others" aria-selected="false">Action and Insights</a>
-                </li>
-            </ul>
-            <div class="tab-content" id="myTabsContent">
-                <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <div class="card">
-                        <div class="card-header p-3 pb-0">
-                            <div class="d-flex align-items-center">
-                                <h6 class="mb-0">
-                                    <i class="fa-solid fa-clipboard-list"></i>&nbsp;Technical Assistance
-                                </h6>
-                                <button type="button" class="btn btn-info btn-sm add ms-auto mb-0"
-                                    style="margin-right:5px;" data-bs-toggle="modal" data-bs-target="#addModal"><i
-                                        class="fa-solid fa-plus"></i>&nbsp;New</button>
-                                <button type="button" class="btn btn-secondary btn-sm mb-0" id="btnExport"><i
-                                        class="fa-solid fa-download"></i>&nbsp;Export</button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-flush" id="tblrequest" style="font-size:12px;">
-                                    <thead class="thead-light">
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Date Created</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            T.A. ID</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Area of Concern</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Details of Technical Assistance Needed</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Priority Level</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Status</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Comment</th>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+            <div class="card">
+                <div class="card-header p-3 pb-0">
+                    <div class="d-flex align-items-center">
+                        <h6 class="mb-0">
+                            <i class="fa-solid fa-clipboard-list"></i>&nbsp;Request
+                        </h6>
+                        <button type="button" class="btn btn-info btn-sm add ms-auto mb-0" style="margin-right:5px;"
+                            data-bs-toggle="modal" data-bs-target="#addModal"><i
+                                class="fa-solid fa-plus"></i>&nbsp;New</button>
+                        <button type="button" class="btn btn-secondary btn-sm mb-0" id="btnExport"><i
+                                class="fa-solid fa-download"></i>&nbsp;Export</button>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="others" role="tabpanel" aria-labelledby="others-tab">
-                    <div class="card">
-                        <div class="card-header p-3 pb-0">
-                            <div class="d-flex align-items-center">
-                                <h6 class="mb-0">
-                                    <i class="fa-solid fa-list-check"></i>&nbsp;Action and Insights
-                                </h6>
-                                <button type="button" class="btn btn-secondary btn-sm add ms-auto mb-0"
-                                    id="btnExports"><i class="fa-solid fa-download"></i>&nbsp;Export</button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-flush" id="tblaction" style="font-size:12px;">
-                                    <thead class="thead-light">
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Date Created</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            T.A. ID</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Area of Concern</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            T.A. Provided</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Recommendation</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Date</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Action</th>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-flush" id="tblrequest" style="font-size:12px;">
+                            <thead class="thead-light">
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Date Created</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    T.A. ID</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Area of Concern</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Details of Technical Assistance Needed</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Priority Level</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Technical Assistance Provider</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Status</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Comment</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </main>
     <div class="fixed-plugin">
-        <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
-            <i class="fa fa-cog py-2"> </i>
-        </a>
         <div class="card shadow-lg ">
             <div class="card-header pb-0 pt-3 ">
                 <div class="float-start">
@@ -369,7 +291,8 @@
             <div class="modal-content">
                 <div class="modal-header bg-info text-white">
                     <h5 class="modal-title text-white" id="exampleModalLabel"><img
-                            src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>" width="30px" />&nbsp;New Technical Assistance
+                            src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>"
+                            width="30px" />&nbsp;New Technical Assistance
                     </h5>
                     <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
                     </button>
@@ -469,75 +392,6 @@
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-info text-white">
-                    <h5 class="modal-title text-white" id="exampleModalLabel"><img
-                            src="<?=base_url('assets/img/logo.png')?>" width="30px" />&nbsp;Feedback</h5>
-                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" class="row g-2" id="frmFeedback">
-                        <?= csrf_field(); ?>
-                        <div class="col-lg-12">
-                            <label>1. Unique Code</label>
-                            <input type="text" class="form-control" name="code" id="codes" />
-                        </div>
-                        <div class="col-lg-12">
-                            <label>2. How do you rate the TA provided by the PSDS or EPS during his/ her visit at your
-                                school?</label>
-                            <div class="rating">
-                                <!-- Radio buttons for a rating from 1 to 10 -->
-                                <input type="radio" id="star10" name="rating" value="10">
-                                <label for="star10">&#9733;</label>
-
-                                <input type="radio" id="star9" name="rating" value="9">
-                                <label for="star9">&#9733;</label>
-
-                                <input type="radio" id="star8" name="rating" value="8">
-                                <label for="star8">&#9733;</label>
-
-                                <input type="radio" id="star7" name="rating" value="7">
-                                <label for="star7">&#9733;</label>
-
-                                <input type="radio" id="star6" name="rating" value="6">
-                                <label for="star6">&#9733;</label>
-
-                                <input type="radio" id="star5" name="rating" value="5">
-                                <label for="star5">&#9733;</label>
-
-                                <input type="radio" id="star4" name="rating" value="4">
-                                <label for="star4">&#9733;</label>
-
-                                <input type="radio" id="star3" name="rating" value="3">
-                                <label for="star3">&#9733;</label>
-
-                                <input type="radio" id="star2" name="rating" value="2">
-                                <label for="star2">&#9733;</label>
-
-                                <input type="radio" id="star1" name="rating" value="1">
-                                <label for="star1">&#9733;</label>
-                            </div>
-                            <div id="rating-error" class="error-message text-danger text-sm"></div>
-                        </div>
-                        <div class="col-12">
-                            <label>3. Provide details based on your response in item number 02</label>
-                            <textarea class="form-control" name="feedback" required></textarea>
-                            <div id="feedback-error" class="error-message text-danger text-sm"></div>
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-info"><i
-                                    class="fa-regular fa-floppy-disk"></i>&nbsp;Submit</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
     <!--   Core JS Files   -->
     <script src="<?=base_url('assets/js/core/popper.min.js')?>"></script>
     <script src="<?=base_url('assets/js/core/bootstrap.min.js')?>"></script>
@@ -582,49 +436,13 @@
                     "data": "priorityLevel"
                 },
                 {
+                    "data": "provider"
+                },
+                {
                     "data": "Status"
                 },
                 {
                     "data": "Comment"
-                }
-            ]
-        });
-
-        var tables = $('#tblaction').DataTable({
-            "processing": true,
-            "serverSide": true,
-            "ajax": {
-                "url": "<?=site_url('action')?>",
-                "type": "GET",
-                "dataSrc": function(json) {
-                    // Handle the data if needed
-                    return json.data;
-                },
-                "error": function(xhr, error, code) {
-                    console.error("AJAX Error: " + error);
-                    alert("Error occurred while loading data.");
-                }
-            },
-            "columns": [{
-                    "data": "DateCreated"
-                },
-                {
-                    "data": "TA"
-                },
-                {
-                    "data": "subjectName"
-                },
-                {
-                    "data": "Provided"
-                },
-                {
-                    "data": "Recommendation"
-                },
-                {
-                    "data": "Date"
-                },
-                {
-                    "data": "Action"
                 }
             ]
         });
@@ -666,56 +484,7 @@
                 }
             });
         });
-
-        $('#frmFeedback').on('submit', function(e) {
-            e.preventDefault();
-            $('.error-message').html('');
-            let data = $(this).serialize();
-            $.ajax({
-                url: "<?=site_url('save-feedback')?>",
-                method: "POST",
-                data: new FormData(this),
-                contentType: false,
-                cache: false,
-                processData: false,
-                success: function(response) {
-                    $('#feedbackModal').modal('hide');
-                    if (response.success) {
-                        Swal.fire({
-                            title: "Great!",
-                            text: "Successfully submitted",
-                            icon: "success"
-                        });
-                    } else {
-                        var errors = response.error;
-                        // Iterate over each error and display it under the corresponding input field
-                        for (var field in errors) {
-                            $('#' + field + '-error').html('<p>' + errors[field] +
-                                '</p>'); // Show the first error message
-                            $('#' + field).addClass(
-                                'text-danger'); // Highlight the input field with an error
-                        }
-                    }
-                }
-            });
-        });
     });
-
-    $(document).on('click', '.comment', function(e) {
-        e.preventDefault();
-        $.ajax({
-            url: "<?=site_url('get-details')?>",
-            method: "GET",
-            data: {
-                value: $(this).val()
-            },
-            success: function(response) {
-                $('#feedbackModal').modal('show');
-                $('#codes').attr("value", response);
-            }
-        });
-    });
-
     document.getElementById('btnExport').addEventListener('click', function() {
         const table = document.getElementById('tblrequest');
         let html = table.outerHTML;

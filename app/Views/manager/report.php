@@ -395,7 +395,7 @@
                             text: "Successfully submitted",
                             icon: "success"
                         });
-                        
+
                     } else {
                         alert(response);
                     }
@@ -404,7 +404,7 @@
         }
     });
 
-    $('#frmAction').on('click', function(e) {
+    $('#frmAction').on('submit', function(e) {
         e.preventDefault();
         $('.error-message').html('');
         let data = $(this).serialize();

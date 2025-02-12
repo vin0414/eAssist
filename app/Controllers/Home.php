@@ -662,16 +662,18 @@ class Home extends BaseController
         if(session()->get('role')=="User")
         {
             $title = "Dashboard";
+            //user
+            $user = session()->get('loggedUser');
             //system
             $systemModel = new \App\Models\systemModel();
             $system = $systemModel->first();
             $formModel = new \App\Models\formModel();
             //count all the form
-            $totalForm = $formModel->countAllResults();
+            $totalForm = $formModel->WHERE('accountID',$user)->countAllResults();
             //count all the pending
-            $pendingForm = $formModel->WHERE('Status<>',1)->countAllResults();
+            $pendingForm = $formModel->WHERE('accountID',$user)->WHERE('Status<>',1)->countAllResults();
             //count all the resolved
-            $resolvedForm = $formModel->WHERE('Status',1)->countAllResults();
+            $resolvedForm = $formModel->WHERE('accountID',$user)->WHERE('Status',1)->countAllResults();
             //feedback
             $feedbackModel = new \App\Models\feedbackModel();
             $feed = $feedbackModel->countAllResults();
@@ -780,8 +782,14 @@ class Home extends BaseController
             $system = $systemModel->first();
             //feedback
             $user = session()->get('loggedUser');
-            $feedbackModel = new \App\Models\feedbackModel();
-            $feed = $feedbackModel->WHERE('accountID',$user)->findAll();
+            $builder = $this->db->table('tblform a');
+            $builder->select('a.Code,a.DateCreated,a.Details,b.subjectName,c.actionID,c.actionName,c.Recommendation,d.Rate,d.Message');
+            $builder->join('tblsubject b','b.subjectID=a.subjectID','LEFT');
+            $builder->join('tblaction c','c.formID=a.formID','LEFT');
+            $builder->join('tblfeedback d','d.formID=a.formID','LEFT');
+            $builder->WHERE('a.accountID',$user);
+            $builder->groupBy('a.formID');
+            $feed = $builder->get()->getResult();
             $data = ['title'=>$title,'feed'=>$feed,'about'=>$system];
             return view('user/feedback',$data);
         }
@@ -853,7 +861,7 @@ class Home extends BaseController
 
     public function viewFeedback()
     {
-        if(session()->get('role')=="Administrator" && session()->get('user_type')=="ADMIN")
+        if(session()->get('role')=="Administrator" && session()->get('user_type')=="CHIEF")
         {
             $title = "Feedback and Rates";
             //system

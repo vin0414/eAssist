@@ -582,9 +582,11 @@ class ActionController extends BaseController
 
         $user = session()->get('loggedUser');
         $builder = $this->db->table('tblform a');
-        $builder->select('a.*,b.subjectName,IFNULL(c.Message,"-")Message');
+        $builder->select('a.*,b.subjectName,IFNULL(c.Message,"-")Message,e.Fullname');
         $builder->join('tblsubject b','b.subjectID=a.subjectID','LEFT');
         $builder->join('tblcomment c', 'c.formID = a.formID', 'LEFT');
+        $builder->join('tblreview d','d.formID=a.formID','LEFT');
+        $builder->join('tblaccount e','e.accountID=d.accountID','LEFT');
         $builder->WHERE('a.accountID',$user);
         $builder->orderBy('c.DateCreated', 'DESC');
         $builder->groupBy('a.formID');
@@ -606,6 +608,7 @@ class ActionController extends BaseController
                 'subjectName' => htmlspecialchars($row->subjectName, ENT_QUOTES),
                 'Details' => htmlspecialchars($row->Details, ENT_QUOTES),
                 'priorityLevel' => htmlspecialchars($row->priorityLevel, ENT_QUOTES),
+                'provider' => htmlspecialchars($row->Fullname, ENT_QUOTES),
                 'Status'=>($row->Status == 0) ? '<span class="badge bg-warning">pending</span>' :
                 (($row->Status == 2) ? '<span class="badge bg-danger">for revision</span>' :
                 (($row->Status == 1) ? '<span class="badge bg-success">Completed</span>' : 
@@ -614,44 +617,6 @@ class ActionController extends BaseController
             ];
         }
         // Return the response as JSON
-        return $this->response->setJSON($response);
-    }
-
-    public function action()
-    {
-        $actionModel = new \App\Models\actionModel();
-        $user = session()->get('loggedUser');
-        $totalRecords = $actionModel->WHERE('requestorID',$user)->countAllResults();
-
-        $builder = $this->db->table('tblaction a');
-        $builder->select('a.*,b.Code,b.Status,c.subjectName');
-        $builder->join('tblform b','b.formID=a.formID','LEFT');
-        $builder->join('tblsubject c','c.subjectID=b.subjectID','LEFT');
-        $builder->WHERE('b.accountID',$user);
-        $records = $builder->get()->getResult();
-
-        $response = [
-            "draw" => $_GET['draw'],
-            "recordsTotal" => $totalRecords,
-            "recordsFiltered" => $totalRecords,
-            'data' => [] 
-        ];
-
-        foreach ($records as $row) {
-
-            $response['data'][] = [
-                'DateCreated' => date('Y-M-d', strtotime($row->DateCreated)),
-                'TA' => $row->Code,
-                'subjectName' => htmlspecialchars($row->subjectName, ENT_QUOTES),
-                'Provided' => htmlspecialchars($row->actionName, ENT_QUOTES),
-                'Recommendation' => htmlspecialchars($row->Recommendation, ENT_QUOTES),
-                'Date'=>date('Y-M-d', strtotime($row->ImplementationDate)),
-                'Action'=>($row->Status == 0) ? '-' :
-                (($row->Status == 1) ? '<button type="button" class="badge bg-success comment" value="'.$row->actionID.'">Add Comment</button>' : 
-                '<span class="badge bg-info">Processing</span>')
-            ];
-        }
-
         return $this->response->setJSON($response);
     }
 
@@ -1079,7 +1044,7 @@ class ActionController extends BaseController
         $year = $this->request->getGet('year');
         //builder
         $builder = $this->db->table('tblform a');
-        $builder->select('a.formID,a.Code,a.Details,b.schoolName,c.clusterName,d.subjectName,e.actionName,e.Recommendation');
+        $builder->select('a.formID,a.Code,a.Details,a.Status,b.schoolName,c.clusterName,d.subjectName,e.actionName,e.Recommendation');
         $builder->join('tblschool b','b.schoolID=a.schoolID','LEFT');
         $builder->join('tblcluster c','c.clusterID=a.clusterID','LEFT');
         $builder->join('tblsubject d','d.subjectID=a.subjectID','LEFT');
@@ -1105,9 +1070,13 @@ class ActionController extends BaseController
             <span class="fa-solid fa-plus"></span>&nbsp;Add
         </button>
         <?php }else{ ?>
+        <?php if($row->Status==1){ ?>
+        <span class="badge bg-success">Completed</span>
+        <?php }else if($row->Status==3){ ?>
         <button type="button" class="badge bg-success complete" value="<?php echo $row->formID ?>">
             <span class="fa-solid fa-flag"></span>&nbsp;Complete
         </button>
+        <?php } ?>
         <?php } ?>
     </td>
 </tr>

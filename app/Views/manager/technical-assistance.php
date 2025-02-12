@@ -24,6 +24,30 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- CSS Files -->
     <link id="pagestyle" href="<?=base_url('assets/css/soft-ui-dashboard.css?v=1.1.0')?>" rel="stylesheet" />
+    <style>
+    /* Style the scrollbar */
+    ::-webkit-scrollbar {
+        width: 2px;
+        /* Sets the width of the scrollbar */
+        height: 5px;
+    }
+
+    /* Style the scrollbar track */
+    ::-webkit-scrollbar-track {
+        background-color: #f1f1f1;
+    }
+
+    /* Style the scrollbar thumb (the draggable part) */
+    ::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 10px;
+    }
+
+    /* Style the thumb when hovered */
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+    </style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
