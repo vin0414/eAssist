@@ -223,48 +223,77 @@
             <div class="tab-content" id="myTabsContent">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <br />
-                    <div class="card">
-                        <div class="card-header p-3 pb-0">
-                            <div class="d-flex align-items-center">
-                                <h6 class="mb-0">
-                                    <i class="fa-solid fa-circle-info"></i>&nbsp;About
-                                </h6>
+                    <div class="row g-3">
+                        <div class="col-lg-8 form-group">
+                            <div class="card">
+                                <div class="card-header p-3 pb-0">
+                                    <div class="d-flex align-items-center">
+                                        <h6 class="mb-0">
+                                            <i class="fa-solid fa-circle-info"></i>&nbsp;About
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <?php if(!empty(session()->getFlashdata('success'))) : ?>
+                                    <div class="alert alert-success" role="alert">
+                                        <?= session()->getFlashdata('success'); ?>
+                                    </div>
+                                    <?php endif; ?>
+                                    <form method="POST" class="row g-3" enctype="multipart/form-data"
+                                        action="<?=base_url('save-logo')?>" id="frmApplication">
+                                        <?= csrf_field(); ?>
+                                        <div class="col-lg-12">
+                                            <label>Application Name</label>
+                                            <?php if(empty($system)){ ?>
+                                            <input type="text" class="form-control" name="app_name" required />
+                                            <?php }else { ?>
+                                            <input type="text" class="form-control" name="app_name"
+                                                value="<?=$system['systemTitle']?>" required />
+                                            <?php } ?>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <label>Application Details</label>
+                                            <?php if(empty($system)){ ?>
+                                            <textarea class="form-control h-100px" name="app_details"></textarea>
+                                            <?php }else { ?>
+                                            <textarea class="form-control h-100px"
+                                                name="app_details"><?=$system['systemDetails']?></textarea>
+                                            <?php } ?>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <label>Logo</label>
+                                            <input type="file" class="form-control" name="file" required />
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <button type="submit" class="btn btn-info">Save Changes</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <?php if(!empty(session()->getFlashdata('success'))) : ?>
-                            <div class="alert alert-success" role="alert">
-                                <?= session()->getFlashdata('success'); ?>
+                        <div class="col-lg-4 form-group">
+                            <div class="card">
+                                <div class="card-header p-3 pb-0">
+                                    <div class="d-flex align-items-center">
+                                        <h6 class="mb-0">
+                                            <i class="fa-solid fa-user-tie"></i>&nbsp;School Division Superintendent
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <form method="POST" classs="row g-3" id="frmAssign">
+                                        <?= csrf_field(); ?>
+                                        <div class="col-lg-12 form-group">
+                                            <label>Complete Name</label>
+                                            <input type="text" class="form-control" name="fullname" value="<?=isset($assign['Fullname']) ? $assign['Fullname'] : ""?>" required/>
+                                            <div id="fullname-error" class="error-message text-danger text-sm"></div>
+                                        </div>
+                                        <div class="col-lg-12 form-group">
+                                            <button type="submit" class="btn btn-info" id="btnSave">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-                            <?php endif; ?>
-                            <form method="POST" class="row g-3" enctype="multipart/form-data"
-                                action="<?=base_url('save-logo')?>" id="frmApplication">
-                                <div class="col-lg-12">
-                                    <label>Application Name</label>
-                                    <?php if(empty($system)){ ?>
-                                    <input type="text" class="form-control" name="app_name" required />
-                                    <?php }else { ?>
-                                    <input type="text" class="form-control" name="app_name"
-                                        value="<?=$system['systemTitle']?>" required />
-                                    <?php } ?>
-                                </div>
-                                <div class="col-lg-12">
-                                    <label>Application Details</label>
-                                    <?php if(empty($system)){ ?>
-                                    <textarea class="form-control h-100px" name="app_details"></textarea>
-                                    <?php }else { ?>
-                                    <textarea class="form-control h-100px"
-                                        name="app_details"><?=$system['systemDetails']?></textarea>
-                                    <?php } ?>
-                                </div>
-                                <div class="col-lg-12">
-                                    <label>Logo</label>
-                                    <input type="file" class="form-control" name="file" required />
-                                </div>
-                                <div class="col-lg-12">
-                                    <button type="submit" class="btn btn-info">Save Changes</button>
-                                </div>
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -460,6 +489,30 @@
     <script>
     $(document).ready(function() {
         $('#datatable-search').DataTable();
+    });
+    $('#btnSave').on('click', function(e) {
+        e.preventDefault();
+        $('.error-message').html('');
+        let data = $('#frmAssign').serialize();
+        $.ajax({
+            url: "<?=site_url('assign')?>",
+            method: "POST",
+            data: data,
+            success: function(response) {
+                if (response.success) {
+                    location.reload();
+                } else {
+                    var errors = response.error;
+                    // Iterate over each error and display it under the corresponding input field
+                    for (var field in errors) {
+                        $('#' + field + '-error').html('<p>' + errors[field] +
+                            '</p>'); // Show the first error message
+                        $('#' + field).addClass(
+                            'text-danger'); // Highlight the input field with an error
+                    }
+                }
+            }
+        });
     });
     </script>
     <script>

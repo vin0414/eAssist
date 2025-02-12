@@ -1159,4 +1159,33 @@ class ActionController extends BaseController
             return $this->response->setJSON(['success' => 'Successfully submitted']);
         }
     }
+
+    public function assign()
+    {
+        $assignModel = new \App\Models\assignModel();
+        $assign = $assignModel->first();
+        $validation = $this->validate([
+            'csrf_test_name'=>'required',
+            'fullname'=>'required|is_unique[tblassign.Fullname]'
+        ]);
+
+        if(!$validation)
+        {
+            return $this->response->SetJSON(['error' => $this->validator->getErrors()]);
+        }
+        else
+        {
+            if(empty($assign))
+            {
+                $data = ['Fullname'=>$this->request->getPost('fullname'),'DateCreated'=>date('Y-m-d')];
+                $assignModel->save($data);
+            }
+            else
+            {
+                $data = ['Fullname'=>$this->request->getPost('fullname'),'DateCreated'=>date('Y-m-d')];
+                $assignModel->update($assign['assignID'],$data);
+            }
+            return $this->response->setJSON(['success' => 'Successfully submitted']);
+        }
+    }
 }

@@ -383,9 +383,8 @@ class ReportController extends BaseController
         $options->set("isImageEnabled", true);
         $dompdf->setOptions($options);
         $name = session()->get('fullname');
-        //get the first administrator
-        $accountModel = new \App\Models\accountModel();
-        $account = $accountModel->WHERE('Position','Chief Education Supervisor')->first();
+        $assignModel = new \App\Models\assignModel();
+        $assign = $assignModel->first();
         $template = "";
         //get the deped
         $depedPath = 'assets/img/logos/deped_logo.webp';
@@ -531,7 +530,7 @@ class ReportController extends BaseController
         //prepared and approved
         $template.='<tr><td colspan="2"><span style="font-size:10px;">Prepared By</span></td><td><span style="font-size:10px;">Approved By</span></td></tr>';
         $template.='<tr><td colspan="3"><br/></td></tr>';
-        $template.='<tr><td colspan="2"><i style="font-size:10px;">'.strtoupper($name).'</i></td><td><i style="font-size:10px;">'.strtoupper($account['Fullname']).'</i></td></tr>';
+        $template.='<tr><td colspan="2"><i style="font-size:10px;">'.strtoupper($name).'</i></td><td><i style="font-size:10px;">'.strtoupper($assign['Fullname']).'</i></td></tr>';
         $template.='<tr><td colspan="2"><i style="font-size:10px;">ADMINISTRATIVE OFFICER V/ CHIEF EDUCATION SUPERVISOR</i></td><td><i style="font-size:10px;">SCHOOLS DIVISION SUPERINTENDENT</i></td></tr>';
         $template.='<tr><td colspan="3">
                         <div class="footer">
@@ -562,9 +561,8 @@ class ReportController extends BaseController
         $options->set("isImageEnabled", true);
         $dompdf->setOptions($options);
         $name = session()->get('fullname');
-        //get the first administrator
-        $accountModel = new \App\Models\accountModel();
-        $account = $accountModel->WHERE('Position','Chief Education Supervisor')->first();
+        $assignModel = new \App\Models\assignModel();
+        $assign = $assignModel->first();
         $template = "";
         //get the deped
         $depedPath = 'assets/img/logos/deped_logo.webp';
@@ -712,7 +710,7 @@ class ReportController extends BaseController
         //prepared and approved
         $template.='<tr><td colspan="2"><span style="font-size:10px;">Prepared By</span></td><td><span style="font-size:10px;">Approved By</span></td></tr>';
         $template.='<tr><td colspan="3"><br/></td></tr>';
-        $template.='<tr><td colspan="2"><i style="font-size:10px;">'.strtoupper($name).'</i></td><td><i style="font-size:10px;">'.strtoupper($account['Fullname']).'</i></td></tr>';
+        $template.='<tr><td colspan="2"><i style="font-size:10px;">'.strtoupper($name).'</i></td><td><i style="font-size:10px;">'.strtoupper($assign['Fullname']).'</i></td></tr>';
         $template.='<tr><td colspan="2"><i style="font-size:10px;">ADMINISTRATIVE OFFICER V/ CHIEF EDUCATION SUPERVISOR</i></td><td><i style="font-size:10px;">SCHOOLS DIVISION SUPERINTENDENT</i></td></tr>';
         $template.='<tr><td colspan="3">
                         <div class="footer">

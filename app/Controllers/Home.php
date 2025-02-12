@@ -518,8 +518,11 @@ class Home extends BaseController
         $builder->join('tblaccount b','b.accountID=a.accountID','LEFT');
         $builder->groupBy('a.recordID');
         $log = $builder->get()->getResult();
+        //assign
+        $assignModel = new \App\Models\assignModel();
+        $assign = $assignModel->first();
 
-        $data = ['title'=>$title,'log'=>$log,'system'=>$system,'about'=>$system];
+        $data = ['title'=>$title,'log'=>$log,'system'=>$system,'about'=>$system,'assign'=>$assign];
         return view('admin/system',$data);
     }
 
