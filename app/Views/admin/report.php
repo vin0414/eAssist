@@ -50,7 +50,7 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
-    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 "
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 "
         id="sidenav-main">
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
@@ -107,7 +107,30 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?=site_url('/cluster-and-schools')?>">
+                    <a class="nav-link active" href="<?=site_url('/reports')?>">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1"
+                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <title>report-barchart</title>
+                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g id="add" fill="#000000" transform="translate(42.666667, 85.333333)">
+                                        <path
+                                            d="M341.333333,1.42108547e-14 L426.666667,85.3333333 L426.666667,341.333333 L3.55271368e-14,341.333333 L3.55271368e-14,1.42108547e-14 L341.333333,1.42108547e-14 Z M330.666667,42.6666667 L42.6666667,42.6666667 L42.6666667,298.666667 L384,298.666667 L384,96 L330.666667,42.6666667 Z M106.666667,85.3333333 L106.666,234.666 L341.333333,234.666667 L341.333333,256 L85.3333333,256 L85.3333333,85.3333333 L106.666667,85.3333333 Z M170.666667,149.333333 L170.666667,213.333333 L128,213.333333 L128,149.333333 L170.666667,149.333333 Z M234.666667,106.666667 L234.666667,213.333333 L192,213.333333 L192,106.666667 L234.666667,106.666667 Z M298.666667,170.666667 L298.666667,213.333333 L256,213.333333 L256,170.666667 L298.666667,170.666667 Z"
+                                            id="Combined-Shape">
+                                        </path>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                        <span class="nav-link-text ms-1">Reports</span>
+                    </a>
+                </li>
+                <li class="nav-item mt-3">
+                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Manage</h6>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  " href="<?=site_url('/cluster-and-schools')?>">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 15 15" fill="none"
@@ -121,7 +144,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?=site_url('/user-accounts')?>">
+                    <a class="nav-link  " href="<?=site_url('/user-accounts')?>">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg fill="#000000" width="18px" height="18px" viewBox="-6 0 32 32" version="1.1"
@@ -147,26 +170,6 @@
                             </svg>
                         </div>
                         <span class="nav-link-text ms-1">System and Logs</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="<?=site_url('/reports')?>">
-                        <div
-                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <title>report-barchart</title>
-                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <g id="add" fill="#000000" transform="translate(42.666667, 85.333333)">
-                                        <path
-                                            d="M341.333333,1.42108547e-14 L426.666667,85.3333333 L426.666667,341.333333 L3.55271368e-14,341.333333 L3.55271368e-14,1.42108547e-14 L341.333333,1.42108547e-14 Z M330.666667,42.6666667 L42.6666667,42.6666667 L42.6666667,298.666667 L384,298.666667 L384,96 L330.666667,42.6666667 Z M106.666667,85.3333333 L106.666,234.666 L341.333333,234.666667 L341.333333,256 L85.3333333,256 L85.3333333,85.3333333 L106.666667,85.3333333 Z M170.666667,149.333333 L170.666667,213.333333 L128,213.333333 L128,149.333333 L170.666667,149.333333 Z M234.666667,106.666667 L234.666667,213.333333 L192,213.333333 L192,106.666667 L234.666667,106.666667 Z M298.666667,170.666667 L298.666667,213.333333 L256,213.333333 L256,170.666667 L298.666667,170.666667 Z"
-                                            id="Combined-Shape">
-                                        </path>
-                                    </g>
-                                </g>
-                            </svg>
-                        </div>
-                        <span class="nav-link-text ms-1">Reports</span>
                     </a>
                 </li>
                 <li class="nav-item mt-3">
@@ -234,7 +237,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form method="GET" class="row g-3" id="frmReport">
+                            <form method="GET" class="row g-3" id="frmReport" action="<?=site_url('print')?>">
                                 <?= csrf_field(); ?>
                                 <div class="col-lg-3">
                                     <select class="form-control" name="month">
@@ -255,25 +258,25 @@
                                 </div>
                                 <div class="col-lg-2">
                                     <?php
-                  $currentYear = date("Y");$years = [];
-                  ?>
-                                    <select class="form-control" name="year">
+                                    $currentYear = date("Y");$years = [];
+                                    ?>
+                                        <select class="form-control" name="year">
                                         <option value="">Year</option>
                                         <?php
-                    for ($i = 0; $i <= 5; $i++) {
-                      $years[] = $currentYear - $i; // Subtract i to get the years going backwards
-                      ?>
+                                        for ($i = 0; $i <= 5; $i++) {
+                                        $years[] = $currentYear - $i; // Subtract i to get the years going backwards
+                                        ?>
                                         <option><?php echo $years[$i] ?></option>
                                         <?php
-                    }
-                    ?>
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                                 <div class="col-lg-4">
-                                    <button type="submit" class="btn btn-info"><i
+                                    <button type="button" class="btn btn-info" id="btnSearch"><i
                                             class="fa-solid fa-magnifying-glass"></i>&nbsp;Search</button>
-                                    <button type="button" class="btn btn-secondary" id="btnExport"><i
-                                            class="fa-solid fa-download"></i>&nbsp;Export</button>
+                                    <button type="submit" class="btn btn-secondary">
+                                        <i class="fa-solid fa-download"></i>&nbsp;Export</button>
                                 </div>
                             </form>
                         </div>
@@ -377,9 +380,9 @@
     <script src="<?=base_url('assets/js/plugins/chartjs.min.js')?>"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script>
-    $('#frmReport').on('click', function(e) {
+    $('#btnSearch').on('click', function(e) {
         e.preventDefault();
-        let data = $(this).serialize();
+        let data = $('#frmReport').serialize();
         $('#tblresult').html("<tr><td colspan='8'><center>Loading...</center></td></tr>");
         $.ajax({
             url: "<?=site_url('generate-report')?>",

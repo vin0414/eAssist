@@ -78,6 +78,8 @@ $routes->post('save-user','ActionController::saveUser');
 //report
 $routes->get('export','ReportController::exportReport');
 $routes->get('export-plan','ReportController::exportPlan');
+$routes->get('print','ReportController::printTA');
+$routes->get('print-plan','ReportController::printPlan');
 
 $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
 {

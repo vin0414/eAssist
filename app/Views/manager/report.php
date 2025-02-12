@@ -353,8 +353,8 @@
                             <div id="recommendation-error" class="error-message text-danger text-sm"></div>
                         </div>
                         <div class="col-lg-12">
-                            <button type="submit" class="btn btn-info"><i
-                                    class="fa-solid fa-floppy-disk"></i>&nbsp;Save</button>
+                            <button type="submit" class="btn btn-info">
+                                <i class="fa-solid fa-floppy-disk"></i>&nbsp;Save</button>
                         </div>
                     </form>
                 </div>

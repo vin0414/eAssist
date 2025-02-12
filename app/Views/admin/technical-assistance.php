@@ -51,7 +51,7 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
-    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 "
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 "
         id="sidenav-main">
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
@@ -108,6 +108,29 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link  " href="<?=site_url('/reports')?>">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1"
+                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <title>report-barchart</title>
+                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g id="add" fill="#000000" transform="translate(42.666667, 85.333333)">
+                                        <path
+                                            d="M341.333333,1.42108547e-14 L426.666667,85.3333333 L426.666667,341.333333 L3.55271368e-14,341.333333 L3.55271368e-14,1.42108547e-14 L341.333333,1.42108547e-14 Z M330.666667,42.6666667 L42.6666667,42.6666667 L42.6666667,298.666667 L384,298.666667 L384,96 L330.666667,42.6666667 Z M106.666667,85.3333333 L106.666,234.666 L341.333333,234.666667 L341.333333,256 L85.3333333,256 L85.3333333,85.3333333 L106.666667,85.3333333 Z M170.666667,149.333333 L170.666667,213.333333 L128,213.333333 L128,149.333333 L170.666667,149.333333 Z M234.666667,106.666667 L234.666667,213.333333 L192,213.333333 L192,106.666667 L234.666667,106.666667 Z M298.666667,170.666667 L298.666667,213.333333 L256,213.333333 L256,170.666667 L298.666667,170.666667 Z"
+                                            id="Combined-Shape">
+                                        </path>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                        <span class="nav-link-text ms-1">Reports</span>
+                    </a>
+                </li>
+                <li class="nav-item mt-3">
+                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Manage</h6>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link  " href="<?=site_url('/cluster-and-schools')?>">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -148,26 +171,6 @@
                             </svg>
                         </div>
                         <span class="nav-link-text ms-1">System and Logs</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link  " href="<?=site_url('/reports')?>">
-                        <div
-                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <title>report-barchart</title>
-                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <g id="add" fill="#000000" transform="translate(42.666667, 85.333333)">
-                                        <path
-                                            d="M341.333333,1.42108547e-14 L426.666667,85.3333333 L426.666667,341.333333 L3.55271368e-14,341.333333 L3.55271368e-14,1.42108547e-14 L341.333333,1.42108547e-14 Z M330.666667,42.6666667 L42.6666667,42.6666667 L42.6666667,298.666667 L384,298.666667 L384,96 L330.666667,42.6666667 Z M106.666667,85.3333333 L106.666,234.666 L341.333333,234.666667 L341.333333,256 L85.3333333,256 L85.3333333,85.3333333 L106.666667,85.3333333 Z M170.666667,149.333333 L170.666667,213.333333 L128,213.333333 L128,149.333333 L170.666667,149.333333 Z M234.666667,106.666667 L234.666667,213.333333 L192,213.333333 L192,106.666667 L234.666667,106.666667 Z M298.666667,170.666667 L298.666667,213.333333 L256,213.333333 L256,170.666667 L298.666667,170.666667 Z"
-                                            id="Combined-Shape">
-                                        </path>
-                                    </g>
-                                </g>
-                            </svg>
-                        </div>
-                        <span class="nav-link-text ms-1">Reports</span>
                     </a>
                 </li>
                 <li class="nav-item mt-3">
@@ -243,12 +246,10 @@
                         <div class="card-header p-3 pb-0">
                             <div class="d-flex align-items-center">
                                 <h6 class="mb-0">
-                                    <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>"
-                                        width="30px" />&nbsp;Technical
-                                    Assistance
+                                    Technical Assistance
                                 </h6>
-                                <button type="button" class="btn btn-secondary btn-sm add ms-auto mb-0"
-                                    id="btnExport"><i class="fa-solid fa-download"></i>&nbsp;Export</button>
+                                <button type="button" class="btn btn-secondary btn-sm add ms-auto mb-0" data-bs-toggle="modal"
+                                data-bs-target="#exportModal"><i class="fa-solid fa-download"></i>&nbsp;Export</button>
                             </div>
                         </div>
                         <div class="card-body">
@@ -284,9 +285,7 @@
                         <div class="card-header p-3 pb-0">
                             <div class="d-flex align-items-center">
                                 <h6 class="mb-0">
-                                    <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>"
-                                        width="30px" />&nbsp;Schools and
-                                    User Feedback
+                                    Schools and User Feedback
                                 </h6>
                                 <button type="button" class="btn btn-secondary btn-sm add ms-auto mb-0"
                                     id="btnExports"><i class="fa-solid fa-download"></i>&nbsp;Export</button>
@@ -391,6 +390,66 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title text-white" id="exampleModalLabel"><img
+                            src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>"
+                            width="30px" />&nbsp;Generate</h5>
+                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="GET" id="frmUser" action="<?=site_url('print-plan')?>">
+                        <?= csrf_field(); ?>
+                        <div class="row">
+                            <div class="col-12 form-group">
+                                <select class="form-control" name="month">
+                                    <option value="">Month</option>
+                                    <option value="01">January</option>
+                                    <option value="02">February</option>
+                                    <option value="03">March</option>
+                                    <option value="04">April</option>
+                                    <option value="05">May</option>
+                                    <option value="06">June</option>
+                                    <option value="07">July</option>
+                                    <option value="08">August</option>
+                                    <option value="09">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                            </div>
+                            <div class="col-12 form-group">
+                                <?php
+                                $currentYear = date("Y");$years = [];
+                                ?>
+                                <select class="form-control" name="year">
+                                    <option value="">Year</option>
+                                    <?php
+                                        for ($i = 0; $i <= 5; $i++) {
+                                        $years[] = $currentYear - $i; // Subtract i to get the years going backwards
+                                        ?>
+                                    <option><?php echo $years[$i] ?></option>
+                                    <?php
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-12 form-group">
+                                <button type="submit" class="btn btn-primary form-control">
+                                    <i class="fa-solid fa-file-pdf"></i>&nbsp;Generate
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--   Core JS Files   -->
     <script src="<?=base_url('assets/js/core/popper.min.js')?>"></script>
     <script src="<?=base_url('assets/js/core/bootstrap.min.js')?>"></script>
@@ -446,18 +505,6 @@
                 }
             ]
         });
-    });
-
-    document.getElementById('btnExport').addEventListener('click', function() {
-        const table = document.getElementById('tblplan');
-        let html = table.outerHTML;
-        let blob = new Blob([html], {
-            type: 'application/vnd.ms-excel'
-        });
-        let link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'technical-assistance.xls';
-        link.click();
     });
 
     document.getElementById('btnExports').addEventListener('click', function() {
