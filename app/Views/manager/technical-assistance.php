@@ -168,7 +168,7 @@
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
-                        aria-controls="profile" aria-selected="false">T.A. Plan</a>
+                        aria-controls="profile" aria-selected="false">Technical Assistance Plan</a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
@@ -191,15 +191,13 @@
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             T.A. ID</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            From</th>
+                                            Cluster</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            School Name</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Area of Concern</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Details of Technical Assistance Needed</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Status</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Date Approved</th>
                                     </thead>
                                     <tbody>
                                     </tbody>
@@ -226,6 +224,8 @@
                                             Area of Concerns</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Details of Technical Assistance Needed</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Date of Implementation</th>
                                     </thead>
                                     <tbody>
                                     </tbody>
@@ -424,6 +424,9 @@
                 },
                 {
                     "data": "Details"
+                },
+                {
+                    "data": "Date"
                 }
             ]
         });
@@ -452,7 +455,10 @@
                     "data": "RefNo"
                 },
                 {
-                    "data": "From"
+                    "data": "cluster"
+                },
+                {
+                    "data": "school"
                 },
                 {
                     "data": "subjectName"
@@ -460,12 +466,6 @@
                 {
                     "data": "Details"
                 },
-                {
-                    "data": "Status"
-                },
-                {
-                    "data": "DateApproved"
-                }
             ]
         });
 
@@ -501,36 +501,6 @@
                 }
             });
         })
-
-        //complete the task
-        $(document).on('click', '.complete', function(e) {
-            e.preventDefault();
-            var confirmation = confirm("Do you want to tag this as completed?");
-            if (confirmation) {
-                var val = $(this).val();
-                $.ajax({
-                    url: "<?=site_url('complete-form')?>",
-                    method: "POST",
-                    data: {
-                        value: val
-                    },
-                    success: function(response) {
-                        if (response === "success") {
-                            table.ajax.reload();
-                            $('#viewModal').modal('hide');
-                            totalReview();
-                            Swal.fire({
-                                title: "Great!",
-                                text: "Successfully submitted",
-                                icon: "success"
-                            });
-                        } else {
-                            alert(response);
-                        }
-                    }
-                });
-            }
-        });
         //decline
         $(document).on('click', '.decline', function(e) {
             e.preventDefault();

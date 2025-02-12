@@ -92,6 +92,7 @@
                         <span class="nav-link-text ms-1">Dashboard</span>
                     </a>
                 </li>
+                <?php if(session()->get('user_type')=="CHIEF"){ ?>
                 <li class="nav-item">
                     <a class="nav-link" href="<?=site_url('/technical-assistance')?>">
                         <div
@@ -103,7 +104,7 @@
                                     stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Technical Assistance</span>
+                        <span class="nav-link-text ms-1">Office Plan</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -123,9 +124,11 @@
                                 </g>
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Reports</span>
+                        <span class="nav-link-text ms-1">Office Report</span>
                     </a>
                 </li>
+                <?php } ?>
+                <?php if(session()->get('user_type')=="ADMIN"){ ?>
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Manage</h6>
                 </li>
@@ -172,6 +175,7 @@
                         <span class="nav-link-text ms-1">System and Logs</span>
                     </a>
                 </li>
+                <?php } ?>
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
                 </li>
@@ -233,7 +237,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header p-3 pb-0">
-                            <div><i class="fa-solid fa-chart-simple"></i>&nbsp;Individual Technical Assistance Report
+                            <div><i class="fa-solid fa-chart-simple"></i>&nbsp;Office Technical Assistance Report
                             </div>
                         </div>
                         <div class="card-body">

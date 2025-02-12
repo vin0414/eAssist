@@ -93,6 +93,7 @@
                         <span class="nav-link-text ms-1">Dashboard</span>
                     </a>
                 </li>
+                <?php if(session()->get('user_type')=="CHIEF"){ ?>
                 <li class="nav-item">
                     <a class="nav-link active" href="<?=site_url('/technical-assistance')?>">
                         <div
@@ -104,7 +105,7 @@
                                     stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Technical Assistance</span>
+                        <span class="nav-link-text ms-1">Office Plan</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -124,9 +125,11 @@
                                 </g>
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Reports</span>
+                        <span class="nav-link-text ms-1">Office Report</span>
                     </a>
                 </li>
+                <?php } ?>
+                <?php if(session()->get('user_type')=="ADMIN"){ ?>
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Manage</h6>
                 </li>
@@ -173,6 +176,7 @@
                         <span class="nav-link-text ms-1">System and Logs</span>
                     </a>
                 </li>
+                <?php } ?>
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
                 </li>
@@ -230,99 +234,42 @@
         <?= view('admin/templates/header'); ?>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
-            <ul class="nav nav-tabs" id="myTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="#ta" role="tab"
-                        aria-controls="ta" aria-selected="true">Technical Assistance Plan</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="feedback-tab" data-bs-toggle="tab" href="#feedback" role="tab"
-                        aria-controls="feedback" aria-selected="false">Feedback</a>
-                </li>
-            </ul>
-            <div class="tab-content" id="myTabsContent">
-                <div class="tab-pane fade show active" id="ta" role="tabpanel" aria-labelledby="ta-tab">
-                    <div class="card">
-                        <div class="card-header p-3 pb-0">
-                            <div class="d-flex align-items-center">
-                                <h6 class="mb-0">
-                                    Technical Assistance
-                                </h6>
-                                <button type="button" class="btn btn-secondary btn-sm add ms-auto mb-0" data-bs-toggle="modal"
-                                data-bs-target="#exportModal"><i class="fa-solid fa-download"></i>&nbsp;Export</button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-flush" id="tblplan" style="font-size:12px;">
-                                    <thead class="thead-light">
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Date Created</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            T.A. ID</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Cluster</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            School Name</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Area of Concerns</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Details of Technical Assistance Needed</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Technical Assistance Provided</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Recommendation</th>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+            <div class="card">
+                <div class="card-header p-3 pb-0">
+                    <div class="d-flex align-items-center">
+                        <h6 class="mb-0">
+                            Office Plan
+                        </h6>
+                        <button type="button" class="btn btn-secondary btn-sm add ms-auto mb-0" data-bs-toggle="modal"
+                        data-bs-target="#exportModal"><i class="fa-solid fa-download"></i>&nbsp;Export</button>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
-                    <div class="card">
-                        <div class="card-header p-3 pb-0">
-                            <div class="d-flex align-items-center">
-                                <h6 class="mb-0">
-                                    Schools and User Feedback
-                                </h6>
-                                <button type="button" class="btn btn-secondary btn-sm add ms-auto mb-0"
-                                    id="btnExports"><i class="fa-solid fa-download"></i>&nbsp;Export</button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-flush" id="tblfeedback" style="font-size:12px;">
-                                    <thead class="thead-light">
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Date Created</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Cluster</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            School Name</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            T.A. ID</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
-                                            style="width:100px;">Ratings</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Feedback</th>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach($feedback as $row): ?>
-                                        <tr>
-                                            <td><?php echo date('Y-M-d',strtotime($row->DateCreated)) ?></td>
-                                            <td><?php echo $row->clusterName ?></td>
-                                            <td><?php echo $row->schoolName ?></td>
-                                            <td><?php echo $row->Code ?></td>
-                                            <td><?php echo $row->Rate ?></td>
-                                            <td><?php echo $row->Message ?></td>
-                                        </tr>
-                                        <?php endforeach;?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-flush" id="tblplan" style="font-size:12px;">
+                            <thead class="thead-light">
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Date Created</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    T.A. ID</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Cluster</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    School Name</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Area of Concerns</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Details of Technical Assistance Needed</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Technical Assistance Provided</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Recommendation</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Date of Implementation</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -463,7 +410,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
     $(document).ready(function() {
-        $('#tblfeedback').DataTable();
         var tables = $('#tblplan').DataTable({
             "processing": true,
             "serverSide": true,
@@ -502,6 +448,9 @@
                 },
                 {
                     "data": "Recommendation"
+                },
+                {
+                    "data": "Date"
                 }
             ]
         });

@@ -176,44 +176,39 @@
                                 <div class="col-lg-12">
                                     <label>Fullname</label>
                                     <input type="text" class="form-control"
-                                        value="<?php echo $account['Fullname'] ?>" />
+                                        value="<?php echo $account['Fullname'] ?>" readonly/>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="row g-3">
                                         <div class="col-lg-6">
                                             <label>Position/Designation</label>
                                             <input type="text" class="form-control"
-                                                value="<?php echo $account['Position'] ?>" />
+                                                value="<?php echo $account['Position'] ?>" readonly/>
                                         </div>
                                         <div class="col-lg-6">
                                             <label>Office</label>
                                             <input type="text" class="form-control"
-                                                value="<?php echo $account['Office'] ?>" />
+                                                value="<?php echo $account['Office'] ?>" readonly/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="row g-3">
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-9">
                                             <label>Email Address</label>
                                             <input type="email" class="form-control"
-                                                value="<?php echo $account['Email'] ?>" />
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <label>User Type</label>
-                                            <input type="text" class="form-control"
-                                                value="<?php echo $account['userType'] ?>" />
+                                                value="<?php echo $account['Email'] ?>" readonly/>
                                         </div>
                                         <div class="col-lg-3">
                                             <label>System Role</label>
                                             <input type="text" class="form-control"
-                                                value="<?php echo $account['Role'] ?>" />
+                                                value="<?php echo $account['Role'] ?>" readonly/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <label>Account Token</label>
-                                    <input type="text" class="form-control" value="<?php echo $account['Token'] ?>" />
+                                    <input type="text" class="form-control" value="<?php echo $account['Token'] ?>" readonly/>
                                 </div>
                             </div>
                             <?php endif; ?>

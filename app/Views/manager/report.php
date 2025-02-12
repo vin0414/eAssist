@@ -376,6 +376,33 @@
         $('#addModal').modal('show');
         $('#actionID').attr("value", $(this).val());
     });
+    //complete the task
+    $(document).on('click', '.complete', function(e) {
+        e.preventDefault();
+        var confirmation = confirm("Do you want to tag this as completed?");
+        if (confirmation) {
+            var val = $(this).val();
+            $.ajax({
+                url: "<?=site_url('complete-form')?>",
+                method: "POST",
+                data: {
+                    value: val
+                },
+                success: function(response) {
+                    if (response === "success") {
+                        Swal.fire({
+                            title: "Great!",
+                            text: "Successfully submitted",
+                            icon: "success"
+                        });
+                        
+                    } else {
+                        alert(response);
+                    }
+                }
+            });
+        }
+    });
 
     $('#frmAction').on('click', function(e) {
         e.preventDefault();

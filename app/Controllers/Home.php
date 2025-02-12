@@ -63,7 +63,7 @@ class Home extends BaseController
                     'Password'=>$hash_password,
                     'Fullname'=>$this->request->getPost('fullname'),
                     'Position'=>'School Representative',
-                    'Office'=>'School',
+                    'Office'=>$school['schoolName'],
                     'Role'=>$role,
                     'clusterID'=>$school['clusterID'],
                     'schoolID'=>$this->request->getPost('school'),
@@ -343,21 +343,13 @@ class Home extends BaseController
 
     public function techAssistance()
     {
-        if(session()->get('role')=="Administrator" && session()->get('user_type')=="ADMIN")
+        if(session()->get('role')=="Administrator" && session()->get('user_type')=="CHIEF")
         {
-            $title = "Technical Assistance";
+            $title = "Office Plan";
             //system
             $systemModel = new \App\Models\systemModel();
             $system = $systemModel->first();
-            //data
-            $builder = $this->db->table('tblform b');
-            $builder->select('b.Code,c.Rate,c.Message,c.DateCreated,d.clusterName,e.schoolName');
-            $builder->join('tblfeedback c','c.formID=b.formID','INNER');
-            $builder->join('tblcluster d','d.clusterID=b.clusterID','LEFT');
-            $builder->join('tblschool e','e.schoolID=b.schoolID','LEFT');
-            $builder->groupBy('b.formID');
-            $feed = $builder->get()->getResult();
-            $data = ['title'=>$title,'feedback'=>$feed,'about'=>$system];
+            $data = ['title'=>$title,'about'=>$system];
             return view('admin/technical-assistance',$data);
         }
         return redirect()->back();
@@ -476,9 +468,9 @@ class Home extends BaseController
 
     public function reports()
     {
-        if(session()->get('role')=="Administrator" && session()->get('user_type')=="ADMIN")
+        if(session()->get('role')=="Administrator" && session()->get('user_type')=="CHIEF")
         {
-            $title = "Reports";
+            $title = "Office Report";
             //system
             $systemModel = new \App\Models\systemModel();
             $system = $systemModel->first();

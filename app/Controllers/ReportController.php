@@ -38,7 +38,7 @@ class ReportController extends BaseController
         $img_matatag = file_get_contents($matatagPath);
         $base64_matatag = 'data:image/' . $type_matatag . ';base64,' . base64_encode($img_matatag);
         //get the gentri division logo
-        $path = 'assets/img/Logo.png';
+        $path = 'assets/img/logos/deped_gentri.png';
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $img = file_get_contents($path);
         $base64 = 'data:image/' . $type . ';base64,' . base64_encode($img);
@@ -126,6 +126,7 @@ class ReportController extends BaseController
                 <tr><td colspan="3"><hr></td></tr>
                 <tr><td colspan="3"><center style="font-size:18px;font-weight:bold;">TECHNICAL ASSISTANCE PLAN</center></td></tr>
                 <tr><td colspan="3"><center><i style="font-size:10px;">For the month of : '.$mm.' '.$year.'</i></center></td></tr>
+                <tr><td colspan="3"><br/></td></tr>
             </tbody>';
         $template.='<tr>
             <td colspan="3">
@@ -174,7 +175,7 @@ class ReportController extends BaseController
         $template.='<tr><td colspan="2"><span style="font-size:10px;">Prepared By</span></td><td><span style="font-size:10px;">Approved By</span></td></tr>';
         $template.='<tr><td colspan="3"><br/></td></tr>';
         $template.='<tr><td colspan="2"><i style="font-size:10px;">'.strtoupper($name).'</i></td><td><i style="font-size:10px;">'.strtoupper($account['Fullname']).'</i></td></tr>';
-        $template.='<tr><td colspan="2"><i style="font-size:10px;">EPS/PSDS/UNIT/SECTION HEAD</i></td><td><i style="font-size:10px;">ADMINISTRATIVE OFFICER V/ CHIEF EDUCATION SUPERVISOR</i></td></tr>';
+        $template.='<tr><td colspan="2"><i style="font-size:10px;">EPS/PSDS/UNIT/SECTION HEAD</i></td><td><i style="font-size:10px;">CHIEF EDUCATION SUPERVISOR</i></td></tr>';
         $template.='<tr><td colspan="3">
                         <div class="footer">
                         <hr><br/>
@@ -190,9 +191,9 @@ class ReportController extends BaseController
         <body>
         ';
         $dompdf->loadHtml($template);
-        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
-        $dompdf->stream("TA-Plan.pdf",array("Attachment"=>1));
+        $dompdf->stream("TA-Plan-".$mm."-".$year.".pdf",array("Attachment"=>1));
     }
 
     public function exportReport()
@@ -219,7 +220,7 @@ class ReportController extends BaseController
         $img_matatag = file_get_contents($matatagPath);
         $base64_matatag = 'data:image/' . $type_matatag . ';base64,' . base64_encode($img_matatag);
         //get the gentri division logo
-        $path = 'assets/img/Logo.png';
+        $path = 'assets/img/logos/deped_gentri.png';
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $img = file_get_contents($path);
         $base64 = 'data:image/' . $type . ';base64,' . base64_encode($img);
@@ -307,6 +308,7 @@ class ReportController extends BaseController
                 <tr><td colspan="3"><hr></td></tr>
                 <tr><td colspan="3"><center style="font-size:18px;font-weight:bold;">TECHNICAL ASSISTANCE REPORT</center></td></tr>
                 <tr><td colspan="3"><center><i style="font-size:10px;">For the month of : '.$mm.' '.$year.'</i></center></td></tr>
+                <tr><td colspan="3"><br/></td></tr>
             </tbody>';
         $template.='<tr>
             <td colspan="3">
@@ -353,7 +355,7 @@ class ReportController extends BaseController
         $template.='<tr><td colspan="2"><span style="font-size:10px;">Prepared By</span></td><td><span style="font-size:10px;">Approved By</span></td></tr>';
         $template.='<tr><td colspan="3"><br/></td></tr>';
         $template.='<tr><td colspan="2"><i style="font-size:10px;">'.strtoupper($name).'</i></td><td><i style="font-size:10px;">'.strtoupper($account['Fullname']).'</i></td></tr>';
-        $template.='<tr><td colspan="2"><i style="font-size:10px;">EPS/PSDS/UNIT/SECTION HEAD</i></td><td><i style="font-size:10px;">ADMINISTRATIVE OFFICER V/ CHIEF EDUCATION SUPERVISOR</i></td></tr>';
+        $template.='<tr><td colspan="2"><i style="font-size:10px;">EPS/PSDS/UNIT/SECTION HEAD</i></td><td><i style="font-size:10px;">CHIEF EDUCATION SUPERVISOR</i></td></tr>';
         $template.='<tr><td colspan="3">
                         <div class="footer">
                         <hr><br/>
@@ -369,9 +371,9 @@ class ReportController extends BaseController
         <body>
         ';
         $dompdf->loadHtml($template);
-        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
-        $dompdf->stream("TA-Plan-Report.pdf",array("Attachment"=>1));
+        $dompdf->stream("TA-Plan-Report-".$mm."-".$year.".pdf",array("Attachment"=>1));
     }
 
     public function printTA()
@@ -397,7 +399,7 @@ class ReportController extends BaseController
         $img_matatag = file_get_contents($matatagPath);
         $base64_matatag = 'data:image/' . $type_matatag . ';base64,' . base64_encode($img_matatag);
         //get the gentri division logo
-        $path = 'assets/img/Logo.png';
+        $path = 'assets/img/logos/deped_gentri.png';
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $img = file_get_contents($path);
         $base64 = 'data:image/' . $type . ';base64,' . base64_encode($img);
@@ -485,6 +487,7 @@ class ReportController extends BaseController
                 <tr><td colspan="3"><hr></td></tr>
                 <tr><td colspan="3"><center style="font-size:18px;font-weight:bold;">OFFICE CONSOLIDATED TECHNICAL ASSISTANCE REPORT</center></td></tr>
                 <tr><td colspan="3"><center><i style="font-size:10px;">For the month of : '.$mm.' '.$year.'</i></center></td></tr>
+                <tr><td colspan="3"><br/></td></tr>
             </tbody>';
         $template.='<tr>
             <td colspan="3">
@@ -531,7 +534,7 @@ class ReportController extends BaseController
         $template.='<tr><td colspan="2"><span style="font-size:10px;">Prepared By</span></td><td><span style="font-size:10px;">Approved By</span></td></tr>';
         $template.='<tr><td colspan="3"><br/></td></tr>';
         $template.='<tr><td colspan="2"><i style="font-size:10px;">'.strtoupper($name).'</i></td><td><i style="font-size:10px;">'.strtoupper($assign['Fullname']).'</i></td></tr>';
-        $template.='<tr><td colspan="2"><i style="font-size:10px;">ADMINISTRATIVE OFFICER V/ CHIEF EDUCATION SUPERVISOR</i></td><td><i style="font-size:10px;">SCHOOLS DIVISION SUPERINTENDENT</i></td></tr>';
+        $template.='<tr><td colspan="2"><i style="font-size:10px;">CHIEF EDUCATION SUPERVISOR</i></td><td><i style="font-size:10px;">SCHOOLS DIVISION SUPERINTENDENT</i></td></tr>';
         $template.='<tr><td colspan="3">
                         <div class="footer">
                         <hr><br/>
@@ -547,9 +550,9 @@ class ReportController extends BaseController
         <body>
         ';
         $dompdf->loadHtml($template);
-        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
-        $dompdf->stream("Office-Consolidated-TA-Report.pdf",array("Attachment"=>1));
+        $dompdf->stream("Office-Consolidated-TA-Report-".$mm."-"."$year".".pdf",array("Attachment"=>1));
     }
 
     public function printPlan()
@@ -575,7 +578,7 @@ class ReportController extends BaseController
         $img_matatag = file_get_contents($matatagPath);
         $base64_matatag = 'data:image/' . $type_matatag . ';base64,' . base64_encode($img_matatag);
         //get the gentri division logo
-        $path = 'assets/img/Logo.png';
+        $path = 'assets/img/logos/deped_gentri.png';
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $img = file_get_contents($path);
         $base64 = 'data:image/' . $type . ';base64,' . base64_encode($img);
@@ -652,7 +655,7 @@ class ReportController extends BaseController
             }
             </style>
         </head>
-        <body>
+        <body style="background-image:url("assets/img/Logo.png");background-size: cover;margin:0;padding:0;">
             <table style="width:100%;">
             <tbody>
                 <tr><td colspan="3"><center><img src='.$base64_deped.' width="75px"/></center></td></tr>
@@ -661,8 +664,9 @@ class ReportController extends BaseController
                 <tr><td colspan="3"><center><b style="font-size:10px;">REGION IV-A CALABARZON</b></center></td></tr>
                 <tr><td colspan="3"><center><b style="font-size:10px;">SCHOOL DIVISION OFFICE OF GENERAL TRIAS CITY</b></center></td></tr>
                 <tr><td colspan="3"><hr></td></tr>
-                <tr><td colspan="3"><center style="font-size:18px;font-weight:bold;">OFFIC CONSOLIDATED TECHNICAL ASSISTANCE PLAN</center></td></tr>
+                <tr><td colspan="3"><center style="font-size:18px;font-weight:bold;">OFFICE CONSOLIDATED TECHNICAL ASSISTANCE PLAN</center></td></tr>
                 <tr><td colspan="3"><center><i style="font-size:10px;">For the month of : '.$mm.' '.$year.'</i></center></td></tr>
+                <tr><td colspan="3"><br/></td></tr>
             </tbody>';
         $template.='<tr>
             <td colspan="3">
@@ -675,15 +679,18 @@ class ReportController extends BaseController
                     <th>DETAILS OF TECHNICAL ASSISTANCE NEEDED</th>
                     <th>TECHNICAL ASSISTANCE PROVIDED</th>
                     <th>RECOMMENDATION</th>
+                    <th>FEEDBACK</th>
+                    <th>RATING</th>
                     </thead>
                     <tbody>';
         //builder
         $builder = $this->db->table('tblform a');
-        $builder->select('a.DateCreated,a.Code,a.Details,b.schoolName,c.clusterName,d.subjectName,e.actionName,e.Recommendation');
+        $builder->select('a.DateCreated,a.Code,a.Details,b.schoolName,c.clusterName,d.subjectName,e.actionName,e.Recommendation,f.Rate,f.Message');
         $builder->join('tblschool b','b.schoolID=a.schoolID','LEFT');
         $builder->join('tblcluster c','c.clusterID=a.clusterID','LEFT');
         $builder->join('tblsubject d','d.subjectID=a.subjectID','LEFT');
         $builder->join('tblaction e','e.formID=a.formID','LEFT');
+        $builder->join('tblfeedback f','f.formID=a.formID','INNER');
         $builder->WHERE('DATE_FORMAT(e.ImplementationDate,"%m")',$month)
                 ->WHERE('DATE_FORMAT(e.ImplementationDate,"%Y")',$year)
                 ->groupBy('a.formID');
@@ -698,6 +705,8 @@ class ReportController extends BaseController
                             <td>'.$row->Details.'</td>
                             <td>'.$row->actionName.'</td>
                             <td>'.$row->Recommendation.'</td>
+                            <td>'.$row->Message.'</td>
+                            <td>'.$row->Rate.'</td>
                         </tr>';   
         }
         $template.='</tbody>
@@ -711,7 +720,7 @@ class ReportController extends BaseController
         $template.='<tr><td colspan="2"><span style="font-size:10px;">Prepared By</span></td><td><span style="font-size:10px;">Approved By</span></td></tr>';
         $template.='<tr><td colspan="3"><br/></td></tr>';
         $template.='<tr><td colspan="2"><i style="font-size:10px;">'.strtoupper($name).'</i></td><td><i style="font-size:10px;">'.strtoupper($assign['Fullname']).'</i></td></tr>';
-        $template.='<tr><td colspan="2"><i style="font-size:10px;">ADMINISTRATIVE OFFICER V/ CHIEF EDUCATION SUPERVISOR</i></td><td><i style="font-size:10px;">SCHOOLS DIVISION SUPERINTENDENT</i></td></tr>';
+        $template.='<tr><td colspan="2"><i style="font-size:10px;">CHIEF EDUCATION SUPERVISOR</i></td><td><i style="font-size:10px;">SCHOOLS DIVISION SUPERINTENDENT</i></td></tr>';
         $template.='<tr><td colspan="3">
                         <div class="footer">
                         <hr><br/>
@@ -727,8 +736,8 @@ class ReportController extends BaseController
         <body>
         ';
         $dompdf->loadHtml($template);
-        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
-        $dompdf->stream("Office-Consolidated-TA-Plan.pdf",array("Attachment"=>1));
+        $dompdf->stream("Office-Consolidated-TA-Plan-".$mm."-"."$year".".pdf",array("Attachment"=>1));
     }
 }

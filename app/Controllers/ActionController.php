@@ -559,7 +559,7 @@ class ActionController extends BaseController
                     <tr><td><center><h1>Technical Assistance</h1></center></td></tr>
                     <tr><td><center>Hi, ".$row['Fullname']."</center></td></tr>
                     <tr><td><p><center>".$school['schoolName']." sent you a technical assistance request for your review/approval.</center></p></td><tr>
-                    <tr><td><p><center>Kindly login to your account to take the action until ".$endDate."</center></p></td></tr>
+                    <tr><td><p><center>Kindly login to your account in <a href='https://assist.x10.bz'>Visit Website</a> to take the action until ".$endDate."</center></p></td></tr>
                     <tr><td><center>ASSIST IT Support</center></td></tr></tbody></table></center>";
                     $subject = "Technical Assistance | ASSIST";
                     $email->setSubject($subject);
@@ -672,11 +672,12 @@ class ActionController extends BaseController
         $totalRecords = $reviewModel->WHERE('accountID',$user)->countAllResults();
         
         $builder = $this->db->table('tblreview a');
-        $builder->select('a.*,b.Fullname,c.Code,c.formID,c.Details,c.priorityLevel,d.subjectName');
-        $builder->join('tblaccount b','b.accountID=a.accountID','LEFT');
-        $builder->join('tblform c','c.formID=a.formID','LEFT');
-        $builder->join('tblsubject d','d.subjectID=c.subjectID','LEFT');
-        $builder->WHERE('a.accountID',$user);
+        $builder->select('a.*,c.clusterName,b.Code,b.formID,b.Details,b.priorityLevel,d.subjectName,e.schoolName');
+        $builder->join('tblform b','b.formID=a.formID','LEFT');
+        $builder->join('tblcluster c','c.clusterID=b.clusterID','LEFT');
+        $builder->join('tblsubject d','d.subjectID=b.subjectID','LEFT');
+        $builder->join('tblschool e','e.schoolID=b.schoolID','LEFT');
+        $builder->WHERE('a.accountID',$user)->WHERE('a.Status',0);
         $review = $builder->get()->getResult();
 
         $response = [
@@ -692,14 +693,10 @@ class ActionController extends BaseController
                 'DateReceived' => date('Y-M-d', strtotime($row->DateReceived)),
                 'priorityLevel' => ($row->priorityLevel=="High") ? '<span class="badge bg-danger"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;'.$row->priorityLevel.'</span>' : $row->priorityLevel,
                 'RefNo' => '<button type="button" class="btn btn-link btn-sm view" value="'.$row->Code.'" style="padding:0px;">'.htmlspecialchars($row->Code, ENT_QUOTES).'</button>',
-                'From' => htmlspecialchars($row->Fullname, ENT_QUOTES),
+                'cluster' => htmlspecialchars($row->clusterName, ENT_QUOTES),
+                'school' => htmlspecialchars($row->schoolName, ENT_QUOTES),
                 'subjectName' => htmlspecialchars($row->subjectName, ENT_QUOTES),
                 'Details' => htmlspecialchars($row->Details, ENT_QUOTES),
-                'Status'=>($row->Status == 0) ? '<span class="badge bg-warning">pending</span>' :
-                (($row->Status == 2) ? '<span class="badge bg-danger">revision</span>' : 
-                (($row->Status == 1) ? '<span class="badge bg-success">Completed</span>' : 
-                '<span class="badge bg-info">ongoing</span>')),
-                'DateApproved'=>$row->DateApproved
             ];
         }
 
@@ -800,9 +797,6 @@ class ActionController extends BaseController
         <button type="submit" class="btn btn-info accept"><i class="fa-solid fa-check"></i>&nbsp;Accept</button>
         <button type="button" class="btn btn-danger decline" value="<?php echo $data->formID ?>"><i
                 class="fa-solid fa-xmark"></i>&nbsp;Revise</button>
-        <?php }else if($data->Status==3){ ?>
-        <button type="submit" class="btn btn-info complete" value="<?php echo $data->formID ?>"><i
-                class="fa-solid fa-flag"></i>&nbsp;Complete</button>
         <?php } ?>
     </div>
 </form>
@@ -934,12 +928,13 @@ class ActionController extends BaseController
         $totalRecords = $reviewModel->WHERE('accountID',$user)->countAllResults();
         
         $builder = $this->db->table('tblreview a');
-        $builder->select("b.Details,b.Code,b.DateCreated,c.clusterName,d.schoolName,e.subjectName");
+        $builder->select("b.Details,b.Code,b.DateCreated,c.clusterName,d.schoolName,e.subjectName,f.ImplementationDate");
         $builder->join('tblform b','b.formID=a.formID','LEFT');
         $builder->join('tblcluster c','c.clusterID=b.clusterID','LEFT');
         $builder->join('tblschool d','d.schoolID=b.schoolID','LEFT');
         $builder->join('tblsubject e','e.subjectID=b.subjectID','LEFT');
-        $builder->WHERE('a.accountID',$user)->WHERE('a.Status<>',2);
+        $builder->join('tblaction f','f.formID=b.formID','LEFT');
+        $builder->WHERE('a.accountID',$user);
         $builder->groupBy('b.formID');
         $review = $builder->get()->getResult();
 
@@ -958,7 +953,8 @@ class ActionController extends BaseController
                 'cluster' => htmlspecialchars($row->clusterName, ENT_QUOTES),
                 'school' => htmlspecialchars($row->schoolName, ENT_QUOTES),
                 'concern' => htmlspecialchars($row->subjectName, ENT_QUOTES),
-                'Details'=>$row->Details
+                'Details'=>$row->Details,
+                'Date' => date('Y-M-d', strtotime($row->ImplementationDate)),
             ];
         }
 
@@ -974,7 +970,7 @@ class ActionController extends BaseController
         $totalRecords = $reviewModel->countAllResults();
         
         $builder = $this->db->table('tblform b');
-        $builder->select("b.Details,b.Code,b.DateCreated,c.clusterName,d.schoolName,e.subjectName,f.actionName,f.Recommendation");
+        $builder->select("b.Details,b.Code,b.DateCreated,c.clusterName,d.schoolName,e.subjectName,f.actionName,f.Recommendation,f.ImplementationDate");
         $builder->join('tblcluster c','c.clusterID=b.clusterID','LEFT');
         $builder->join('tblschool d','d.schoolID=b.schoolID','LEFT');
         $builder->join('tblsubject e','e.subjectID=b.subjectID','LEFT');
@@ -999,7 +995,8 @@ class ActionController extends BaseController
                 'concern' => htmlspecialchars($row->subjectName, ENT_QUOTES),
                 'Details'=>$row->Details,
                 'Action'=>$row->actionName,
-                'Recommendation'=>$row->Recommendation
+                'Recommendation'=>$row->Recommendation,
+                'Date'=>date('Y-M-d', strtotime($row->ImplementationDate)),
             ];
         }
 
@@ -1102,8 +1099,16 @@ class ActionController extends BaseController
     <td><?php echo $row->Details ?></td>
     <td><?php echo $row->actionName ?></td>
     <td><?php echo $row->Recommendation ?></td>
-    <td><button type="button" class="badge bg-info add" value="<?php echo $row->formID ?>">
-            <span class="fa-solid fa-plus"></span>Add</button>
+    <td>
+        <?php if(empty($row->actionName)){ ?>
+        <button type="button" class="badge bg-info add" value="<?php echo $row->formID ?>">
+            <span class="fa-solid fa-plus"></span>&nbsp;Add
+        </button>
+        <?php }else{ ?>
+        <button type="button" class="badge bg-success complete" value="<?php echo $row->formID ?>">
+            <span class="fa-solid fa-flag"></span>&nbsp;Complete
+        </button>
+        <?php } ?>
     </td>
 </tr>
 <?php
