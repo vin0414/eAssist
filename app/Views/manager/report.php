@@ -217,7 +217,7 @@
                                     <select class="form-control" name="year">
                                         <option value="">Year</option>
                                         <?php
-                                            for ($i = 0; $i <= 5; $i++) {
+                                            for ($i = 0; $i <= 3; $i++) {
                                             $years[] = $currentYear - $i; // Subtract i to get the years going backwards
                                             ?>
                                         <option><?php echo $years[$i] ?></option>
