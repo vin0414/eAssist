@@ -261,10 +261,6 @@
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                     Details of Technical Assistance Needed</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                    Technical Assistance Provided</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                    Recommendation</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                     Date of Implementation</th>
                             </thead>
                             <tbody>
@@ -442,12 +438,6 @@
                 },
                 {
                     "data": "Details"
-                },
-                {
-                    "data": "Action"
-                },
-                {
-                    "data": "Recommendation"
                 },
                 {
                     "data": "Date"

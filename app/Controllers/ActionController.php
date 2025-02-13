@@ -959,8 +959,6 @@ class ActionController extends BaseController
                 'school' => htmlspecialchars($row->schoolName, ENT_QUOTES),
                 'concern' => htmlspecialchars($row->subjectName, ENT_QUOTES),
                 'Details'=>$row->Details,
-                'Action'=>$row->actionName,
-                'Recommendation'=>$row->Recommendation,
                 'Date'=>date('Y-M-d', strtotime($row->ImplementationDate)),
             ];
         }
