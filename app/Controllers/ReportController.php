@@ -498,16 +498,20 @@ class ReportController extends BaseController
                     <th>SCHOOL NAME</th>
                     <th>AREA OF CONCERN</th>
                     <th>DETAILS OF TECHNICAL ASSISTANCE NEEDED</th>
-                    <th>DATE OF IMPLEMENTATION</th>
+                    <th>TECHNICAL ASSISTANCE PROVIDED</th>
+                    <th>RECOMMENDATION</th>
+                    <th>RATING</th>
+                    <th>FEEDBACK</th>
                     </thead>
                     <tbody>';
         //builder
         $builder = $this->db->table('tblform a');
-        $builder->select('a.DateCreated,a.Code,a.Details,b.schoolName,c.clusterName,d.subjectName,e.ImplementationDate');
+        $builder->select('a.DateCreated,a.Code,a.Details,b.schoolName,c.clusterName,d.subjectName,e.actionName.e.Recommendation,f.Rate,f.Message');
         $builder->join('tblschool b','b.schoolID=a.schoolID','LEFT');
         $builder->join('tblcluster c','c.clusterID=a.clusterID','LEFT');
         $builder->join('tblsubject d','d.subjectID=a.subjectID','LEFT');
         $builder->join('tblaction e','e.formID=a.formID','LEFT');
+        $builder->join('tblfeedback f','f.formID=a.formID','INNER');
         $builder->WHERE('DATE_FORMAT(e.ImplementationDate,"%m")',$month)
                 ->WHERE('DATE_FORMAT(e.ImplementationDate,"%Y")',$year)
                 ->groupBy('a.formID');
@@ -520,7 +524,10 @@ class ReportController extends BaseController
                             <td>'.$row->schoolName.'</td>
                             <td>'.$row->subjectName.'</td>
                             <td>'.$row->Details.'</td>
-                            <td>'.$row->ImplementationDate.'</td>
+                            <td>'.$row->actionName.'</td>
+                            <td>'.$row->Recommendation.'</td>
+                            <td>'.$row->Rate.'</td>
+                            <td>'.$row->Message.'</td>
                         </tr>';   
         }
         $template.='</tbody>
@@ -571,17 +578,20 @@ class ReportController extends BaseController
         $depedPath = 'assets/img/logos/deped_logo.webp';
         $type_deped = pathinfo($depedPath, PATHINFO_EXTENSION);
         $imageData = file_get_contents($depedPath);
-        $base64_deped = 'data:image/' . $type_deped . ';base64,' . base64_encode($imageData);
+        $base64_deped = "";
+        //'data:image/' . $type_deped . ';base64,' . base64_encode($imageData)
         //get the deped matatag
         $matatagPath = 'assets/img/logos/deped-matatag.png';
         $type_matatag = pathinfo($matatagPath, PATHINFO_EXTENSION);
         $img_matatag = file_get_contents($matatagPath);
-        $base64_matatag = 'data:image/' . $type_matatag . ';base64,' . base64_encode($img_matatag);
+        $base64_matatag = "";
+        //'data:image/' . $type_matatag . ';base64,' . base64_encode($img_matatag)
         //get the gentri division logo
         $path = 'assets/img/logos/deped_gentri.png';
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $img = file_get_contents($path);
-        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($img);
+        $base64 = "";
+        //'data:image/' . $type . ';base64,' . base64_encode($img)
         //code
         $month = $this->request->getGet('month');
         $year = $this->request->getGet('year');
@@ -628,7 +638,12 @@ class ReportController extends BaseController
         
         $template.='
         <head>
+            <meta charset="UTF-8">
+            <link href="https://fonts.googleapis.com/css2?family=Jacquard+24" rel="stylesheet">
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tahoma">
             <style>
+
+
             #table{font-size:10px;}
             #table {
             font-family: Bookman Old Style;
@@ -649,20 +664,40 @@ class ReportController extends BaseController
             text-align: center;
             color: #000000;
             }
+            .header {
+                text-align: center;
+                font-size: 18px;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
             .footer
             {
                 position:fixed;bottom:0;width:100%;font-size:10px;
             }
+            .tahoma
+            {
+                font-family: "Tahoma", sans-serif;font-size:12px;font-weight:bold;
+            }
+            .title
+            {
+                font-family: "Jacquard 24";font-size:12px;font-weight:bold;
+            }
+            .big-title
+            {
+                font-family: "Jacquard 24";font-size:18px;font-weight:bold;
+            }
             </style>
         </head>
-        <body style="background-image:url("assets/img/Logo.png");background-size: cover;margin:0;padding:0;">
+        <body>
             <table style="width:100%;">
             <tbody>
+                <tr><td colspan="3"><div class="header"></td></tr>
                 <tr><td colspan="3"><center><img src='.$base64_deped.' width="75px"/></center></td></tr>
-                <tr><td colspan="3"><center><b style="font-size:10px;">Republic of the Philippines</b></center></td></tr>
-                <tr><td colspan="3"><center style="font-size:18px;font-weight:bold;">Department of Education</center></td></tr>
-                <tr><td colspan="3"><center><b style="font-size:10px;">REGION IV-A CALABARZON</b></center></td></tr>
-                <tr><td colspan="3"><center><b style="font-size:10px;">SCHOOL DIVISION OFFICE OF GENERAL TRIAS CITY</b></center></td></tr>
+                <tr><td colspan="3"><center class="title">Republic of the Philippines</center></td></tr>
+                <tr><td colspan="3"><center class="big-title">Department of Education</center></td></tr>
+                <tr><td colspan="3"><center>REGION IV-A CALABARZON</center></td></tr>
+                <tr><td colspan="3"><center class="tahoma">SCHOOL DIVISION OFFICE OF GENERAL TRIAS CITY</center></td></tr>
+                <tr><td colspan="3"></div></td></tr>
                 <tr><td colspan="3"><hr></td></tr>
                 <tr><td colspan="3"><center style="font-size:18px;font-weight:bold;">OFFICE CONSOLIDATED TECHNICAL ASSISTANCE PLAN</center></td></tr>
                 <tr><td colspan="3"><center><i style="font-size:10px;">For the month of : '.$mm.' '.$year.'</i></center></td></tr>
@@ -677,20 +712,16 @@ class ReportController extends BaseController
                     <th>SCHOOL NAME</th>
                     <th>AREA OF CONCERN</th>
                     <th>DETAILS OF TECHNICAL ASSISTANCE NEEDED</th>
-                    <th>TECHNICAL ASSISTANCE PROVIDED</th>
-                    <th>RECOMMENDATION</th>
-                    <th>FEEDBACK</th>
-                    <th>RATING</th>
+                    <th>DATE OF IMPLEMENTATION</th>
                     </thead>
                     <tbody>';
         //builder
         $builder = $this->db->table('tblform a');
-        $builder->select('a.DateCreated,a.Code,a.Details,b.schoolName,c.clusterName,d.subjectName,e.actionName,e.Recommendation,f.Rate,f.Message');
+        $builder->select('a.DateCreated,a.Code,a.Details,b.schoolName,c.clusterName,d.subjectName,e.ImplementationDate');
         $builder->join('tblschool b','b.schoolID=a.schoolID','LEFT');
         $builder->join('tblcluster c','c.clusterID=a.clusterID','LEFT');
         $builder->join('tblsubject d','d.subjectID=a.subjectID','LEFT');
         $builder->join('tblaction e','e.formID=a.formID','LEFT');
-        $builder->join('tblfeedback f','f.formID=a.formID','INNER');
         $builder->WHERE('DATE_FORMAT(e.ImplementationDate,"%m")',$month)
                 ->WHERE('DATE_FORMAT(e.ImplementationDate,"%Y")',$year)
                 ->groupBy('a.formID');
@@ -703,10 +734,7 @@ class ReportController extends BaseController
                             <td>'.$row->schoolName.'</td>
                             <td>'.$row->subjectName.'</td>
                             <td>'.$row->Details.'</td>
-                            <td>'.$row->actionName.'</td>
-                            <td>'.$row->Recommendation.'</td>
-                            <td>'.$row->Message.'</td>
-                            <td>'.$row->Rate.'</td>
+                            <td>'.$row->ImplementationDate.'</td>
                         </tr>';   
         }
         $template.='</tbody>
