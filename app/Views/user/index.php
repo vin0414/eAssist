@@ -23,9 +23,30 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- CSS Files -->
     <link id="pagestyle" href="<?=base_url('assets/css/soft-ui-dashboard.css?v=1.1.0')?>" rel="stylesheet" />
-    <!-- Nepcha Analytics (nepcha.com) -->
-    <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-    <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+    <style>
+        .floating-btn {
+        position: fixed; /* Fix the button to the screen */
+        bottom: 20px; /* Distance from the bottom of the screen */
+        right: 20px; /* Distance from the right of the screen */
+        width: 100px; /* Button width */
+        height: 30px; /* Button height */
+        border-radius: 0%; /* Round shape */
+        background-color: #ff6347; /* Button color */
+        color: white; /* Text color */
+        font-size: 12px; /* Text size */
+        border: none; /* Remove border */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow effect */
+        cursor: pointer; /* Pointer cursor on hover */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: background-color 0.3s; /* Smooth color transition */
+    }
+    
+    .floating-btn:hover {
+        background-color: #ff4500; /* Darker color on hover */
+    }
+    </style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -348,11 +369,11 @@
                         </div>
                     </div>
                 </div>
-            </footer>
+            </footer> 
         </div>
     </main>
     <div class="fixed-plugin">
-        <!-- https://csm.depedgentri.com/csm.php-->
+        <a href="https://csm.depedgentri.com/csm.php" target="_blank" class="floating-btn"><i class="fa-regular fa-comments"></i>&nbsp;Feedback</a>
         <div class="card shadow-lg ">
             <div class="card-header pb-0 pt-3 ">
                 <div class="float-start">

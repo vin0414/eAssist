@@ -787,7 +787,7 @@ class Home extends BaseController
             $builder->join('tblsubject b','b.subjectID=a.subjectID','LEFT');
             $builder->join('tblaction c','c.formID=a.formID','LEFT');
             $builder->join('tblfeedback d','d.formID=a.formID','LEFT');
-            $builder->WHERE('a.accountID',$user);
+            $builder->WHERE('a.accountID',$user)->WHERE('a.Status',1);
             $builder->groupBy('a.formID');
             $feed = $builder->get()->getResult();
             $data = ['title'=>$title,'feed'=>$feed,'about'=>$system];

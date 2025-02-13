@@ -46,6 +46,28 @@
     ::-webkit-scrollbar-thumb:hover {
         background-color: #555;
     }
+        .floating-btn {
+        position: fixed; /* Fix the button to the screen */
+        bottom: 20px; /* Distance from the bottom of the screen */
+        right: 20px; /* Distance from the right of the screen */
+        width: 100px; /* Button width */
+        height: 30px; /* Button height */
+        border-radius: 0%; /* Round shape */
+        background-color: #ff6347; /* Button color */
+        color: white; /* Text color */
+        font-size: 12px; /* Text size */
+        border: none; /* Remove border */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow effect */
+        cursor: pointer; /* Pointer cursor on hover */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: background-color 0.3s; /* Smooth color transition */
+    }
+    
+    .floating-btn:hover {
+        background-color: #ff4500; /* Darker color on hover */
+    }
     </style>
 </head>
 
@@ -226,6 +248,7 @@
         </div>
     </main>
     <div class="fixed-plugin">
+        <a href="https://csm.depedgentri.com/csm.php" target="_blank" class="floating-btn"><i class="fa-regular fa-comments"></i>&nbsp;Feedback</a>
         <div class="card shadow-lg ">
             <div class="card-header pb-0 pt-3 ">
                 <div class="float-start">
