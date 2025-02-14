@@ -195,6 +195,10 @@
                         aria-controls="profile" aria-selected="false">Technical Assistance Plan</a>
                 </li>
                 <li class="nav-item" role="presentation">
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                        data-bs-target="#addModal">
+                        <i class="fa-solid fa-plus"></i>&nbsp;Add
+                    </button>
                     <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
                         data-bs-target="#exportModal">
                         <i class="fa-solid fa-download"></i>&nbsp;Export
@@ -319,6 +323,86 @@
                 <div class="form-check form-switch ps-0">
                     <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed"
                         onclick="navbarFixed(this)">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title text-white" id="exampleModalLabel"><img
+                            src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>"
+                            width="30px" />&nbsp;New Technical Assistance
+                    </h5>
+                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" class="row g-2" enctype="multipart/form-data" id="frmRequest">
+                        <?= csrf_field(); ?>
+                        <div class="col-12">
+                            <div><small>1. Do you allow DEPED - Division of General Trias City to Process all data
+                                    gathered by this form?</small></div>
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="agreement" style="width:18px;height:18px;" value="Yes"
+                                        required>
+                                    <label class="align-middle">Yes</label>
+                                </label>
+                                <label>
+                                    <input type="radio" name="agreement" style="width:18px;height:18px;" value="No">
+                                    <label class="align-middle">No</label>
+                                </label>
+                            </div>
+                            <div id="agreement-error" class="error-message text-danger text-sm"></div>
+                        </div>
+                        <div class="col-12">
+                            <div><small>2. Please choose your area of concern</small></div>
+                            <select class="form-control" name="area" required>
+                                <option value="">Choose</option>
+                                <?php foreach($subject as $row): ?>
+                                <option value="<?php echo $row['subjectID'] ?>"><?php echo $row['subjectName'] ?>
+                                </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <div id="area-error" class="error-message text-danger text-sm"></div>
+                        </div>
+                        <div class="col-12">
+                            <div><small>3. School Name</small></div>
+                            <select class="form-control" name="school" required>
+                                <option value="">Choose</option>
+                                <?php foreach($school as $row): ?>
+                                <option value="<?php echo $row['schoolID'] ?>"><?php echo $row['schoolName'] ?>
+                                </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <div id="school-error" class="error-message text-danger text-sm"></div>
+                        </div>
+                        <div class="col-12">
+                            <div><small>4. Details of Technical Assistance Needed</small></div>
+                            <span><small>Please provide specific details about your concerns, issues, or challenges
+                                    based on your chosen area of concern/s. You may also provide data or any documents
+                                    that may serve as reference for the TA providers.</small></span>
+                            <textarea class="form-control" name="details" required></textarea>
+                            <div id="details-error" class="error-message text-danger text-sm"></div>
+                        </div>
+                        <div class="col-12">
+                            <div><small>5. Supporting Documents</small></div>
+                            <span><small>Upload any supporting documents in PDF file format that will serve as reference
+                                    for the TA provider in crafting his/ her technical assistance plan. Merge in one (1)
+                                    file only</small></span>
+                            <input type="file" class="form-control" name="file" />
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-info"><i
+                                    class="fa-regular fa-floppy-disk"></i>&nbsp;Submit</button>
+                            <button type="reset" class="btn btn-success"><i
+                                    class="fa-solid fa-arrows-rotate"></i>&nbsp;Clear Form</button>
+                        </div>
+                    </form>
+                    <span id="loadingMessage" style="display:none;">Loading. Please wait.</span>
                 </div>
             </div>
         </div>
@@ -491,6 +575,45 @@
                     "data": "Details"
                 },
             ]
+        });
+
+        $('#frmRequest').on('submit', function(e) {
+            e.preventDefault();
+            $('.error-message').html('');
+            $('#frmRequest').slideUp();
+            document.getElementById('loadingMessage').style = "display:block";
+            let data = $(this).serialize();
+            $.ajax({
+                url: "<?=site_url('add-form')?>",
+                method: "POST",
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(response) {
+                    document.getElementById('loadingMessage').style = "display:none";
+                    $('#frmRequest').slideDown();
+                    if (response.success) {
+                        $('#frmRequest')[0].reset();
+                        table.ajax.reload();
+                        tables.ajax.reload();
+                        Swal.fire({
+                            title: "Great!",
+                            text: "Successfully submitted",
+                            icon: "success"
+                        });
+                    } else {
+                        var errors = response.error;
+                        // Iterate over each error and display it under the corresponding input field
+                        for (var field in errors) {
+                            $('#' + field + '-error').html('<p>' + errors[field] +
+                                '</p>'); // Show the first error message
+                            $('#' + field).addClass(
+                                'text-danger'); // Highlight the input field with an error
+                        }
+                    }
+                }
+            });
         });
 
         $(document).on('click', '.accept', function(e) {

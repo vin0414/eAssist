@@ -69,6 +69,7 @@ $routes->post('edit','ActionController::edit');
 $routes->post('save-password','ActionController::savePassword');
 $routes->post('reset-password','ActionController::resetPassword');
 $routes->post('save-form','ActionController::saveForm');
+$routes->post('add-form','ActionController::addForm');
 $routes->post('accept-form','ActionController::acceptForm');
 $routes->post('denied-form','ActionController::deniedForm');
 $routes->post('complete-form','ActionController::completeForm');

@@ -465,6 +465,106 @@ class ActionController extends BaseController
         echo "Successfully applied changes";
     }
 
+    public function addForm()
+    {
+        $formModel = new \App\Models\formModel();
+        $reviewModel = new \App\Models\reviewModel();
+        $accountModel = new \App\Models\accountModel();
+
+        $validation = $this->validate([
+            'csrf_test_name'=>'required',
+            'agreement'=>'required',
+            'area'=>'required',
+            'school'=>'required',
+            'details'=>'required',
+        ]);
+        if(!$validation)
+        {
+            return $this->response->SetJSON(['error' => $this->validator->getErrors()]);
+        }
+        else
+        {
+            //generate the code based on year
+            $year = date('Y');$code = "";
+            $builder = $this->db->table('tblform');
+            $builder->select('COUNT(formID)+1 as total');
+            $builder->WHERE('Year(DateCreated)',$year);
+            $getData = $builder->get()->getRow();
+            if($getData)
+            {
+                $code = "TA-".$year."-".str_pad($getData->total, 4, '0', STR_PAD_LEFT);
+            }
+
+            $user = session()->get('loggedUser');
+            $status = 0;$date = date('Y-m-d');
+            $dateTime = new \DateTime();
+            $dateTime->modify('+7 days'); 
+            $endDate = $dateTime->format('Y-m-d');
+            $file = $this->request->getFile('file');
+            $originalName = $file->getClientName();
+            //get the cluster ID and school ID
+            $schoolModel = new \App\Models\schoolModel();
+            $school = $schoolModel->WHERE('schoolID',$this->request->getPost('school'))->first();
+            //approver
+            $account = $accountModel->WHERE('accountID',$user)->first();
+            //save the form
+            if(empty($originalName))
+            {
+                $data = ['DateCreated'=>$date,'Code'=>$code,'accountID'=>$user,
+                        'clusterID'=>$school['clusterID'],'schoolID'=>$this->request->getPost('school'),
+                        'Agree'=>$this->request->getPost('agreement'),'subjectID'=>$this->request->getPost('area'),
+                        'Details'=>$this->request->getPost('details'),
+                        'priorityLevel'=>'Low','Status'=>$status];
+                $formModel->save($data);
+            }
+            else
+            {
+                $file->move('files/',$originalName);
+                $data = ['DateCreated'=>$date,'Code'=>$code,'accountID'=>$user,
+                        'clusterID'=>$school['clusterID'],'schoolID'=>$this->request->getPost('school'),
+                        'Agree'=>$this->request->getPost('agreement'),'subjectID'=>$this->request->getPost('area'),
+                        'Details'=>$this->request->getPost('details'),'File'=>$originalName,
+                        'priorityLevel'=>'Low','Status'=>$status];
+                $formModel->save($data);
+            }
+            //get the form ID
+            $form = $formModel->WHERE('Code',$code)->first();
+            //send to EPS/PSDS
+            $data = ['DateReceived'=>$date, 
+            'accountID'=>$user,
+            'formID'=>$form['formID'],
+            'Status'=>$status,
+            'DateApproved'=>'0000-00-00'];
+            $reviewModel->save($data);
+        
+            //send email notification
+            $email = \Config\Services::email();
+            $email->setTo($account['Email']);
+            $email->setFrom("vinmogate@gmail.com","ASSIST");
+            $imgURL = "assets/img/Logo.png";
+            $email->attach($imgURL);
+            $cid = $email->setAttachmentCID($imgURL);
+            $template = "<center>
+            <img src='cid:". $cid ."' width='100'/>
+            <table style='padding:20px;background-color:#ffffff;' border='0'><tbody>
+            <tr><td><center><h1>Technical Assistance</h1></center></td></tr>
+            <tr><td><center>Hi, ".$account['Fullname']."</center></td></tr>
+            <tr><td><p><center>".$school['schoolName']." sent you a technical assistance request for your review/approval.</center></p></td><tr>
+            <tr><td><p><center>Kindly login to your account in <a href='https://assist.x10.bz'>Visit Website</a> to take the action until ".$endDate."</center></p></td></tr>
+            <tr><td><center>ASSIST IT Support</center></td></tr></tbody></table></center>";
+            $subject = "Technical Assistance | ASSIST";
+            $email->setSubject($subject);
+            $email->setMessage($template);
+            $email->send();
+             //create log
+             date_default_timezone_set('Asia/Manila');
+             $logModel = new \App\Models\logModel();
+             $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Create new Technical Assistance','DateCreated'=>date('Y-m-d H:i:s a')];
+             $logModel->save($data);
+            return $this->response->setJSON(['success' => 'Successfully submitted']);
+        }
+    }
+
     public function saveForm()
     {
         $formModel = new \App\Models\formModel();
@@ -919,7 +1019,7 @@ class ActionController extends BaseController
                 'school' => htmlspecialchars($row->schoolName, ENT_QUOTES),
                 'concern' => htmlspecialchars($row->subjectName, ENT_QUOTES),
                 'Details'=>$row->Details,
-                'Date' => date('Y-M-d', strtotime($row->ImplementationDate)),
+                'Date' => empty($row->ImplementationDate) ? '-' : date('Y-M-d', strtotime($row->ImplementationDate)),
             ];
         }
 

@@ -32,16 +32,16 @@ class ReportController extends BaseController
         $type_deped = pathinfo($depedPath, PATHINFO_EXTENSION);
         $imageData = file_get_contents($depedPath);
         $base64_deped = 'data:image/' . $type_deped . ';base64,' . base64_encode($imageData);
-        //get the deped matatag
-        $matatagPath = 'assets/img/logos/deped-matatag.png';
-        $type_matatag = pathinfo($matatagPath, PATHINFO_EXTENSION);
-        $img_matatag = file_get_contents($matatagPath);
-        $base64_matatag = 'data:image/' . $type_matatag . ';base64,' . base64_encode($img_matatag);
         //get the gentri division logo
-        $path = 'assets/img/logos/deped_gentri.png';
+        $path = 'assets/img/logos/footer.png';
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $img = file_get_contents($path);
-        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($img);
+        $base64_footer = 'data:image/' . $type . ';base64,' . base64_encode($img);
+        //header
+        $paths = 'assets/img/logos/header.png';
+        $types = pathinfo($paths, PATHINFO_EXTENSION);
+        $imgs = file_get_contents($paths);
+        $base64_header = 'data:image/' . $types . ';base64,' . base64_encode($imgs);
         //code
         $month = $this->request->getGet('month');
         $year = $this->request->getGet('year');
@@ -87,18 +87,20 @@ class ReportController extends BaseController
         }
         
         $template.='
+        <!DOCTYPE html>
+        <html>  
         <head>
+            <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
             <style>
-            #table{font-size:10px;}
+            #table{font-size:12px;}
             #table {
-            font-family: Bookman Old Style;
             border-collapse: collapse;
             width: 100%;
             }
             
             #table td, #table th {
             border: 1px solid #000;
-            padding: 5px;font-size:10px;
+            padding: 5px;font-size:12px;
             }
             
             #table tr:hover {background-color: #000;}
@@ -109,6 +111,16 @@ class ReportController extends BaseController
             text-align: center;
             color: #000000;
             }
+            .header {
+                text-align: center;
+                margin-bottom: 0px;
+            }
+
+            .header img {
+                width: 100px;
+                height: auto;
+                margin-bottom: 10px;
+            }
             .footer
             {
                 position:fixed;bottom:0;width:100%;font-size:10px;
@@ -118,14 +130,13 @@ class ReportController extends BaseController
         <body>
             <table style="width:100%;">
             <tbody>
+                <tr><td colspan="3"><div class="header"></td></tr>
                 <tr><td colspan="3"><center><img src='.$base64_deped.' width="75px"/></center></td></tr>
-                <tr><td colspan="3"><center><b style="font-size:10px;">Republic of the Philippines</b></center></td></tr>
-                <tr><td colspan="3"><center style="font-size:18px;font-weight:bold;">Department of Education</center></td></tr>
-                <tr><td colspan="3"><center><b style="font-size:10px;">REGION IV-A CALABARZON</b></center></td></tr>
-                <tr><td colspan="3"><center><b style="font-size:10px;">SCHOOL DIVISION OFFICE OF GENERAL TRIAS CITY</b></center></td></tr>
+                <tr><td colspan="3"><center><img src='.$base64_header.'/></center></td></tr>
                 <tr><td colspan="3"><hr></td></tr>
+                <tr><td colspan="3"></div></td></tr>
                 <tr><td colspan="3"><center style="font-size:18px;font-weight:bold;">TECHNICAL ASSISTANCE PLAN</center></td></tr>
-                <tr><td colspan="3"><center><i style="font-size:10px;">For the month of : '.$mm.' '.$year.'</i></center></td></tr>
+                <tr><td colspan="3"><center><i style="font-size:12px;">For the month of : '.$mm.' '.$year.'</i></center></td></tr>
                 <tr><td colspan="3"><br/></td></tr>
             </tbody>';
         $template.='<tr>
@@ -172,19 +183,14 @@ class ReportController extends BaseController
         $template.='<tr><td colspan="3"><br/></td></tr>';
         $template.='<tr><td colspan="3"><br/></td></tr>';
         //prepared and approved
-        $template.='<tr><td colspan="2"><span style="font-size:10px;">Prepared By</span></td><td><span style="font-size:10px;">Approved By</span></td></tr>';
+        $template.='<tr><td colspan="2"><span style="font-size:12px;">Prepared By</span></td><td><span style="font-size:12px;">Approved By</span></td></tr>';
         $template.='<tr><td colspan="3"><br/></td></tr>';
-        $template.='<tr><td colspan="2"><i style="font-size:10px;">'.strtoupper($name).'</i></td><td><i style="font-size:10px;">'.strtoupper($account['Fullname']).'</i></td></tr>';
-        $template.='<tr><td colspan="2"><i style="font-size:10px;">EPS/PSDS/UNIT/SECTION HEAD</i></td><td><i style="font-size:10px;">CHIEF EDUCATION SUPERVISOR</i></td></tr>';
+        $template.='<tr><td colspan="2"><i style="font-size:12px;">'.strtoupper($name).'</i></td><td><i style="font-size:12px;">'.strtoupper($account['Fullname']).'</i></td></tr>';
+        $template.='<tr><td colspan="2"><i style="font-size:12px;">EPS/PSDS/UNIT/SECTION HEAD</i></td><td><i style="font-size:12px;">CHIEF EDUCATION SUPERVISOR</i></td></tr>';
         $template.='<tr><td colspan="3">
                         <div class="footer">
                         <hr><br/>
-                        <table>
-                        <tr>
-                        <td><img src='.$base64_matatag.' width="140px"/><img src='.$base64.' width="70px"/></td>
-                        <td style="vertical-align:top;">Address : Brgy. Santa Clara, General Trias City, Cavite<br/>Telephone No.: (046) 419-8720<br/>Email Address: division.gentri@deped.gov.ph<br/>Website: www.depedgentri.com</td>
-                        </tr>
-                        </table> 
+                        <img src='.$base64_footer.'/>
                         </div>
                     </td></tr>';
         $template.='</table>
@@ -214,16 +220,16 @@ class ReportController extends BaseController
         $type_deped = pathinfo($depedPath, PATHINFO_EXTENSION);
         $imageData = file_get_contents($depedPath);
         $base64_deped = 'data:image/' . $type_deped . ';base64,' . base64_encode($imageData);
-        //get the deped matatag
-        $matatagPath = 'assets/img/logos/deped-matatag.png';
-        $type_matatag = pathinfo($matatagPath, PATHINFO_EXTENSION);
-        $img_matatag = file_get_contents($matatagPath);
-        $base64_matatag = 'data:image/' . $type_matatag . ';base64,' . base64_encode($img_matatag);
         //get the gentri division logo
-        $path = 'assets/img/logos/deped_gentri.png';
+        $path = 'assets/img/logos/footer.png';
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $img = file_get_contents($path);
-        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($img);
+        $base64_footer = 'data:image/' . $type . ';base64,' . base64_encode($img);
+        //header
+        $paths = 'assets/img/logos/header.png';
+        $types = pathinfo($paths, PATHINFO_EXTENSION);
+        $imgs = file_get_contents($paths);
+        $base64_header = 'data:image/' . $types . ';base64,' . base64_encode($imgs);
         //code
         $month = $this->request->getGet('month');
         $year = $this->request->getGet('year');
@@ -269,18 +275,20 @@ class ReportController extends BaseController
         }
         
         $template.='
+        <!DOCTYPE html>
+        <html>  
         <head>
+            <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
             <style>
-            #table{font-size:10px;}
+            #table{font-size:12px;}
             #table {
-            font-family: Bookman Old Style;
             border-collapse: collapse;
             width: 100%;
             }
             
             #table td, #table th {
             border: 1px solid #000;
-            padding: 5px;font-size:10px;
+            padding: 5px;font-size:12px;
             }
             
             #table tr:hover {background-color: #000;}
@@ -291,6 +299,16 @@ class ReportController extends BaseController
             text-align: center;
             color: #000000;
             }
+            .header {
+                text-align: center;
+                margin-bottom: 0px;
+            }
+
+            .header img {
+                width: 100px;
+                height: auto;
+                margin-bottom: 10px;
+            }
             .footer
             {
                 position:fixed;bottom:0;width:100%;font-size:10px;
@@ -300,14 +318,13 @@ class ReportController extends BaseController
         <body>
             <table style="width:100%;">
             <tbody>
+                <tr><td colspan="3"><div class="header"></td></tr>
                 <tr><td colspan="3"><center><img src='.$base64_deped.' width="75px"/></center></td></tr>
-                <tr><td colspan="3"><center><b style="font-size:10px;">Republic of the Philippines</b></center></td></tr>
-                <tr><td colspan="3"><center style="font-size:18px;font-weight:bold;">Department of Education</center></td></tr>
-                <tr><td colspan="3"><center><b style="font-size:10px;">REGION IV-A CALABARZON</b></center></td></tr>
-                <tr><td colspan="3"><center><b style="font-size:10px;">SCHOOL DIVISION OFFICE OF GENERAL TRIAS CITY</b></center></td></tr>
+                <tr><td colspan="3"><center><img src='.$base64_header.'/></center></td></tr>
                 <tr><td colspan="3"><hr></td></tr>
+                <tr><td colspan="3"></div></td></tr>
                 <tr><td colspan="3"><center style="font-size:18px;font-weight:bold;">TECHNICAL ASSISTANCE REPORT</center></td></tr>
-                <tr><td colspan="3"><center><i style="font-size:10px;">For the month of : '.$mm.' '.$year.'</i></center></td></tr>
+                <tr><td colspan="3"><center><i style="font-size:12px;">For the month of : '.$mm.' '.$year.'</i></center></td></tr>
                 <tr><td colspan="3"><br/></td></tr>
             </tbody>';
         $template.='<tr>
@@ -352,19 +369,14 @@ class ReportController extends BaseController
         $template.='<tr><td colspan="3"><br/></td></tr>';
         $template.='<tr><td colspan="3"><br/></td></tr>';
         //prepared and approved
-        $template.='<tr><td colspan="2"><span style="font-size:10px;">Prepared By</span></td><td><span style="font-size:10px;">Approved By</span></td></tr>';
+        $template.='<tr><td colspan="2"><span style="font-size:12px;">Prepared By</span></td><td><span style="font-size:12px;">Approved By</span></td></tr>';
         $template.='<tr><td colspan="3"><br/></td></tr>';
-        $template.='<tr><td colspan="2"><i style="font-size:10px;">'.strtoupper($name).'</i></td><td><i style="font-size:10px;">'.strtoupper($account['Fullname']).'</i></td></tr>';
-        $template.='<tr><td colspan="2"><i style="font-size:10px;">EPS/PSDS/UNIT/SECTION HEAD</i></td><td><i style="font-size:10px;">CHIEF EDUCATION SUPERVISOR</i></td></tr>';
+        $template.='<tr><td colspan="2"><i style="font-size:12px;">'.strtoupper($name).'</i></td><td><i style="font-size:12px;">'.strtoupper($account['Fullname']).'</i></td></tr>';
+        $template.='<tr><td colspan="2"><i style="font-size:12px;">EPS/PSDS/UNIT/SECTION HEAD</i></td><td><i style="font-size:12px;">CHIEF EDUCATION SUPERVISOR</i></td></tr>';
         $template.='<tr><td colspan="3">
                         <div class="footer">
                         <hr><br/>
-                        <table>
-                        <tr>
-                        <td><img src='.$base64_matatag.' width="140px"/><img src='.$base64.' width="70px"/></td>
-                        <td style="vertical-align:top;">Address : Brgy. Santa Clara, General Trias City, Cavite<br/>Telephone No.: (046) 419-8720<br/>Email Address: division.gentri@deped.gov.ph<br/>Website: www.depedgentri.com</td>
-                        </tr>
-                        </table> 
+                        <img src='.$base64_footer.'/>
                         </div>
                     </td></tr>';
         $template.='</table>
@@ -393,16 +405,16 @@ class ReportController extends BaseController
         $type_deped = pathinfo($depedPath, PATHINFO_EXTENSION);
         $imageData = file_get_contents($depedPath);
         $base64_deped = 'data:image/' . $type_deped . ';base64,' . base64_encode($imageData);
-        //get the deped matatag
-        $matatagPath = 'assets/img/logos/deped-matatag.png';
-        $type_matatag = pathinfo($matatagPath, PATHINFO_EXTENSION);
-        $img_matatag = file_get_contents($matatagPath);
-        $base64_matatag = 'data:image/' . $type_matatag . ';base64,' . base64_encode($img_matatag);
         //get the gentri division logo
-        $path = 'assets/img/logos/deped_gentri.png';
+        $path = 'assets/img/logos/footer.png';
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $img = file_get_contents($path);
-        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($img);
+        $base64_footer = 'data:image/' . $type . ';base64,' . base64_encode($img);
+        //header
+        $paths = 'assets/img/logos/header.png';
+        $types = pathinfo($paths, PATHINFO_EXTENSION);
+        $imgs = file_get_contents($paths);
+        $base64_header = 'data:image/' . $types . ';base64,' . base64_encode($imgs);
         //code
         $month = $this->request->getGet('month');
         $year = $this->request->getGet('year');
@@ -448,18 +460,20 @@ class ReportController extends BaseController
         }
         
         $template.='
+        <!DOCTYPE html>
+        <html>  
         <head>
+            <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
             <style>
-            #table{font-size:10px;}
+            #table{font-size:12px;}
             #table {
-            font-family: Bookman Old Style;
             border-collapse: collapse;
             width: 100%;
             }
             
             #table td, #table th {
             border: 1px solid #000;
-            padding: 5px;font-size:10px;
+            padding: 5px;font-size:12px;
             }
             
             #table tr:hover {background-color: #000;}
@@ -470,6 +484,16 @@ class ReportController extends BaseController
             text-align: center;
             color: #000000;
             }
+            .header {
+                text-align: center;
+                margin-bottom: 0px;
+            }
+
+            .header img {
+                width: 100px;
+                height: auto;
+                margin-bottom: 10px;
+            }
             .footer
             {
                 position:fixed;bottom:0;width:100%;font-size:10px;
@@ -479,14 +503,13 @@ class ReportController extends BaseController
         <body>
             <table style="width:100%;">
             <tbody>
+                <tr><td colspan="3"><div class="header"></td></tr>
                 <tr><td colspan="3"><center><img src='.$base64_deped.' width="75px"/></center></td></tr>
-                <tr><td colspan="3"><center><b style="font-size:10px;">Republic of the Philippines</b></center></td></tr>
-                <tr><td colspan="3"><center style="font-size:18px;font-weight:bold;">Department of Education</center></td></tr>
-                <tr><td colspan="3"><center><b style="font-size:10px;">REGION IV-A CALABARZON</b></center></td></tr>
-                <tr><td colspan="3"><center><b style="font-size:10px;">SCHOOL DIVISION OFFICE OF GENERAL TRIAS CITY</b></center></td></tr>
+                <tr><td colspan="3"><center><img src='.$base64_header.'/></center></td></tr>
                 <tr><td colspan="3"><hr></td></tr>
+                <tr><td colspan="3"></div></td></tr>
                 <tr><td colspan="3"><center style="font-size:18px;font-weight:bold;">OFFICE CONSOLIDATED TECHNICAL ASSISTANCE REPORT</center></td></tr>
-                <tr><td colspan="3"><center><i style="font-size:10px;">For the month of : '.$mm.' '.$year.'</i></center></td></tr>
+                <tr><td colspan="3"><center><i style="font-size:12px;">For the month of : '.$mm.' '.$year.'</i></center></td></tr>
                 <tr><td colspan="3"><br/></td></tr>
             </tbody>';
         $template.='<tr>
@@ -506,7 +529,7 @@ class ReportController extends BaseController
                     <tbody>';
         //builder
         $builder = $this->db->table('tblform a');
-        $builder->select('a.DateCreated,a.Code,a.Details,b.schoolName,c.clusterName,d.subjectName,e.actionName.e.Recommendation,f.Rate,f.Message');
+        $builder->select('a.DateCreated,a.Code,a.Details,b.schoolName,c.clusterName,d.subjectName,e.actionName,e.Recommendation,f.Rate,f.Message');
         $builder->join('tblschool b','b.schoolID=a.schoolID','LEFT');
         $builder->join('tblcluster c','c.clusterID=a.clusterID','LEFT');
         $builder->join('tblsubject d','d.subjectID=a.subjectID','LEFT');
@@ -538,19 +561,14 @@ class ReportController extends BaseController
         $template.='<tr><td colspan="3"><br/></td></tr>';
         $template.='<tr><td colspan="3"><br/></td></tr>';
         //prepared and approved
-        $template.='<tr><td colspan="2"><span style="font-size:10px;">Prepared By</span></td><td><span style="font-size:10px;">Approved By</span></td></tr>';
+        $template.='<tr><td colspan="2"><span style="font-size:12px;">Prepared By</span></td><td><span style="font-size:12px;">Approved By</span></td></tr>';
         $template.='<tr><td colspan="3"><br/></td></tr>';
-        $template.='<tr><td colspan="2"><i style="font-size:10px;">'.strtoupper($name).'</i></td><td><i style="font-size:10px;">'.strtoupper($assign['Fullname']).'</i></td></tr>';
-        $template.='<tr><td colspan="2"><i style="font-size:10px;">CHIEF EDUCATION SUPERVISOR</i></td><td><i style="font-size:10px;">SCHOOLS DIVISION SUPERINTENDENT</i></td></tr>';
+        $template.='<tr><td colspan="2"><i style="font-size:12px;">'.strtoupper($name).'</i></td><td><i style="font-size:12px;">'.strtoupper($assign['Fullname']).'</i></td></tr>';
+        $template.='<tr><td colspan="2"><i style="font-size:12px;">CHIEF EDUCATION SUPERVISOR</i></td><td><i style="font-size:12px;">SCHOOLS DIVISION SUPERINTENDENT</i></td></tr>';
         $template.='<tr><td colspan="3">
                         <div class="footer">
                         <hr><br/>
-                        <table>
-                        <tr>
-                        <td><img src='.$base64_matatag.' width="140px"/><img src='.$base64.' width="70px"/></td>
-                        <td style="vertical-align:top;">Address : Brgy. Santa Clara, General Trias City, Cavite<br/>Telephone No.: (046) 419-8720<br/>Email Address: division.gentri@deped.gov.ph<br/>Website: www.depedgentri.com</td>
-                        </tr>
-                        </table> 
+                        <img src='.$base64_footer.'/>
                         </div>
                     </td></tr>';
         $template.='</table>
@@ -565,6 +583,7 @@ class ReportController extends BaseController
     public function printPlan()
     {
         $dompdf = new Dompdf();
+        require '../vendor/autoload.php';
         $options = new Options();
         $options->set('isHtml5ParserEnabled', true);
         $options->set('isPhpEnabled', true); // For enabling PHP functions if required
@@ -578,20 +597,17 @@ class ReportController extends BaseController
         $depedPath = 'assets/img/logos/deped_logo.webp';
         $type_deped = pathinfo($depedPath, PATHINFO_EXTENSION);
         $imageData = file_get_contents($depedPath);
-        $base64_deped = "";
-        //'data:image/' . $type_deped . ';base64,' . base64_encode($imageData)
-        //get the deped matatag
-        $matatagPath = 'assets/img/logos/deped-matatag.png';
-        $type_matatag = pathinfo($matatagPath, PATHINFO_EXTENSION);
-        $img_matatag = file_get_contents($matatagPath);
-        $base64_matatag = "";
-        //'data:image/' . $type_matatag . ';base64,' . base64_encode($img_matatag)
+        $base64_deped = 'data:image/' . $type_deped . ';base64,' . base64_encode($imageData);
         //get the gentri division logo
-        $path = 'assets/img/logos/deped_gentri.png';
+        $path = 'assets/img/logos/footer.png';
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $img = file_get_contents($path);
-        $base64 = "";
-        //'data:image/' . $type . ';base64,' . base64_encode($img)
+        $base64_footer = 'data:image/' . $type . ';base64,' . base64_encode($img);
+        //header
+        $paths = 'assets/img/logos/header.png';
+        $types = pathinfo($paths, PATHINFO_EXTENSION);
+        $imgs = file_get_contents($paths);
+        $base64_header = 'data:image/' . $types . ';base64,' . base64_encode($imgs);
         //code
         $month = $this->request->getGet('month');
         $year = $this->request->getGet('year');
@@ -637,23 +653,20 @@ class ReportController extends BaseController
         }
         
         $template.='
+        <!DOCTYPE html>
+        <html>  
         <head>
-            <meta charset="UTF-8">
-            <link href="https://fonts.googleapis.com/css2?family=Jacquard+24" rel="stylesheet">
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tahoma">
+            <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
             <style>
-
-
-            #table{font-size:10px;}
+            #table{font-size:12px;}
             #table {
-            font-family: Bookman Old Style;
             border-collapse: collapse;
             width: 100%;
             }
             
             #table td, #table th {
             border: 1px solid #000;
-            padding: 5px;font-size:10px;
+            padding: 5px;font-size:12px;
             }
             
             #table tr:hover {background-color: #000;}
@@ -666,25 +679,17 @@ class ReportController extends BaseController
             }
             .header {
                 text-align: center;
-                font-size: 18px;
-                font-weight: bold;
-                margin-bottom: 20px;
+                margin-bottom: 0px;
+            }
+
+            .header img {
+                width: 100px;
+                height: auto;
+                margin-bottom: 10px;
             }
             .footer
             {
                 position:fixed;bottom:0;width:100%;font-size:10px;
-            }
-            .tahoma
-            {
-                font-family: "Tahoma", sans-serif;font-size:12px;font-weight:bold;
-            }
-            .title
-            {
-                font-family: "Jacquard 24";font-size:12px;font-weight:bold;
-            }
-            .big-title
-            {
-                font-family: "Jacquard 24";font-size:18px;font-weight:bold;
             }
             </style>
         </head>
@@ -693,14 +698,11 @@ class ReportController extends BaseController
             <tbody>
                 <tr><td colspan="3"><div class="header"></td></tr>
                 <tr><td colspan="3"><center><img src='.$base64_deped.' width="75px"/></center></td></tr>
-                <tr><td colspan="3"><center class="title">Republic of the Philippines</center></td></tr>
-                <tr><td colspan="3"><center class="big-title">Department of Education</center></td></tr>
-                <tr><td colspan="3"><center>REGION IV-A CALABARZON</center></td></tr>
-                <tr><td colspan="3"><center class="tahoma">SCHOOL DIVISION OFFICE OF GENERAL TRIAS CITY</center></td></tr>
-                <tr><td colspan="3"></div></td></tr>
+                <tr><td colspan="3"><center><img src='.$base64_header.'/></center></td></tr>
                 <tr><td colspan="3"><hr></td></tr>
+                <tr><td colspan="3"></div></td></tr>
                 <tr><td colspan="3"><center style="font-size:18px;font-weight:bold;">OFFICE CONSOLIDATED TECHNICAL ASSISTANCE PLAN</center></td></tr>
-                <tr><td colspan="3"><center><i style="font-size:10px;">For the month of : '.$mm.' '.$year.'</i></center></td></tr>
+                <tr><td colspan="3"><center><i style="font-size:12px;">For the month of : '.$mm.' '.$year.'</i></center></td></tr>
                 <tr><td colspan="3"><br/></td></tr>
             </tbody>';
         $template.='<tr>
@@ -745,24 +747,19 @@ class ReportController extends BaseController
         $template.='<tr><td colspan="3"><br/></td></tr>';
         $template.='<tr><td colspan="3"><br/></td></tr>';
         //prepared and approved
-        $template.='<tr><td colspan="2"><span style="font-size:10px;">Prepared By</span></td><td><span style="font-size:10px;">Approved By</span></td></tr>';
+        $template.='<tr><td colspan="2"><span style="font-size:12px;">Prepared By</span></td><td><span style="font-size:12px;">Approved By</span></td></tr>';
         $template.='<tr><td colspan="3"><br/></td></tr>';
-        $template.='<tr><td colspan="2"><i style="font-size:10px;">'.strtoupper($name).'</i></td><td><i style="font-size:10px;">'.strtoupper($assign['Fullname']).'</i></td></tr>';
-        $template.='<tr><td colspan="2"><i style="font-size:10px;">CHIEF EDUCATION SUPERVISOR</i></td><td><i style="font-size:10px;">SCHOOLS DIVISION SUPERINTENDENT</i></td></tr>';
+        $template.='<tr><td colspan="2"><i style="font-size:12px;">'.strtoupper($name).'</i></td><td><i style="font-size:12px;">'.strtoupper($assign['Fullname']).'</i></td></tr>';
+        $template.='<tr><td colspan="2"><i style="font-size:12px;">CHIEF EDUCATION SUPERVISOR</i></td><td><i style="font-size:12px;">SCHOOLS DIVISION SUPERINTENDENT</i></td></tr>';
         $template.='<tr><td colspan="3">
                         <div class="footer">
                         <hr><br/>
-                        <table>
-                        <tr>
-                        <td><img src='.$base64_matatag.' width="140px"/><img src='.$base64.' width="70px"/></td>
-                        <td style="vertical-align:top;">Address : Brgy. Santa Clara, General Trias City, Cavite<br/>Telephone No.: (046) 419-8720<br/>Email Address: division.gentri@deped.gov.ph<br/>Website: www.depedgentri.com</td>
-                        </tr>
-                        </table> 
+                        <img src='.$base64_footer.'/>
                         </div>
                     </td></tr>';
         $template.='</table>
-        <body>
-        ';
+        </body>
+        </html>';
         $dompdf->loadHtml($template);
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();

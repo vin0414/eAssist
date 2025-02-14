@@ -618,7 +618,14 @@ class Home extends BaseController
             //system
             $systemModel = new \App\Models\systemModel();
             $system = $systemModel->first();
-            $data = ['title'=>$title,'about'=>$system];
+            //area of concern
+            $subjectModel = new \App\Models\subjectModel();
+            $subject = $subjectModel->findAll();
+            //school
+            $schoolModel = new \App\Models\schoolModel();
+            $school = $schoolModel->findAll();
+
+            $data = ['title'=>$title,'about'=>$system,'subject'=>$subject,'school'=>$school];
             return view('manager/technical-assistance',$data);
         }
         return redirect()->back();
