@@ -57,6 +57,7 @@ $routes->get('assist-plan','ActionController::assistPlan');
 $routes->get('get-details','ActionController::getDetails');
 $routes->get('generate-report','ActionController::generateReport');
 $routes->get('generate-technical-report','ActionController::generateTAReport');
+$routes->get('fetch-details','ActionController::fetchDetails');
 // save using ajax
 $routes->post('save-cluster','ActionController::saveCluster');
 $routes->post('edit-cluster','ActionController::editCluster');
@@ -72,6 +73,7 @@ $routes->post('save-form','ActionController::saveForm');
 $routes->post('add-form','ActionController::addForm');
 $routes->post('accept-form','ActionController::acceptForm');
 $routes->post('denied-form','ActionController::deniedForm');
+$routes->post('hold-form','ActionController::holdForm');
 $routes->post('complete-form','ActionController::completeForm');
 $routes->post('save-feedback','ActionController::saveFeedback');
 $routes->post('save-action','ActionController::saveAction');

@@ -195,8 +195,7 @@
                         aria-controls="profile" aria-selected="false">Technical Assistance Plan</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                        data-bs-target="#addModal">
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addModal">
                         <i class="fa-solid fa-plus"></i>&nbsp;Add
                     </button>
                     <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
@@ -487,7 +486,7 @@
         </div>
     </div>
     <!--   Core JS Files   -->
-    <script src="<?=base_url('assecore/popper.min.js')?>"></script>
+    <script src="<?=base_url('assets/js/core/popper.min.js')?>"></script>
     <script src="<?=base_url('assets/js/core/bootstrap.min.js')?>"></script>
     <script src="<?=base_url('assets/js/plugins/perfect-scrollbar.min.js')?>"></script>
     <script src="<?=base_url('assets/js/plugins/smooth-scrollbar.min.js')?>"></script>
@@ -651,12 +650,51 @@
         //decline
         $(document).on('click', '.decline', function(e) {
             e.preventDefault();
-            var confirmation = confirm("Do you want to tag this as for revision?");
+            var confirmation = confirm("Do you want to tag this as rejected?");
             if (confirmation) {
                 var message = prompt("Please enter your comment");
                 if (message) {
                     $.ajax({
                         url: "<?=site_url('denied-form')?>",
+                        method: "POST",
+                        data: {
+                            value: $(this).val(),
+                            message: message
+                        },
+                        success: function(response) {
+                            if (response === "success") {
+                                table.ajax.reload();
+                                tables.ajax.reload();
+                                $('#viewModal').modal('hide');
+                                totalReview();
+                                Swal.fire({
+                                    title: "Great!",
+                                    text: "Successfully submitted",
+                                    icon: "success"
+                                });
+                            } else {
+                                alert(response);
+                            }
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Invalid!",
+                        text: "Please leave a comment to continue",
+                        icon: "warning"
+                    });
+                }
+            }
+        });
+        //decline
+        $(document).on('click', '.hold', function(e) {
+            e.preventDefault();
+            var confirmation = confirm("Do you want to tag this as for revision?");
+            if (confirmation) {
+                var message = prompt("Please enter your comment");
+                if (message) {
+                    $.ajax({
+                        url: "<?=site_url('hold-form')?>",
                         method: "POST",
                         data: {
                             value: $(this).val(),

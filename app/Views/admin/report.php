@@ -50,7 +50,7 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 "
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 "
         id="sidenav-main">
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
@@ -264,7 +264,7 @@
                                     <?php
                                     $currentYear = date("Y");$years = [];
                                     ?>
-                                        <select class="form-control" name="year">
+                                    <select class="form-control" name="year">
                                         <option value="">Year</option>
                                         <?php
                                         for ($i = 0; $i <= 3; $i++) {
@@ -306,6 +306,10 @@
                                     Technical Assistance Provided</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                     Recommendation</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Rating</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Feedback</th>
                             </thead>
                             <tbody id="tblresult"></tbody>
                         </table>
@@ -387,7 +391,7 @@
     $('#btnSearch').on('click', function(e) {
         e.preventDefault();
         let data = $('#frmReport').serialize();
-        $('#tblresult').html("<tr><td colspan='8'><center>Loading...</center></td></tr>");
+        $('#tblresult').html("<tr><td colspan='10'><center>Loading...</center></td></tr>");
         $.ajax({
             url: "<?=site_url('generate-report')?>",
             method: "GET",
@@ -395,7 +399,8 @@
             success: function(response) {
                 if (response === "") {
                     $('#tblresult').html(
-                        "<tr><td colspan='8'><center>No Available Record(s)</center></td></tr>");
+                        "<tr><td colspan='10'><center>No Available Record(s)</center></td></tr>"
+                    );
                 } else {
                     $('#tblresult').html(response);
                 }

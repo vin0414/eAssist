@@ -583,7 +583,6 @@ class ReportController extends BaseController
     public function printPlan()
     {
         $dompdf = new Dompdf();
-        require '../vendor/autoload.php';
         $options = new Options();
         $options->set('isHtml5ParserEnabled', true);
         $options->set('isPhpEnabled', true); // For enabling PHP functions if required

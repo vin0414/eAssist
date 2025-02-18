@@ -790,10 +790,13 @@ class Home extends BaseController
             //feedback
             $user = session()->get('loggedUser');
             $builder = $this->db->table('tblform a');
-            $builder->select('a.Code,a.DateCreated,a.Details,b.subjectName,c.actionID,c.actionName,c.Recommendation,d.Rate,d.Message');
+            $builder->select('a.Code,a.DateCreated,a.Details,b.subjectName,c.actionID,c.actionName,c.Recommendation,
+            d.Rate,d.Message,f.Fullname');
             $builder->join('tblsubject b','b.subjectID=a.subjectID','LEFT');
             $builder->join('tblaction c','c.formID=a.formID','LEFT');
             $builder->join('tblfeedback d','d.formID=a.formID','LEFT');
+            $builder->join('tblreview e','e.formID=a.formID','LEFT');
+            $builder->join('tblaccount f','f.accountID=e.accountID','LEFT');
             $builder->WHERE('a.accountID',$user)->WHERE('a.Status',1);
             $builder->groupBy('a.formID');
             $feed = $builder->get()->getResult();

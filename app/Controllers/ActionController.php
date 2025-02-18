@@ -704,20 +704,117 @@ class ActionController extends BaseController
 
             $response['data'][] = [
                 'DateCreated' => date('Y-M-d', strtotime($row->DateCreated)),
-                'TA' => htmlspecialchars($row->Code, ENT_QUOTES),
+                'TA' => ($row->Status==3) ? '<button type="button" class="btn btn-link btn-sm edit" style="padding:0px;" value='.$row->Code.'>'.$row->Code.'</button>' : $row->Code, 
                 'subjectName' => htmlspecialchars($row->subjectName, ENT_QUOTES),
                 'Details' => htmlspecialchars($row->Details, ENT_QUOTES),
                 'priorityLevel' => htmlspecialchars($row->priorityLevel, ENT_QUOTES),
                 'provider' => htmlspecialchars($row->Fullname, ENT_QUOTES),
                 'Status'=>($row->Status == 0) ? '<span class="badge bg-warning">pending</span>' :
-                (($row->Status == 2) ? '<span class="badge bg-danger">for revision</span>' :
+                (($row->Status == 2) ? '<span class="badge bg-danger">Declined</span>' :
                 (($row->Status == 1) ? '<span class="badge bg-success">Completed</span>' : 
-                '<span class="badge bg-info">Accepted</span>')),
+                (($row->Status == 3) ? '<span class="badge bg-info">For Revision</span>' : 
+                '<span class="badge bg-info">Accepted</span>'))),
                 'Comment'=>$row->Message
             ];
         }
         // Return the response as JSON
         return $this->response->setJSON($response);
+    }
+
+    public function fetchDetails()
+    {
+        $val = $this->request->getGet('value');
+        //form
+        $formModel = new \App\Models\formModel();
+        $form = $formModel->WHERE('Code',$val)->first();
+        //approver
+        $reviewModel = new \App\Models\reviewModel();
+        $review = $reviewModel->where('formID',$form['formID'])->first();
+        //area of concerns
+        $subjectModel = new \App\Models\subjectModel();
+        $subject = $subjectModel->findAll();
+        //users
+        $accountModel = new \App\Models\accountModel();
+        $account = $accountModel->WHERE('Role','Manager')->findAll();
+
+        if($form):
+        ?>
+<form method="POST" class="row g-2" enctype="multipart/form-data" id="frmEditRequest">
+    <?= csrf_field(); ?>
+    <div class="col-12">
+        <div><small>1. Please choose your area of concern</small></div>
+        <select class="form-control" name="area" required>
+            <option value="">Choose</option>
+            <?php foreach($subject as $row): ?>
+            <option value="<?php echo $row['subjectID'] ?>"
+                <?php echo ($form['subjectID'] == $row['subjectID']) ? 'selected' : ''; ?>>
+                <?php echo $row['subjectName'] ?>
+            </option>
+            <?php endforeach; ?>
+        </select>
+        <div id="area-error" class="error-message text-danger text-sm"></div>
+    </div>
+    <div class="col-12">
+        <div><small>2. Based on your area of concern, from whom are you expecting the technical
+                assistance to be coming?</small></div>
+        <div class="row">
+            <?php foreach($account as $row): ?>
+            <div class="col-lg-6">
+                <div class="radio-group">
+                    <label>
+                        <input type="checkbox" name="account[]" style="width:18px;height:18px;"
+                            value="<?php echo $row['accountID'] ?>"
+                            <?php echo ($review['accountID'] == $row['accountID']) ? 'checked' : ''; ?>>
+                        <label class="align-middle"><?php echo $row['Fullname'] ?><br /><span
+                                style="font-size:10px;"><?php echo $row['Position'] ?></span></label>
+                    </label>
+                </div>
+            </div>
+            <?php endforeach; ?>
+            <div id="account-error" class="error-message text-danger text-sm"></div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div><small>3. Details of Technical Assistance Needed</small></div>
+        <span><small>Please provide specific details about your concerns, issues, or challenges
+                based on your chosen area of concern/s. You may also provide data or any documents
+                that may serve as reference for the TA providers.</small></span>
+        <textarea class="form-control" name="details" required><?=$form['Details']?></textarea>
+        <div id="details-error" class="error-message text-danger text-sm"></div>
+    </div>
+    <div class="col-12">
+        <div><small>4. Supporting Documents</small></div>
+        <span><small>Upload any supporting documents in PDF file format that will serve as reference
+                for the TA provider in crafting his/ her technical assistance plan. Merge in one (1)
+                file only</small></span>
+        <input type="file" class="form-control" name="file" />
+    </div>
+    <div class="col-12">
+        <div><small>5. Level of Priority for Technical Assistance</small></div>
+        <div class="radio-group">
+            <label>
+
+                <input type="radio" name="priority" style="width:18px;height:18px;" value="Low" required>
+                <label class="align-middle">Low Priority</label>
+            </label>
+            <label>
+                <input type="radio" name="priority" style="width:18px;height:18px;" value="Medium">
+                <label class="align-middle">Medium Priority</label>
+            </label>
+            <label>
+                <input type="radio" name="priority" style="width:18px;height:18px;" value="High">
+                <label class="align-middle">High Priority</label>
+            </label>
+        </div>
+        <div id="priority-error" class="error-message text-danger text-sm"></div>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-info"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Save Changes
+        </button>
+    </div>
+</form>
+<?php
+        endif;
     }
 
     public function getDetails()
@@ -861,7 +958,11 @@ class ActionController extends BaseController
         <?php if($data->Status==0){ ?>
         <button type="submit" class="btn btn-info accept"><i class="fa-solid fa-check"></i>&nbsp;Accept</button>
         <button type="button" class="btn btn-danger decline" value="<?php echo $data->formID ?>"><i
-                class="fa-solid fa-xmark"></i>&nbsp;Revise</button>
+                class="fa-solid fa-xmark"></i>&nbsp;Decline
+        </button>
+        <button type="button" class="btn btn-warning hold" style="float:right;" value="<?php echo $data->formID ?>">
+            <i class="fa-solid fa-circle-exclamation"></i>&nbsp;Hold
+        </button>
         <?php } ?>
     </div>
 </form>
@@ -909,6 +1010,47 @@ class ActionController extends BaseController
              $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Accepted the new T.A. request','DateCreated'=>date('Y-m-d H:i:s a')];
              $logModel->save($data);         
             return $this->response->setJSON(['success' => 'Successfully submitted']);
+        }
+    }
+
+    public function holdForm()
+    {
+        $reviewModel = new \App\Models\reviewModel();
+        $formModel = new \App\Models\formModel();
+        $commentModel = new \App\Models\commentModel();
+        //data
+        $validation = $this->validate([
+            'value'=>'required|numeric',
+            'message'=>'required'
+        ]);
+
+        if(!$validation)
+        {
+            echo "Invalid Input. Please try again";
+        }
+        else
+        {
+            $user = session()->get('loggedUser');
+            $val = $this->request->getPost('value');
+            $msg = $this->request->getPost('message');
+            $date = date('Y-m-d');
+            $status = 3;
+            $data = ['Status'=>$status];
+            $formModel->update($val,$data);
+            //get the review ID
+            $review = $reviewModel->WHERE('formID',$val)->first();
+            //update the review status
+            $record = ['Status'=>$status];
+            $reviewModel->update($review['reviewID'],$record);
+            //add comment
+            $newData = ['formID'=>$val,'accountID'=>$user,'Message'=>$msg,'DateCreated'=>$date];
+            $commentModel->save($newData);
+             //create log
+             date_default_timezone_set('Asia/Manila');
+             $logModel = new \App\Models\logModel();
+             $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Tag T.A. request for revision','DateCreated'=>date('Y-m-d H:i:s a')];
+             $logModel->save($data);
+            echo "success";
         }
     }
 
@@ -1110,11 +1252,13 @@ class ActionController extends BaseController
         $year = $this->request->getGet('year');
         //builder
         $builder = $this->db->table('tblform a');
-        $builder->select('a.DateCreated,a.Code,a.Details,b.schoolName,c.clusterName,d.subjectName,e.actionName,e.Recommendation');
+        $builder->select('a.DateCreated,a.Code,a.Details,b.schoolName,c.clusterName,d.subjectName,
+                        e.actionName,e.Recommendation,f.Rate,f.Message');
         $builder->join('tblschool b','b.schoolID=a.schoolID','LEFT');
         $builder->join('tblcluster c','c.clusterID=a.clusterID','LEFT');
         $builder->join('tblsubject d','d.subjectID=a.subjectID','LEFT');
         $builder->join('tblaction e','e.formID=a.formID','LEFT');
+        $builder->join('tblfeedback f','f.formID=a.formID','LEFT');
         $builder->WHERE('DATE_FORMAT(e.ImplementationDate,"%m")',$month)
                 ->WHERE('DATE_FORMAT(e.ImplementationDate,"%Y")',$year)
                 ->groupBy('a.formID');
@@ -1131,6 +1275,8 @@ class ActionController extends BaseController
     <td><?php echo $row->Details ?></td>
     <td><?php echo $row->actionName ?></td>
     <td><?php echo $row->Recommendation ?></td>
+    <td><?php echo $row->Rate ?></td>
+    <td><?php echo $row->Message ?></td>
 </tr>
 <?php
         }
