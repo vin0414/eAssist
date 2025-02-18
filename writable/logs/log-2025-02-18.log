@@ -1,0 +1,18 @@
+CRITICAL - 2025-02-18 11:39:26 --> Session: Configured save path "C:\Users\Warvin\OneDrive\Desktop\My Files\eAssist\writable\session" is not writable by the PHP process.
+in SYSTEMPATH\Session\Handlers\FileHandler.php on line 101.
+ 1 SYSTEMPATH\Session\Handlers\FileHandler.php(101): CodeIgniter\Session\Exceptions\SessionException::forWriteProtectedSavePath('ROOTPATH\\writable\\session')
+ 2 [internal function]: CodeIgniter\Session\Handlers\FileHandler->open('ROOTPATH\\writable\\session', 'ci_session')
+ 3 SYSTEMPATH\Session\Session.php(928): session_start()
+ 4 SYSTEMPATH\Session\Session.php(250): CodeIgniter\Session\Session->startSession()
+ 5 SYSTEMPATH\Config\Services.php(674): CodeIgniter\Session\Session->start()
+ 6 SYSTEMPATH\Config\BaseService.php(252): CodeIgniter\Config\Services::session(Object(Config\App), false)
+ 7 SYSTEMPATH\Config\BaseService.php(193): CodeIgniter\Config\BaseService::__callStatic('session', [...])
+ 8 SYSTEMPATH\Config\Services.php(641): CodeIgniter\Config\BaseService::getSharedInstance('session', null)
+ 9 SYSTEMPATH\Config\BaseService.php(252): CodeIgniter\Config\Services::session()
+10 SYSTEMPATH\Common.php(979): CodeIgniter\Config\BaseService::__callStatic('session', [])
+11 APPPATH\Filters\AlreadyLoggedInFilter.php(13): session()
+12 SYSTEMPATH\Filters\Filters.php(173): App\Filters\AlreadyLoggedInFilter->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+13 SYSTEMPATH\CodeIgniter.php(473): CodeIgniter\Filters\Filters->run('C:\\', 'before')
+14 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+15 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+16 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
