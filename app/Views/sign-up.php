@@ -43,6 +43,10 @@
                       <div class="text-danger"><small><?=isset($validation)? display_error($validation,'fullname') : '' ?></small></div>
                     </div>
                     <div class="mb-3">
+                      <input type="text" class="form-control" name="position" value="<?=old('position')?>" placeholder="Position" aria-label="Position" aria-describedby="position-addon" required/>
+                      <div class="text-danger"><small><?=isset($validation)? display_error($validation,'position') : '' ?></small></div>
+                    </div>
+                    <div class="mb-3">
                       <select class="form-control" name="school" required>
                         <option value="">Select a school</option>
                         <?php foreach($school as $row): ?>

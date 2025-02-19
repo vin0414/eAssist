@@ -37,6 +37,7 @@ class Home extends BaseController
             'csrf_test_name'=>'required',
             'email'=>'required|valid_email|is_unique[tblaccount.Email]',
             'fullname'=>'required|is_unique[tblaccount.Fullname]',
+            'position'=>'required',
             'password'=>'required|min_length[8]|max_length[12]|regex_match[/[A-Z]/]|regex_match[/[a-z]/]|regex_match[/[0-9]/]',
             'confirm_password'=>'required|matches[password]|min_length[8]|max_length[12]|regex_match[/[A-Z]/]|regex_match[/[a-z]/]|regex_match[/[0-9]/]',
         ]);
@@ -62,7 +63,7 @@ class Home extends BaseController
             $data = ['Email'=>$this->request->getPost('email'), 
                     'Password'=>$hash_password,
                     'Fullname'=>$this->request->getPost('fullname'),
-                    'Position'=>'School Representative',
+                    'Position'=>$this->request->getPost('position'),
                     'Office'=>$school['schoolName'],
                     'Role'=>$role,
                     'clusterID'=>$school['clusterID'],

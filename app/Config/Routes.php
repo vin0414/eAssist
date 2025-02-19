@@ -79,6 +79,7 @@ $routes->post('save-feedback','ActionController::saveFeedback');
 $routes->post('save-action','ActionController::saveAction');
 $routes->post('save-user','ActionController::saveUser');
 $routes->post('assign','ActionController::assign');
+$routes->post('edit-form','ActionController::editForm');
 //report
 $routes->get('export','ReportController::exportReport');
 $routes->get('export-plan','ReportController::exportPlan');
