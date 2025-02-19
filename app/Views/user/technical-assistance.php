@@ -46,43 +46,45 @@
     ::-webkit-scrollbar-thumb:hover {
         background-color: #555;
     }
-
-    .floating-btn {
+    .floating-modal {
         position: fixed;
-        /* Fix the button to the screen */
-        bottom: 20px;
-        /* Distance from the bottom of the screen */
-        right: 20px;
-        /* Distance from the right of the screen */
-        width: 100px;
-        /* Button width */
-        height: 30px;
-        /* Button height */
-        border-radius: 0%;
-        /* Round shape */
-        background-color: #ff6347;
-        /* Button color */
-        color: white;
-        /* Text color */
-        font-size: 12px;
-        /* Text size */
-        border: none;
-        /* Remove border */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        /* Shadow effect */
-        cursor: pointer;
-        /* Pointer cursor on hover */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: background-color 0.3s;
-        /* Smooth color transition */
-    }
+        bottom: 20px;  /* Distance from bottom */
+        right: 20px;   /* Distance from right */
+        width: 300px;  /* Width of the modal */
+        background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Floating shadow effect */
+        padding: 20px; /* Padding inside the modal */
+        z-index: 1000; /* Ensure it appears above other content */
+        opacity: 0; /* Initially hidden */
+        transform: translateY(100px); /* Move offscreen by default */
+        transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition for appearance */
+        }
 
-    .floating-btn:hover {
-        background-color: #ff4500;
-        /* Darker color on hover */
-    }
+        .floating-modal.open {
+        opacity: 1;
+        transform: translateY(0); /* Animate to normal position */
+        }
+
+
+        .qr-code img {
+        max-width: 100%; /* Ensure the QR code image is responsive */
+        height: auto;
+        }
+
+        .close-btn {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        }
+
+        .close-btn:hover {
+        background-color: #0056b3; /* Darker shade on hover */
+        }
     </style>
 </head>
 
@@ -263,8 +265,16 @@
         </div>
     </main>
     <div class="fixed-plugin">
-        <a href="https://csm.depedgentri.com/csm.php" target="_blank" class="floating-btn"><i
-                class="fa-regular fa-comments"></i>&nbsp;Feedback</a>
+        <div class="floating-modal">
+            <div class="modal-content">
+                <div class="qr-code">
+                <!-- QR code image or content here -->
+                <img src="<?=base_url('assets/img/qrcode.jpg')?>" alt="QR Code">
+                </div>
+                <small class="text-center">Click this link to participate in the client satisfaction survey <a href="https://csm.depedgentri.com/csm.php" target="_blank">here</a>.</small>
+                <button class="close-btn">Close</button>
+            </div>
+        </div>
         <div class="card shadow-lg ">
             <div class="card-header pb-0 pt-3 ">
                 <div class="float-start">
@@ -464,6 +474,26 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
     $(document).ready(function() {
+        const modal = document.querySelector('.floating-modal');
+        const closeButton = document.querySelector('.close-btn');
+
+        // Open the modal
+        function openModal() {
+        modal.classList.add('open');
+        modal.classList.remove('closed');
+        }
+
+        // Close the modal
+        function closeModal() {
+        modal.classList.add('closed');
+        modal.classList.remove('open');
+        }
+
+        // Event listener for the close button
+        closeButton.addEventListener('click', closeModal);
+
+        // Optionally, you can open the modal using JavaScript as needed:
+        openModal();
         var table = $('#tblrequest').DataTable({
             "processing": true,
             "serverSide": true,
@@ -524,6 +554,43 @@
                     $('#frmRequest').slideDown();
                     if (response.success) {
                         $('#frmRequest')[0].reset();
+                        table.ajax.reload();
+                        Swal.fire({
+                            title: "Great!",
+                            text: "Successfully submitted",
+                            icon: "success"
+                        });
+                    } else {
+                        var errors = response.error;
+                        // Iterate over each error and display it under the corresponding input field
+                        for (var field in errors) {
+                            $('#' + field + '-error').html('<p>' + errors[field] +
+                                '</p>'); // Show the first error message
+                            $('#' + field).addClass(
+                                'text-danger'); // Highlight the input field with an error
+                        }
+                    }
+                }
+            });
+        });
+
+        $(document).on('click','.save', function(e) {
+            e.preventDefault();
+            $('.error-message').html('');
+            $('#frmEditRequest').slideUp();
+            document.getElementById('loadingMessages').style = "display:block";
+            $.ajax({
+                url: "<?=site_url('edit-form')?>",
+                method: "POST",
+                data: new FormData($('#frmEditRequest')[0]),
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(response) {
+                    document.getElementById('loadingMessages').style = "display:none";
+                    $('#frmEditRequest').slideDown();
+                    $('#editModal').modal('hide');
+                    if (response.success) {
                         table.ajax.reload();
                         Swal.fire({
                             title: "Great!",

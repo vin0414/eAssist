@@ -739,82 +739,206 @@ class ActionController extends BaseController
 
         if($form):
         ?>
-<form method="POST" class="row g-2" enctype="multipart/form-data" id="frmEditRequest">
-    <?= csrf_field(); ?>
-    <div class="col-12">
-        <div><small>1. Please choose your area of concern</small></div>
-        <select class="form-control" name="area" required>
-            <option value="">Choose</option>
-            <?php foreach($subject as $row): ?>
-            <option value="<?php echo $row['subjectID'] ?>"
-                <?php echo ($form['subjectID'] == $row['subjectID']) ? 'selected' : ''; ?>>
-                <?php echo $row['subjectName'] ?>
-            </option>
-            <?php endforeach; ?>
-        </select>
-        <div id="area-error" class="error-message text-danger text-sm"></div>
-    </div>
-    <div class="col-12">
-        <div><small>2. Based on your area of concern, from whom are you expecting the technical
-                assistance to be coming?</small></div>
-        <div class="row">
-            <?php foreach($account as $row): ?>
-            <div class="col-lg-6">
-                <div class="radio-group">
-                    <label>
-                        <input type="checkbox" name="account[]" style="width:18px;height:18px;"
-                            value="<?php echo $row['accountID'] ?>"
-                            <?php echo ($review['accountID'] == $row['accountID']) ? 'checked' : ''; ?>>
-                        <label class="align-middle"><?php echo $row['Fullname'] ?><br /><span
-                                style="font-size:10px;"><?php echo $row['Position'] ?></span></label>
-                    </label>
+        <form method="POST" class="row g-2" enctype="multipart/form-data" id="frmEditRequest">
+            <?= csrf_field(); ?>
+            <input type="hidden" name="formID" value="<?=$form['formID']?>"/>
+            <div class="col-12">
+                <div><small>1. Please choose your area of concern</small></div>
+                <select class="form-control" name="area" required>
+                    <option value="">Choose</option>
+                    <?php foreach($subject as $row): ?>
+                    <option value="<?php echo $row['subjectID'] ?>"
+                        <?php echo ($form['subjectID'] == $row['subjectID']) ? 'selected' : ''; ?>>
+                        <?php echo $row['subjectName'] ?>
+                    </option>
+                    <?php endforeach; ?>
+                </select>
+                <div id="area-error" class="error-message text-danger text-sm"></div>
+            </div>
+            <div class="col-12">
+                <div><small>2. Based on your area of concern, from whom are you expecting the technical
+                        assistance to be coming?</small></div>
+                <div class="row">
+                    <?php foreach($account as $row): ?>
+                    <div class="col-lg-6">
+                        <div class="radio-group">
+                            <label>
+                                <input type="checkbox" name="account[]" style="width:18px;height:18px;"
+                                    value="<?php echo $row['accountID'] ?>"
+                                    <?php echo ($review['accountID'] == $row['accountID']) ? 'checked' : ''; ?>>
+                                <label class="align-middle"><?php echo $row['Fullname'] ?><br /><span
+                                        style="font-size:10px;"><?php echo $row['Position'] ?></span></label>
+                            </label>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                    <div id="account-error" class="error-message text-danger text-sm"></div>
                 </div>
             </div>
-            <?php endforeach; ?>
-            <div id="account-error" class="error-message text-danger text-sm"></div>
-        </div>
-    </div>
-    <div class="col-12">
-        <div><small>3. Details of Technical Assistance Needed</small></div>
-        <span><small>Please provide specific details about your concerns, issues, or challenges
-                based on your chosen area of concern/s. You may also provide data or any documents
-                that may serve as reference for the TA providers.</small></span>
-        <textarea class="form-control" name="details" required><?=$form['Details']?></textarea>
-        <div id="details-error" class="error-message text-danger text-sm"></div>
-    </div>
-    <div class="col-12">
-        <div><small>4. Supporting Documents</small></div>
-        <span><small>Upload any supporting documents in PDF file format that will serve as reference
-                for the TA provider in crafting his/ her technical assistance plan. Merge in one (1)
-                file only</small></span>
-        <input type="file" class="form-control" name="file" />
-    </div>
-    <div class="col-12">
-        <div><small>5. Level of Priority for Technical Assistance</small></div>
-        <div class="radio-group">
-            <label>
-
-                <input type="radio" name="priority" style="width:18px;height:18px;" value="Low" required>
-                <label class="align-middle">Low Priority</label>
-            </label>
-            <label>
-                <input type="radio" name="priority" style="width:18px;height:18px;" value="Medium">
-                <label class="align-middle">Medium Priority</label>
-            </label>
-            <label>
-                <input type="radio" name="priority" style="width:18px;height:18px;" value="High">
-                <label class="align-middle">High Priority</label>
-            </label>
-        </div>
-        <div id="priority-error" class="error-message text-danger text-sm"></div>
-    </div>
-    <div class="col-12">
-        <button type="submit" class="btn btn-info"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Save Changes
-        </button>
-    </div>
-</form>
-<?php
+            <div class="col-12">
+                <div><small>3. Details of Technical Assistance Needed</small></div>
+                <span><small>Please provide specific details about your concerns, issues, or challenges
+                        based on your chosen area of concern/s. You may also provide data or any documents
+                        that may serve as reference for the TA providers.</small></span>
+                <textarea class="form-control" name="details" required><?=$form['Details']?></textarea>
+                <div id="details-error" class="error-message text-danger text-sm"></div>
+            </div>
+            <div class="col-12">
+                <div><small>4. Supporting Documents</small></div>
+                <span><small>Upload any supporting documents in PDF file format that will serve as reference
+                        for the TA provider in crafting his/ her technical assistance plan. Merge in one (1)
+                        file only</small></span>
+                <input type="file" class="form-control" name="file" />
+            </div>
+            <div class="col-12">
+                <div><small>5. Level of Priority for Technical Assistance</small></div>
+                <div class="radio-group">
+                    <label>
+                        <?php if($form['priorityLevel']=="Low"){?>
+                        <input type="radio" name="priority" style="width:18px;height:18px;" value="Low" checked/>
+                        <?php }else { ?>
+                        <input type="radio" name="priority" style="width:18px;height:18px;" value="Low" required/>
+                        <?php } ?>
+                        <label class="align-middle">Low Priority</label>
+                    </label>
+                    <label>
+                        <?php if($form['priorityLevel']=="Medium"){?>
+                        <input type="radio" name="priority" style="width:18px;height:18px;" value="Medium" checked/>
+                        <?php }else { ?>
+                        <input type="radio" name="priority" style="width:18px;height:18px;" value="Medium" required/>
+                        <?php } ?>
+                        <label class="align-middle">Medium Priority</label>
+                    </label>
+                    <label>
+                        <?php if($form['priorityLevel']=="High"){?>
+                        <input type="radio" name="priority" style="width:18px;height:18px;" value="High" checked/>
+                        <?php }else { ?>
+                        <input type="radio" name="priority" style="width:18px;height:18px;" value="High" required/>
+                        <?php } ?>
+                        <label class="align-middle">High Priority</label>
+                    </label>
+                </div>
+                <div id="priority-error" class="error-message text-danger text-sm"></div>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-info save"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Save Changes
+                </button>
+            </div>
+        </form>
+        <?php
         endif;
+    }
+
+    public function editForm()
+    {
+        $formModel = new \App\Models\formModel();
+        $reviewModel = new \App\Models\reviewModel();
+        $accountModel = new \App\Models\accountModel();
+        //data
+        $validation = $this->validate([
+            'csrf_test_name'=>'required',
+            'formID'=>'required',
+            'area'=>'required',
+            'account.*'=>'required',
+            'details'=>'required',
+            'priority'=>'required'
+        ]);
+        if(!$validation)
+        {
+            return $this->response->SetJSON(['error' => $this->validator->getErrors()]);
+        }
+        else
+        {
+            $file = $this->request->getFile('file');
+            $originalName = $file->getClientName();
+            $users = $this->request->getPost('account');
+            $status = 0;
+            $date = date('Y-m-d');
+            $dateTime = new \DateTime();
+            $dateTime->modify('+7 days'); 
+            $endDate = $dateTime->format('Y-m-d');
+            $val = $this->request->getPost('formID');
+            //get the cluster ID and school ID
+            $account = $accountModel->WHERE('accountID',session()->get('loggedUser'))->first();
+            //get the school name
+            $schoolModel = new \App\Models\schoolModel();
+            $school = $schoolModel->WHERE('schoolID',$account['schoolID'])->first();
+            //save the form
+            if(empty($originalName))
+            {
+                $data = ['subjectID'=>$this->request->getPost('area'),
+                        'Details'=>$this->request->getPost('details'),
+                        'priorityLevel'=>$this->request->getPost('priority'),'Status'=>$status];
+                $formModel->update($val,$data);
+            }
+            else
+            {
+                $file->move('files/',$originalName);
+                $data = ['subjectID'=>$this->request->getPost('area'),
+                        'Details'=>$this->request->getPost('details'),'File'=>$originalName,
+                        'priorityLevel'=>$this->request->getPost('priority'),'Status'=>$status];
+                $formModel->update($val,$data);
+            }
+            //get the form ID
+            $form = $formModel->WHERE('formID',$val)->first();
+            //send to EPS/PSDS
+            $count = count($users);
+            for($i=0;$i<$count;$i++)
+            {
+                //get the accountID
+                $userAccount = $accountModel->WHERE('accountID',$users[$i])->findAll();
+                foreach($userAccount as $row)
+                {
+                    //get the review ID
+                    $review = $reviewModel->WHERE('formID',$form['formID'])->first();
+                    //check if same user or not
+                    if($review['accountID']==$row['accountID'])
+                    {
+                        $data = ['DateReceived'=>$date, 
+                        'accountID'=>$row['accountID'],
+                        'formID'=>$form['formID'],
+                        'Status'=>$status,
+                        'DateApproved'=>'0000-00-00'];
+                        $reviewModel->update($review['reviewID'],$data);
+                    }
+                    else
+                    {
+                        $data = ['DateReceived'=>$date, 
+                        'accountID'=>$row['accountID'],
+                        'formID'=>$form['formID'],
+                        'Status'=>$status,
+                        'DateApproved'=>'0000-00-00'];
+                        $reviewModel->save($data);
+                    }
+                
+                    //send email notification
+                    $email = \Config\Services::email();
+                    $email->setTo($row['Email']);
+                    $email->setFrom("vinmogate@gmail.com","ASSIST");
+                    $imgURL = "assets/img/Logo.png";
+                    $email->attach($imgURL);
+                    $cid = $email->setAttachmentCID($imgURL);
+                    $template = "<center>
+                    <img src='cid:". $cid ."' width='100'/>
+                    <table style='padding:20px;background-color:#ffffff;' border='0'><tbody>
+                    <tr><td><center><h1>Technical Assistance</h1></center></td></tr>
+                    <tr><td><center>Hi, ".$row['Fullname']."</center></td></tr>
+                    <tr><td><p><center>".$school['schoolName']." sent you a technical assistance request for your review/approval.</center></p></td><tr>
+                    <tr><td><p><center>Kindly login to your account in <a href='https://assist.x10.bz'>Visit Website</a> to take the action until ".$endDate."</center></p></td></tr>
+                    <tr><td><center>ASSIST IT Support</center></td></tr></tbody></table></center>";
+                    $subject = "Technical Assistance | ASSIST";
+                    $email->setSubject($subject);
+                    $email->setMessage($template);
+                    $email->send();
+                }
+            }
+             //create log
+             date_default_timezone_set('Asia/Manila');
+             $logModel = new \App\Models\logModel();
+             $data = ['accountID'=>session()->get('loggedUser'),'Activity'=>'Revised the Technical Assistance','DateCreated'=>date('Y-m-d H:i:s a')];
+             $logModel->save($data);
+            return $this->response->setJSON(['success' => 'Successfully submitted']);
+        }
     }
 
     public function getDetails()
