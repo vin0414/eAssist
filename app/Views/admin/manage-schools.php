@@ -27,7 +27,7 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 "
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 "
         id="sidenav-main">
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
@@ -266,7 +266,6 @@
                 <div class="tab-pane fade" id="area" role="tabpanel" aria-labelledby="area-tab">
                     <br />
                     <div class="row g-3">
-                        <div class="col-lg-2"></div>
                         <div class="col-lg-8">
                             <div class="card">
                                 <div class="card-header p-3 pb-0">
@@ -274,10 +273,6 @@
                                         <h6 class="mb-0">
                                             <i class="fa-solid fa-swatchbook"></i>&nbsp;Area of Concerns
                                         </h6>
-                                        <button type="button" class="btn btn-sm btn-info text-white ms-auto mb-0"
-                                            data-bs-toggle="modal" data-bs-target="#addSubjectModal">
-                                            <i class="fa-solid fa-plus"></i> New
-                                        </button>
                                     </div>
                                 </div>
                                 <div class="card-body px-0 pt-0 pb-2">
@@ -294,6 +289,34 @@
                                             <tbody id="tblsubject"></tbody>
                                         </table>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <div class="card-header p-3 pb-0">
+                                    <div class="d-flex align-items-center">
+                                        <h6 class="mb-0">
+                                            <i class="fa-solid fa-swatchbook"></i>&nbsp;New Concern
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <form method="POST" id="frmSubject">
+                                        <?= csrf_field(); ?>
+                                        <div class="row">
+                                            <div class="col-12 form-group">
+                                                <label>Subject <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" name="subject_name" required />
+                                                <div id="subject_name-error" class="error-message text-danger text-sm">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 form-group">
+                                                <button type="submit" class="btn btn-primary"><i
+                                                        class="fa-regular fa-floppy-disk"></i>&nbsp;Save</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -420,35 +443,6 @@
                                 <label>Cluster Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="cluster_name" required />
                                 <div id="cluster_name-error" class="error-message text-danger text-sm"></div>
-                            </div>
-                            <div class="col-12 form-group">
-                                <button type="submit" class="btn btn-primary"><i
-                                        class="fa-regular fa-floppy-disk"></i>&nbsp;Save</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="addSubjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New Area of Concern</h5>
-                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" id="frmSubject">
-                        <?= csrf_field(); ?>
-                        <div class="row">
-                            <div class="col-12 form-group">
-                                <label>Subject <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="subject_name" required />
-                                <div id="subject_name-error" class="error-message text-danger text-sm"></div>
                             </div>
                             <div class="col-12 form-group">
                                 <button type="submit" class="btn btn-primary"><i
