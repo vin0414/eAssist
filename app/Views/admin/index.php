@@ -293,7 +293,7 @@
                                         </div>
                                         <div class="col-4">
                                             <p class="text-white text-sm text-end font-weight-bolder mt-auto mb-0">
-                                                <?=$totalPercent ?>%
+                                                <?=number_format($totalPercent,2) ?>%
                                             </p>
                                         </div>
                                     </div>
@@ -314,7 +314,7 @@
                                         <div class="d-flex mb-2">
                                             <span class="me-2 text-sm font-weight-bold text-dark">Positive
                                                 Reviews</span>
-                                            <span class="ms-auto text-sm font-weight-bold"><?=$positive ?>%</span>
+                                            <span class="ms-auto text-sm font-weight-bold"><?=number_format($positive,2) ?>%</span>
                                         </div>
                                         <div>
                                             <div class="progress progress-md">
@@ -330,7 +330,7 @@
                                         <div class="d-flex mb-2">
                                             <span class="me-2 text-sm font-weight-bold text-dark">Negative
                                                 Reviews</span>
-                                            <span class="ms-auto text-sm font-weight-bold"><?=$negative ?>%</span>
+                                            <span class="ms-auto text-sm font-weight-bold"><?=number_format($negative,2) ?>%</span>
                                         </div>
                                         <div>
                                             <div class="progress progress-md">
@@ -346,7 +346,7 @@
                                         <div class="d-flex mb-2">
                                             <span class="me-2 text-sm font-weight-bold text-dark">Overall
                                                 Reviews</span>
-                                            <span class="ms-auto text-sm font-weight-bold"><?=$totalPercent ?>%</span>
+                                            <span class="ms-auto text-sm font-weight-bold"><?=number_format($totalPercent,2) ?>%</span>
                                         </div>
                                         <div>
                                             <div class="progress progress-md">
