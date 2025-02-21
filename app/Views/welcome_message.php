@@ -24,7 +24,7 @@
       <div class="page-header min-vh-75">
         <div class="container">
           <div class="row">
-            <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
+            <div class="col-md-4 d-flex flex-column mx-auto">
               <div class="card card-plain mt-5">
                 <div class="card-header pb-0 text-center bg-transparent">
                   <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>" width="100px"/>
@@ -66,9 +66,9 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6">
-              <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
-                <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image:url('../assets/img/curved-images/curved6.jpg')"></div>
+            <div class="col-md-8">
+              <div class="oblique position-absolute top-0 h-100 d-md-block d-none">
+                <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image:url('../assets/img/curved-images/division_office.png')"></div>
               </div>
             </div>
           </div>
