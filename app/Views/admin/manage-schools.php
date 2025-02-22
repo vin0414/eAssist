@@ -637,6 +637,7 @@
                     alert("Error occurred while loading data.");
                 }
             },
+            "searching": true, // Enable the search functionality
             "columns": [{
                     "data": "date"
                 },
