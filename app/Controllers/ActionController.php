@@ -109,14 +109,23 @@ class ActionController extends BaseController
     public function fetchSubject()
     {
         $subjectModel = new \App\Models\subjectModel();
+        $searchTerm = $_GET['search']['value'] ?? '';
+        
+        if ($searchTerm) {
+            $subjectModel->like('subjectName', $searchTerm); // Assuming you're searching on the 'subjectName' column
+        }
+
         $subject = $subjectModel->findAll();
 
         $totalRecords = $subjectModel->countAllResults();
 
+        $subjectModel->like('subjectName', $searchTerm);
+        $totalFiltered = $subjectModel->countAllResults();
+
         $response = [
             "draw" => $_GET['draw'],
             "recordsTotal" => $totalRecords,
-            "recordsFiltered" => $totalRecords,
+            "recordsFiltered" => $totalFiltered,
             'data' => [] 
         ];
         foreach ($subject as $row) {
@@ -186,19 +195,38 @@ class ActionController extends BaseController
     public function fetchSchoolData()
     {
         $schoolModel = new \App\Models\schoolModel();
-        //schools
+        $searchTerm = $_GET['search']['value'] ?? ''; 
+        // Initialize the query builder for the 'tblschool' table
         $builder = $this->db->table('tblschool a');
-        $builder->select('a.DateCreated,a.schoolName,a.address,a.schoolID,b.clusterName');
-        $builder->join('tblcluster b','b.clusterID=a.clusterID','LEFT');
+        $builder->select('a.DateCreated, a.schoolName, a.address, a.schoolID, b.clusterName');
+        $builder->join('tblcluster b', 'b.clusterID = a.clusterID', 'LEFT');
         $builder->groupBy('a.schoolID');
+
+        // Apply search filter if a search term exists
+        if ($searchTerm) {
+            // Add a LIKE condition to filter based on school name or address or any other column you wish to search
+            $builder->groupStart()
+                    ->like('a.schoolName', $searchTerm)
+                    ->orLike('a.address', $searchTerm)
+                    ->orLike('b.clusterName', $searchTerm)
+                    ->groupEnd();
+        }
+
+        // Execute the query and fetch the results
         $school = $builder->get()->getResult();
+
+        // Total number of records (without search filter)
+        $totalRecords = $this->db->table('tblschool')->countAllResults();
+
+        // Total number of filtered records (with search filter applied)
+        $filteredRecords = count($school);
 
         $totalRecords = $schoolModel->getTotalRecords();
 
         $response = [
             "draw" => $_GET['draw'],
             "recordsTotal" => $totalRecords,
-            "recordsFiltered" => $totalRecords,
+            "recordsFiltered" => $filteredRecords,
             'data' => [] 
         ];
         foreach ($school as $row) {
@@ -676,8 +704,8 @@ class ActionController extends BaseController
 
     public function userRequest()
     {
+        $searchTerm = $_GET['search']['value'] ?? '';
         $formModel = new \App\Models\formModel();
-
         $user = session()->get('loggedUser');
         $builder = $this->db->table('tblform a');
         $builder->select('a.*,b.subjectName,IFNULL(c.Message,"-")Message,e.Fullname');
@@ -688,14 +716,28 @@ class ActionController extends BaseController
         $builder->WHERE('a.accountID',$user);
         $builder->orderBy('c.DateCreated', 'DESC');
         $builder->groupBy('a.formID');
+        if ($searchTerm) 
+        {
+            $builder->groupStart()
+            ->like('a.DateCreated', $searchTerm)
+            ->orLike('a.Code', $searchTerm)
+            ->orLike('a.Details', $searchTerm)
+            ->orLike('a.priorityLevel', $searchTerm)
+            ->orLike('a.Status', $searchTerm)
+            ->orLike('b.subjectName', $searchTerm)
+            ->orLike('c.Message', $searchTerm)
+            ->orLike('e.Fullname', $searchTerm)
+            ->groupEnd();
+        }
         $form = $builder->get()->getResult();
 
         $totalRecords = $formModel->WHERE('accountID',$user)->countAllResults();
+        $filteredRecords = count($form);
 
         $response = [
             "draw" => $_GET['draw'],
             "recordsTotal" => $totalRecords,
-            "recordsFiltered" => $totalRecords,
+            "recordsFiltered" => $filteredRecords,
             'data' => [] 
         ];
         foreach ($form as $row) {
@@ -952,22 +994,46 @@ class ActionController extends BaseController
     public function reviewRequest()
     {
         $reviewModel = new \App\Models\reviewModel();
-        $user = session()->get('loggedUser');
-        $totalRecords = $reviewModel->WHERE('accountID',$user)->countAllResults();
-        
+        $searchTerm = $_GET['search']['value'] ?? ''; // Get search term if exists
+        $user = session()->get('loggedUser'); // Get the logged-in user
+
+        // Count total records for pagination
+        $totalRecords = $reviewModel->where('accountID', $user)->WHERE('Status',0)->countAllResults(); 
+
+        // Initialize builder with the table and the joins
         $builder = $this->db->table('tblreview a');
-        $builder->select('a.*,c.clusterName,b.Code,b.formID,b.Details,b.priorityLevel,d.subjectName,e.schoolName');
-        $builder->join('tblform b','b.formID=a.formID','LEFT');
-        $builder->join('tblcluster c','c.clusterID=b.clusterID','LEFT');
-        $builder->join('tblsubject d','d.subjectID=b.subjectID','LEFT');
-        $builder->join('tblschool e','e.schoolID=b.schoolID','LEFT');
-        $builder->WHERE('a.accountID',$user)->WHERE('a.Status',0);
+        $builder->select('a.DateReceived, a.Status, c.clusterName, 
+                b.Code, b.formID, b.Details, b.priorityLevel, 
+                d.subjectName, e.schoolName');
+        $builder->join('tblform b', 'b.formID = a.formID', 'LEFT');
+        $builder->join('tblcluster c', 'c.clusterID = b.clusterID', 'LEFT');
+        $builder->join('tblsubject d', 'd.subjectID = b.subjectID', 'LEFT');
+        $builder->join('tblschool e', 'e.schoolID = b.schoolID', 'LEFT');
+
+        // Apply filters for logged-in user and status = 0
+        $builder->where('a.accountID', $user);
+        $builder->where('a.Status', 0);
+
+        // Check if a search term exists, and apply filtering
+        if (!empty($searchTerm)) {
+            $builder->groupStart() // Start grouping OR conditions
+                ->like('a.DateReceived', $searchTerm)
+                ->orLike('b.Code', $searchTerm)
+                ->orLike('b.Details', $searchTerm)
+                ->orLike('b.priorityLevel', $searchTerm)
+                ->orLike('d.subjectName', $searchTerm)
+                ->orLike('e.schoolName', $searchTerm)
+                ->orLike('c.clusterName', $searchTerm) // Fixed typo here (removed extra dot)
+                ->groupEnd(); // End grouping
+        }
+
+        // Get the results of the query
         $review = $builder->get()->getResult();
 
         $response = [
             "draw" => $_GET['draw'],
             "recordsTotal" => $totalRecords,
-            "recordsFiltered" => $totalRecords,
+            "recordsFiltered" => count($review),
             'data' => [] 
         ];
 
@@ -1254,6 +1320,7 @@ class ActionController extends BaseController
     {
         $reviewModel = new \App\Models\reviewModel();
         $user = session()->get('loggedUser');
+        $searchTerm = $_GET['search']['value'] ?? '';
         $totalRecords = $reviewModel->WHERE('accountID',$user)->countAllResults();
         
         $builder = $this->db->table('tblreview a');
@@ -1265,12 +1332,23 @@ class ActionController extends BaseController
         $builder->join('tblaction f','f.formID=b.formID','LEFT');
         $builder->WHERE('a.accountID',$user);
         $builder->groupBy('b.formID');
+        if (!empty($searchTerm)) {
+            $builder->groupStart() // Start grouping OR conditions
+                ->like('b.Details', $searchTerm)
+                ->orLike('b.Code', $searchTerm)
+                ->orLike('b.DateCreated', $searchTerm)
+                ->orLike('c.clusterName', $searchTerm)
+                ->orLike('d.schoolName', $searchTerm)
+                ->orLike('e.subjectName', $searchTerm)
+                ->orLike('f.ImplementationDate', $searchTerm) // Fixed typo here (removed extra dot)
+                ->groupEnd(); // End grouping
+        }
         $review = $builder->get()->getResult();
 
         $response = [
             "draw" => $_GET['draw'],
             "recordsTotal" => $totalRecords,
-            "recordsFiltered" => $totalRecords,
+            "recordsFiltered" => count($review),
             'data' => [] 
         ];
 
@@ -1292,11 +1370,7 @@ class ActionController extends BaseController
 
     public function assistPlan()
     {
-        $accountModel = new \App\Models\accountModel();
-        $account = $accountModel->WHERE('accountID',session()->get('loggedUser'))->first();
-
-        $reviewModel = new \App\Models\reviewModel();
-        $totalRecords = $reviewModel->countAllResults();
+        $searchTerm = $_GET['search']['value'] ?? ''; 
         
         $builder = $this->db->table('tblform b');
         $builder->select("b.Details,b.Code,b.DateCreated,c.clusterName,d.schoolName,e.subjectName,f.actionName,f.Recommendation,f.ImplementationDate");
@@ -1305,12 +1379,30 @@ class ActionController extends BaseController
         $builder->join('tblsubject e','e.subjectID=b.subjectID','LEFT');
         $builder->join('tblaction f','f.formID=b.formID','LEFT');
         $builder->groupBy('b.formID');
+        if ($searchTerm) {
+            $builder->groupStart()
+                    ->like('b.Details', $searchTerm)
+                    ->orLike('b.Code', $searchTerm)
+                    ->orLike('c.clusterName', $searchTerm)
+                    ->orLike('d.schoolName', $searchTerm)
+                    ->orLike('e.subjectName', $searchTerm)
+                    ->orLike('f.actionName', $searchTerm)
+                    ->orLike('f.Recommendation', $searchTerm)
+                    ->orLike('f.ImplementationDate', $searchTerm)
+                    ->groupEnd();
+        }
         $review = $builder->get()->getResult();
+
+        // Total number of records (without search filter)
+        $totalRecords = $this->db->table('tblform')->countAllResults();
+
+        // Total number of filtered records (with search filter applied)
+        $filteredRecords = count($review);
 
         $response = [
             "draw" => $_GET['draw'],
             "recordsTotal" => $totalRecords,
-            "recordsFiltered" => $totalRecords,
+            "recordsFiltered" => $filteredRecords,
             'data' => [] 
         ];
 

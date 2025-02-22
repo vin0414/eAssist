@@ -514,6 +514,7 @@
                     alert("Error occurred while loading data.");
                 }
             },
+            "searching": true,
             "columns": [{
                     "data": "DateCreated"
                 },
@@ -552,6 +553,7 @@
                     alert("Error occurred while loading data.");
                 }
             },
+            "searching": true,
             "columns": [{
                     "data": "DateReceived"
                 },

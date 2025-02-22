@@ -46,33 +46,47 @@
     ::-webkit-scrollbar-thumb:hover {
         background-color: #555;
     }
+
     .floating-modal {
         position: fixed;
-        bottom: 20px;  /* Distance from bottom */
-        right: 20px;   /* Distance from right */
-        width: 300px;  /* Width of the modal */
-        background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
-        border-radius: 10px; /* Rounded corners */
-        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Floating shadow effect */
-        padding: 20px; /* Padding inside the modal */
-        z-index: 1000; /* Ensure it appears above other content */
-        opacity: 0; /* Initially hidden */
-        transform: translateY(100px); /* Move offscreen by default */
-        transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition for appearance */
-        }
+        bottom: 20px;
+        /* Distance from bottom */
+        right: 20px;
+        /* Distance from right */
+        width: 300px;
+        /* Width of the modal */
+        background-color: rgba(255, 255, 255, 0.9);
+        /* Semi-transparent white */
+        border-radius: 10px;
+        /* Rounded corners */
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        /* Floating shadow effect */
+        padding: 20px;
+        /* Padding inside the modal */
+        z-index: 1000;
+        /* Ensure it appears above other content */
+        opacity: 0;
+        /* Initially hidden */
+        transform: translateY(100px);
+        /* Move offscreen by default */
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        /* Smooth transition for appearance */
+    }
 
-        .floating-modal.open {
+    .floating-modal.open {
         opacity: 1;
-        transform: translateY(0); /* Animate to normal position */
-        }
+        transform: translateY(0);
+        /* Animate to normal position */
+    }
 
 
-        .qr-code img {
-        max-width: 100%; /* Ensure the QR code image is responsive */
+    .qr-code img {
+        max-width: 100%;
+        /* Ensure the QR code image is responsive */
         height: auto;
-        }
+    }
 
-        .close-btn {
+    .close-btn {
         margin-top: 10px;
         padding: 10px 20px;
         background-color: #007bff;
@@ -80,11 +94,12 @@
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        }
+    }
 
-        .close-btn:hover {
-        background-color: #0056b3; /* Darker shade on hover */
-        }
+    .close-btn:hover {
+        background-color: #0056b3;
+        /* Darker shade on hover */
+    }
     </style>
 </head>
 
@@ -268,10 +283,11 @@
         <div class="floating-modal">
             <div class="modal-content">
                 <div class="qr-code">
-                <!-- QR code image or content here -->
-                <img src="<?=base_url('assets/img/qrcode.jpg')?>" alt="QR Code">
+                    <!-- QR code image or content here -->
+                    <img src="<?=base_url('assets/img/qrcode.jpg')?>" alt="QR Code">
                 </div>
-                <small class="text-center">Click this link to participate in the client satisfaction survey <a href="https://csm.depedgentri.com/csm.php" target="_blank">here</a>.</small>
+                <small class="text-center">Click this link to participate in the client satisfaction survey <a
+                        href="https://csm.depedgentri.com/csm.php" target="_blank">here</a>.</small>
                 <button class="close-btn">Close</button>
             </div>
         </div>
@@ -479,14 +495,14 @@
 
         // Open the modal
         function openModal() {
-        modal.classList.add('open');
-        modal.classList.remove('closed');
+            modal.classList.add('open');
+            modal.classList.remove('closed');
         }
 
         // Close the modal
         function closeModal() {
-        modal.classList.add('closed');
-        modal.classList.remove('open');
+            modal.classList.add('closed');
+            modal.classList.remove('open');
         }
 
         // Event listener for the close button
@@ -509,6 +525,7 @@
                     alert("Error occurred while loading data.");
                 }
             },
+            "searching": true,
             "columns": [{
                     "data": "DateCreated"
                 },
@@ -574,7 +591,7 @@
             });
         });
 
-        $(document).on('click','.save', function(e) {
+        $(document).on('click', '.save', function(e) {
             e.preventDefault();
             $('.error-message').html('');
             $('#frmEditRequest').slideUp();

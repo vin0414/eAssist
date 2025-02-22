@@ -176,3 +176,589 @@ INFO - 2025-02-22 03:08:56 --> Session: Class initialized using 'CodeIgniter\Ses
 INFO - 2025-02-22 03:09:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
 INFO - 2025-02-22 11:09:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
 INFO - 2025-02-22 03:09:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:03:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 20:04:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:04:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:04:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:04:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:04:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 20:09:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:09:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 20:11:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:11:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:11:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:17:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:18:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:19:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:23:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:26:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:29:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:29:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:34:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:39:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:40:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:41:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:45:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:45:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:49:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:54:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 12:56:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:04:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:22:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:29:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:30:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:30:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 21:30:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:30:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 21:30:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:30:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:31:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:31:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-02-22 13:31:02 --> [DEPRECATED] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in APPPATH\Controllers\ActionController.php on line 1354.
+ 1 APPPATH\Controllers\ActionController.php(1354): strtotime(null)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->assistPlan()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+INFO - 2025-02-22 13:31:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:31:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:31:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:31:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:31:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-02-22 13:31:25 --> [DEPRECATED] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in APPPATH\Controllers\ActionController.php on line 1354.
+ 1 APPPATH\Controllers\ActionController.php(1354): strtotime(null)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->assistPlan()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+INFO - 2025-02-22 13:31:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:40:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-02-22 13:40:26 --> [DEPRECATED] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in APPPATH\Controllers\ActionController.php on line 1368.
+ 1 APPPATH\Controllers\ActionController.php(1368): strtotime(null)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->assistPlan()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+WARNING - 2025-02-22 13:40:31 --> [DEPRECATED] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in APPPATH\Controllers\ActionController.php on line 1368.
+ 1 APPPATH\Controllers\ActionController.php(1368): strtotime(null)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->assistPlan()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+WARNING - 2025-02-22 13:40:39 --> [DEPRECATED] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in APPPATH\Controllers\ActionController.php on line 1368.
+ 1 APPPATH\Controllers\ActionController.php(1368): strtotime(null)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->assistPlan()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+WARNING - 2025-02-22 13:40:42 --> [DEPRECATED] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in APPPATH\Controllers\ActionController.php on line 1368.
+ 1 APPPATH\Controllers\ActionController.php(1368): strtotime(null)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->assistPlan()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+WARNING - 2025-02-22 13:40:44 --> [DEPRECATED] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in APPPATH\Controllers\ActionController.php on line 1368.
+ 1 APPPATH\Controllers\ActionController.php(1368): strtotime(null)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->assistPlan()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+WARNING - 2025-02-22 13:40:44 --> [DEPRECATED] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in APPPATH\Controllers\ActionController.php on line 1368.
+ 1 APPPATH\Controllers\ActionController.php(1368): strtotime(null)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->assistPlan()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+WARNING - 2025-02-22 13:40:47 --> [DEPRECATED] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in APPPATH\Controllers\ActionController.php on line 1368.
+ 1 APPPATH\Controllers\ActionController.php(1368): strtotime(null)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->assistPlan()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+WARNING - 2025-02-22 13:40:49 --> [DEPRECATED] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in APPPATH\Controllers\ActionController.php on line 1368.
+ 1 APPPATH\Controllers\ActionController.php(1368): strtotime(null)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->assistPlan()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+WARNING - 2025-02-22 13:40:50 --> [DEPRECATED] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in APPPATH\Controllers\ActionController.php on line 1368.
+ 1 APPPATH\Controllers\ActionController.php(1368): strtotime(null)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->assistPlan()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+WARNING - 2025-02-22 13:40:51 --> [DEPRECATED] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in APPPATH\Controllers\ActionController.php on line 1368.
+ 1 APPPATH\Controllers\ActionController.php(1368): strtotime(null)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->assistPlan()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+WARNING - 2025-02-22 13:40:52 --> [DEPRECATED] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in APPPATH\Controllers\ActionController.php on line 1368.
+ 1 APPPATH\Controllers\ActionController.php(1368): strtotime(null)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->assistPlan()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+INFO - 2025-02-22 13:41:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-02-22 13:41:22 --> [DEPRECATED] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in APPPATH\Controllers\ActionController.php on line 1368.
+ 1 APPPATH\Controllers\ActionController.php(1368): strtotime(null)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->assistPlan()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+WARNING - 2025-02-22 13:41:26 --> [DEPRECATED] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in APPPATH\Controllers\ActionController.php on line 1368.
+ 1 APPPATH\Controllers\ActionController.php(1368): strtotime(null)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->assistPlan()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+WARNING - 2025-02-22 13:41:31 --> [DEPRECATED] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in APPPATH\Controllers\ActionController.php on line 1368.
+ 1 APPPATH\Controllers\ActionController.php(1368): strtotime(null)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->assistPlan()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+WARNING - 2025-02-22 13:41:32 --> [DEPRECATED] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in APPPATH\Controllers\ActionController.php on line 1368.
+ 1 APPPATH\Controllers\ActionController.php(1368): strtotime(null)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->assistPlan()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+INFO - 2025-02-22 13:41:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:41:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:44:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-02-22 13:44:51 --> [DEPRECATED] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in APPPATH\Controllers\ActionController.php on line 1368.
+ 1 APPPATH\Controllers\ActionController.php(1368): strtotime(null)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->assistPlan()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+WARNING - 2025-02-22 13:45:27 --> [DEPRECATED] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in APPPATH\Controllers\ActionController.php on line 1368.
+ 1 APPPATH\Controllers\ActionController.php(1368): strtotime(null)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->assistPlan()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+INFO - 2025-02-22 13:45:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:45:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-02-22 13:45:42 --> [DEPRECATED] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in APPPATH\Controllers\ActionController.php on line 1368.
+ 1 APPPATH\Controllers\ActionController.php(1368): strtotime(null)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->assistPlan()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+INFO - 2025-02-22 13:45:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:46:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:46:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 21:46:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:46:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 21:46:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 21:46:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:46:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:48:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 13:48:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:02:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:02:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:02:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:02:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:02:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:02:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:02:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:02:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:02:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:02:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:02:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:02:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:02:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:02:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:02:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:03:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:03:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:03:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:03:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:03:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:03:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:03:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:04:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:04:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:04:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:04:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:04:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:04:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:04:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:04:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:04:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:04:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:04:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:04:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:04:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:04:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:04:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:04:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:24:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:24:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:25:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:25:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 22:25:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:25:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 22:26:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:26:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:26:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:26:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:26:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:26:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:27:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:57:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:57:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:57:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:57:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:57:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2025-02-22 14:57:44 --> mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIKE '%0000%' ESCAPE '!'
+ )' at line 17 in C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT `a`.`Dat...', 0)
+#1 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `a`.`Dat...')
+#2 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `a`.`Dat...')
+#3 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`Dat...', Array, false)
+#4 C:\Users\Warvin\Downloads\eAssist\eAssist\app\Controllers\ActionController.php(1022): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\Warvin\Downloads\eAssist\eAssist\system\CodeIgniter.php(934): App\Controllers\ActionController->reviewRequest()
+#6 C:\Users\Warvin\Downloads\eAssist\eAssist\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+#7 C:\Users\Warvin\Downloads\eAssist\eAssist\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\Users\Warvin\Downloads\eAssist\eAssist\public\index.php(67): CodeIgniter\CodeIgniter->run()
+#9 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\Warvin...')
+#10 {main}
+CRITICAL - 2025-02-22 14:57:44 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIKE '%0000%' ESCAPE '!'
+ )' at line 17
+in SYSTEMPATH\Database\BaseConnection.php on line 645.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`DateReceived`, `a`.`Status`, `c`.`clusterName`, `b`.`Code`, `b`.`formID`, `b`.`Details`, `b`.`priorityLevel`, `d`.`subjectName`, `e`.`schoolName`
+FROM `tblreview` `a`
+LEFT JOIN `tblform` `b` ON `b`.`formID`=`a`.`formID`
+LEFT JOIN `tblcluster` `c` ON `c`.`clusterID`=`b`.`clusterID`
+LEFT JOIN `tblsubject` `d` ON `d`.`subjectID`=`b`.`subjectID`
+LEFT JOIN `tblschool` `e` ON `e`.`schoolID`=`b`.`schoolID`
+WHERE `a`.`accountID` = :a.accountID:
+AND `a`.`Status` = :a.Status:
+AND   (
+`a`.`DateReceived` LIKE :a.DateReceived: ESCAPE \'!\'
+OR  `a`.`Status` LIKE :a.Status.1: ESCAPE \'!\'
+OR  `b`.`Code` LIKE :b.Code: ESCAPE \'!\'
+OR  `b`.`Details` LIKE :b.Details: ESCAPE \'!\'
+OR  `b`.`priorityLevel` LIKE :b.priorityLevel: ESCAPE \'!\'
+OR  `d`.`subjectName` LIKE :d.subjectName: ESCAPE \'!\'
+OR  `e`.`schoolName` LIKE :e.schoolName: ESCAPE \'!\'
+OR  `c`.`clusterName`. LIKE :c.clusterName.: ESCAPE \'!\'
+ )', [...], false)
+ 2 APPPATH\Controllers\ActionController.php(1022): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->reviewRequest()
+ 4 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 5 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+INFO - 2025-02-22 14:57:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2025-02-22 14:57:51 --> mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIKE '%0002%' ESCAPE '!'
+ )' at line 17 in C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT `a`.`Dat...', 0)
+#1 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `a`.`Dat...')
+#2 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `a`.`Dat...')
+#3 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`Dat...', Array, false)
+#4 C:\Users\Warvin\Downloads\eAssist\eAssist\app\Controllers\ActionController.php(1022): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\Warvin\Downloads\eAssist\eAssist\system\CodeIgniter.php(934): App\Controllers\ActionController->reviewRequest()
+#6 C:\Users\Warvin\Downloads\eAssist\eAssist\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+#7 C:\Users\Warvin\Downloads\eAssist\eAssist\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\Users\Warvin\Downloads\eAssist\eAssist\public\index.php(67): CodeIgniter\CodeIgniter->run()
+#9 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\Warvin...')
+#10 {main}
+CRITICAL - 2025-02-22 14:57:52 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIKE '%0002%' ESCAPE '!'
+ )' at line 17
+in SYSTEMPATH\Database\BaseConnection.php on line 645.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`DateReceived`, `a`.`Status`, `c`.`clusterName`, `b`.`Code`, `b`.`formID`, `b`.`Details`, `b`.`priorityLevel`, `d`.`subjectName`, `e`.`schoolName`
+FROM `tblreview` `a`
+LEFT JOIN `tblform` `b` ON `b`.`formID`=`a`.`formID`
+LEFT JOIN `tblcluster` `c` ON `c`.`clusterID`=`b`.`clusterID`
+LEFT JOIN `tblsubject` `d` ON `d`.`subjectID`=`b`.`subjectID`
+LEFT JOIN `tblschool` `e` ON `e`.`schoolID`=`b`.`schoolID`
+WHERE `a`.`accountID` = :a.accountID:
+AND `a`.`Status` = :a.Status:
+AND   (
+`a`.`DateReceived` LIKE :a.DateReceived: ESCAPE \'!\'
+OR  `a`.`Status` LIKE :a.Status.1: ESCAPE \'!\'
+OR  `b`.`Code` LIKE :b.Code: ESCAPE \'!\'
+OR  `b`.`Details` LIKE :b.Details: ESCAPE \'!\'
+OR  `b`.`priorityLevel` LIKE :b.priorityLevel: ESCAPE \'!\'
+OR  `d`.`subjectName` LIKE :d.subjectName: ESCAPE \'!\'
+OR  `e`.`schoolName` LIKE :e.schoolName: ESCAPE \'!\'
+OR  `c`.`clusterName`. LIKE :c.clusterName.: ESCAPE \'!\'
+ )', [...], false)
+ 2 APPPATH\Controllers\ActionController.php(1022): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->reviewRequest()
+ 4 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 5 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+INFO - 2025-02-22 14:57:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:57:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:57:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:57:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:58:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2025-02-22 14:58:01 --> mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIKE '%Lear%' ESCAPE '!'
+ )' at line 17 in C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT `a`.`Dat...', 0)
+#1 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `a`.`Dat...')
+#2 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `a`.`Dat...')
+#3 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`Dat...', Array, false)
+#4 C:\Users\Warvin\Downloads\eAssist\eAssist\app\Controllers\ActionController.php(1022): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\Warvin\Downloads\eAssist\eAssist\system\CodeIgniter.php(934): App\Controllers\ActionController->reviewRequest()
+#6 C:\Users\Warvin\Downloads\eAssist\eAssist\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+#7 C:\Users\Warvin\Downloads\eAssist\eAssist\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\Users\Warvin\Downloads\eAssist\eAssist\public\index.php(67): CodeIgniter\CodeIgniter->run()
+#9 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\Warvin...')
+#10 {main}
+CRITICAL - 2025-02-22 14:58:01 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIKE '%Lear%' ESCAPE '!'
+ )' at line 17
+in SYSTEMPATH\Database\BaseConnection.php on line 645.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`DateReceived`, `a`.`Status`, `c`.`clusterName`, `b`.`Code`, `b`.`formID`, `b`.`Details`, `b`.`priorityLevel`, `d`.`subjectName`, `e`.`schoolName`
+FROM `tblreview` `a`
+LEFT JOIN `tblform` `b` ON `b`.`formID`=`a`.`formID`
+LEFT JOIN `tblcluster` `c` ON `c`.`clusterID`=`b`.`clusterID`
+LEFT JOIN `tblsubject` `d` ON `d`.`subjectID`=`b`.`subjectID`
+LEFT JOIN `tblschool` `e` ON `e`.`schoolID`=`b`.`schoolID`
+WHERE `a`.`accountID` = :a.accountID:
+AND `a`.`Status` = :a.Status:
+AND   (
+`a`.`DateReceived` LIKE :a.DateReceived: ESCAPE \'!\'
+OR  `a`.`Status` LIKE :a.Status.1: ESCAPE \'!\'
+OR  `b`.`Code` LIKE :b.Code: ESCAPE \'!\'
+OR  `b`.`Details` LIKE :b.Details: ESCAPE \'!\'
+OR  `b`.`priorityLevel` LIKE :b.priorityLevel: ESCAPE \'!\'
+OR  `d`.`subjectName` LIKE :d.subjectName: ESCAPE \'!\'
+OR  `e`.`schoolName` LIKE :e.schoolName: ESCAPE \'!\'
+OR  `c`.`clusterName`. LIKE :c.clusterName.: ESCAPE \'!\'
+ )', [...], false)
+ 2 APPPATH\Controllers\ActionController.php(1022): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->reviewRequest()
+ 4 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 5 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+INFO - 2025-02-22 14:58:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:58:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:58:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:58:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:58:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2025-02-22 14:58:18 --> mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIKE '%Lea%' ESCAPE '!'
+ )' at line 17 in C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT `a`.`Dat...', 0)
+#1 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `a`.`Dat...')
+#2 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `a`.`Dat...')
+#3 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`Dat...', Array, false)
+#4 C:\Users\Warvin\Downloads\eAssist\eAssist\app\Controllers\ActionController.php(1022): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\Warvin\Downloads\eAssist\eAssist\system\CodeIgniter.php(934): App\Controllers\ActionController->reviewRequest()
+#6 C:\Users\Warvin\Downloads\eAssist\eAssist\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+#7 C:\Users\Warvin\Downloads\eAssist\eAssist\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\Users\Warvin\Downloads\eAssist\eAssist\public\index.php(67): CodeIgniter\CodeIgniter->run()
+#9 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\Warvin...')
+#10 {main}
+CRITICAL - 2025-02-22 14:58:18 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIKE '%Lea%' ESCAPE '!'
+ )' at line 17
+in SYSTEMPATH\Database\BaseConnection.php on line 645.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`DateReceived`, `a`.`Status`, `c`.`clusterName`, `b`.`Code`, `b`.`formID`, `b`.`Details`, `b`.`priorityLevel`, `d`.`subjectName`, `e`.`schoolName`
+FROM `tblreview` `a`
+LEFT JOIN `tblform` `b` ON `b`.`formID`=`a`.`formID`
+LEFT JOIN `tblcluster` `c` ON `c`.`clusterID`=`b`.`clusterID`
+LEFT JOIN `tblsubject` `d` ON `d`.`subjectID`=`b`.`subjectID`
+LEFT JOIN `tblschool` `e` ON `e`.`schoolID`=`b`.`schoolID`
+WHERE `a`.`accountID` = :a.accountID:
+AND `a`.`Status` = :a.Status:
+AND   (
+`a`.`DateReceived` LIKE :a.DateReceived: ESCAPE \'!\'
+OR  `a`.`Status` LIKE :a.Status.1: ESCAPE \'!\'
+OR  `b`.`Code` LIKE :b.Code: ESCAPE \'!\'
+OR  `b`.`Details` LIKE :b.Details: ESCAPE \'!\'
+OR  `b`.`priorityLevel` LIKE :b.priorityLevel: ESCAPE \'!\'
+OR  `d`.`subjectName` LIKE :d.subjectName: ESCAPE \'!\'
+OR  `e`.`schoolName` LIKE :e.schoolName: ESCAPE \'!\'
+OR  `c`.`clusterName`. LIKE :c.clusterName.: ESCAPE \'!\'
+ )', [...], false)
+ 2 APPPATH\Controllers\ActionController.php(1022): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->reviewRequest()
+ 4 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 5 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+INFO - 2025-02-22 14:58:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:58:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:58:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:58:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 14:58:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2025-02-22 14:58:58 --> mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIKE '%lea%' ESCAPE '!'
+ )' at line 17 in C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT `a`.`Dat...', 0)
+#1 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `a`.`Dat...')
+#2 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `a`.`Dat...')
+#3 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`Dat...', Array, false)
+#4 C:\Users\Warvin\Downloads\eAssist\eAssist\app\Controllers\ActionController.php(1022): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\Warvin\Downloads\eAssist\eAssist\system\CodeIgniter.php(934): App\Controllers\ActionController->reviewRequest()
+#6 C:\Users\Warvin\Downloads\eAssist\eAssist\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+#7 C:\Users\Warvin\Downloads\eAssist\eAssist\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\Users\Warvin\Downloads\eAssist\eAssist\public\index.php(67): CodeIgniter\CodeIgniter->run()
+#9 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\Warvin...')
+#10 {main}
+CRITICAL - 2025-02-22 14:58:58 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIKE '%lea%' ESCAPE '!'
+ )' at line 17
+in SYSTEMPATH\Database\BaseConnection.php on line 645.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`DateReceived`, `a`.`Status`, `c`.`clusterName`, `b`.`Code`, `b`.`formID`, `b`.`Details`, `b`.`priorityLevel`, `d`.`subjectName`, `e`.`schoolName`
+FROM `tblreview` `a`
+LEFT JOIN `tblform` `b` ON `b`.`formID`=`a`.`formID`
+LEFT JOIN `tblcluster` `c` ON `c`.`clusterID`=`b`.`clusterID`
+LEFT JOIN `tblsubject` `d` ON `d`.`subjectID`=`b`.`subjectID`
+LEFT JOIN `tblschool` `e` ON `e`.`schoolID`=`b`.`schoolID`
+WHERE `a`.`accountID` = :a.accountID:
+AND `a`.`Status` = :a.Status:
+AND   (
+`a`.`DateReceived` LIKE :a.DateReceived: ESCAPE \'!\'
+OR  `a`.`Status` LIKE :a.Status.1: ESCAPE \'!\'
+OR  `b`.`Code` LIKE :b.Code: ESCAPE \'!\'
+OR  `b`.`Details` LIKE :b.Details: ESCAPE \'!\'
+OR  `b`.`priorityLevel` LIKE :b.priorityLevel: ESCAPE \'!\'
+OR  `d`.`subjectName` LIKE :d.subjectName: ESCAPE \'!\'
+OR  `e`.`schoolName` LIKE :e.schoolName: ESCAPE \'!\'
+OR  `c`.`clusterName`. LIKE :c.clusterName.: ESCAPE \'!\'
+ )', [...], false)
+ 2 APPPATH\Controllers\ActionController.php(1022): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->reviewRequest()
+ 4 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 5 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+INFO - 2025-02-22 15:00:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:00:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:00:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:00:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:00:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2025-02-22 15:00:31 --> mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIKE '%l%' ESCAPE '!'
+ )' at line 16 in C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT `a`.`Dat...', 0)
+#1 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `a`.`Dat...')
+#2 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `a`.`Dat...')
+#3 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`Dat...', Array, false)
+#4 C:\Users\Warvin\Downloads\eAssist\eAssist\app\Controllers\ActionController.php(1021): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\Warvin\Downloads\eAssist\eAssist\system\CodeIgniter.php(934): App\Controllers\ActionController->reviewRequest()
+#6 C:\Users\Warvin\Downloads\eAssist\eAssist\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+#7 C:\Users\Warvin\Downloads\eAssist\eAssist\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\Users\Warvin\Downloads\eAssist\eAssist\public\index.php(67): CodeIgniter\CodeIgniter->run()
+#9 C:\Users\Warvin\Downloads\eAssist\eAssist\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\Warvin...')
+#10 {main}
+CRITICAL - 2025-02-22 15:00:31 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIKE '%l%' ESCAPE '!'
+ )' at line 16
+in SYSTEMPATH\Database\BaseConnection.php on line 645.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`DateReceived`, `a`.`Status`, `c`.`clusterName`, `b`.`Code`, `b`.`formID`, `b`.`Details`, `b`.`priorityLevel`, `d`.`subjectName`, `e`.`schoolName`
+FROM `tblreview` `a`
+LEFT JOIN `tblform` `b` ON `b`.`formID`=`a`.`formID`
+LEFT JOIN `tblcluster` `c` ON `c`.`clusterID`=`b`.`clusterID`
+LEFT JOIN `tblsubject` `d` ON `d`.`subjectID`=`b`.`subjectID`
+LEFT JOIN `tblschool` `e` ON `e`.`schoolID`=`b`.`schoolID`
+WHERE `a`.`accountID` = :a.accountID:
+AND `a`.`Status` = :a.Status:
+AND   (
+`a`.`DateReceived` LIKE :a.DateReceived: ESCAPE \'!\'
+OR  `b`.`Code` LIKE :b.Code: ESCAPE \'!\'
+OR  `b`.`Details` LIKE :b.Details: ESCAPE \'!\'
+OR  `b`.`priorityLevel` LIKE :b.priorityLevel: ESCAPE \'!\'
+OR  `d`.`subjectName` LIKE :d.subjectName: ESCAPE \'!\'
+OR  `e`.`schoolName` LIKE :e.schoolName: ESCAPE \'!\'
+OR  `c`.`clusterName`. LIKE :c.clusterName.: ESCAPE \'!\'
+ )', [...], false)
+ 2 APPPATH\Controllers\ActionController.php(1021): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\ActionController->reviewRequest()
+ 4 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ActionController))
+ 5 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('FCPATH\\index.php')
+INFO - 2025-02-22 15:00:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:03:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:03:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:03:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:03:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:03:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:03:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:03:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:03:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:03:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:03:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:03:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:03:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:03:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:03:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:03:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:05:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:05:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:05:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:17:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:17:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:17:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:17:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:17:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:17:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:17:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:17:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:17:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:17:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:17:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:17:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:17:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 23:21:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:21:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:23:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:23:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:23:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:23:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:24:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-02-22 15:24:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
