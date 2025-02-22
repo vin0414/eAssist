@@ -275,10 +275,13 @@
                                         </h6>
                                     </div>
                                 </div>
-                                <div class="card-body px-0 pt-0 pb-2">
-                                    <div class="table-responsive p-0">
-                                        <table class="table align-items-center mb-0" style="font-size:12px;">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-flush" id="tblarea" style="font-size:12px;">
                                             <thead>
+                                                <th
+                                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                    Date Created</th>
                                                 <th
                                                     class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                     Area of Concerns</th>
@@ -286,7 +289,7 @@
                                                     class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                     Action</th>
                                             </thead>
-                                            <tbody id="tblsubject"></tbody>
+                                            <tbody></tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -619,7 +622,32 @@
             ]
         });
         fetchCluster();
-        fetchSubject();
+        var tables = $('#tblarea').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "<?=site_url('fetch-subject')?>",
+                "type": "GET",
+                "dataSrc": function(json) {
+                    // Handle the data if needed
+                    return json.data;
+                },
+                "error": function(xhr, error, code) {
+                    console.error("AJAX Error: " + error);
+                    alert("Error occurred while loading data.");
+                }
+            },
+            "columns": [{
+                    "data": "date"
+                },
+                {
+                    "data": "area"
+                },
+                {
+                    "data": "action"
+                }
+            ]
+        });
         $('#frmCluster').on('submit', function(e) {
             e.preventDefault();
             $('.error-message').html('');
@@ -682,7 +710,7 @@
                 data: data,
                 success: function(response) {
                     if (response.success) {
-                        fetchSubject();
+                        tables.ajax.reload();
                         $('#frmSubject')[0].reset();
                         $('#addSubjectModal').modal('hide');
                     } else {
@@ -708,7 +736,7 @@
                 data: data,
                 success: function(response) {
                     if (response.success) {
-                        fetchSubject();
+                        tables.ajax.reload();
                         $('#frmEditSubject')[0].reset();
                         $('#editSubjectModal').modal('hide');
                     } else {
@@ -817,22 +845,6 @@
                         "<tr><td colspan='3'><center>No Available Record(s)</center></td></tr>");
                 } else {
                     $('#tblcluster').html(response);
-                }
-            }
-        });
-    }
-
-    function fetchSubject() {
-        $('#tblsubject').html("<tr><td colspan='2'><center>Loading...</center></td></tr>");
-        $.ajax({
-            url: "<?=site_url('fetch-subject')?>",
-            method: "GET",
-            success: function(response) {
-                if (response === "") {
-                    $('#tblsubject').html(
-                        "<tr><td colspan='2'><center>No Available Record(s)</center></td></tr>");
-                } else {
-                    $('#tblsubject').html(response);
                 }
             }
         });

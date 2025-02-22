@@ -772,7 +772,7 @@ class Home extends BaseController
             $subject = $subjectModel->findAll();
             //users
             $accountModel = new \App\Models\accountModel();
-            $account = $accountModel->WHERE('Role','Manager')->findAll();
+            $account = $accountModel->WHERE('Role','Manager')->orderBy('Position', 'ASC')->findAll();
 
             $data = ['title'=>$title,'subject'=>$subject,'account'=>$account,'about'=>$system];
             return view('user/technical-assistance',$data);

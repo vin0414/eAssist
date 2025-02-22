@@ -110,26 +110,24 @@ class ActionController extends BaseController
     {
         $subjectModel = new \App\Models\subjectModel();
         $subject = $subjectModel->findAll();
-        foreach($subject as $row)
-        {
-            ?>
-<tr>
-    <td>
-        <div class="d-flex px-2 py-1">
-            <div class="d-flex flex-column justify-content-center">
-                <h6 class="mb-0 text-sm"><?php echo $row['subjectName'] ?></h6>
-                <p class="text-xs text-secondary mb-0">Date Created :
-                    <?php echo date('Y-M-d', strtotime($row['DateCreated'])) ?></p>
-            </div>
-        </div>
-    </td>
-    <td class="align-middle">
-        <button type="button" class="btn btn-success btn-sm editSubject" value="<?php echo $row['subjectID'] ?>"><i
-                class="fa-regular fa-pen-to-square"></i>&nbsp;Rename</button>
-    </td>
-</tr>
-<?php
+
+        $totalRecords = $subjectModel->countAllResults();
+
+        $response = [
+            "draw" => $_GET['draw'],
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $totalRecords,
+            'data' => [] 
+        ];
+        foreach ($subject as $row) {
+            $response['data'][] = [
+                'date'=>date('Y-M-d',strtotime($row['DateCreated'])),
+                'area' =>$row['subjectName'],
+                'action' => '<button class="btn btn-success btn-sm editSubject" value="' . htmlspecialchars($row['subjectID'], ENT_QUOTES) . '"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Rename</button>'
+            ];
         }
+        // Return the response as JSON
+        return $this->response->setJSON($response);
     }
 
     public function saveSubject()
@@ -739,93 +737,93 @@ class ActionController extends BaseController
 
         if($form):
         ?>
-        <form method="POST" class="row g-2" enctype="multipart/form-data" id="frmEditRequest">
-            <?= csrf_field(); ?>
-            <input type="hidden" name="formID" value="<?=$form['formID']?>"/>
-            <div class="col-12">
-                <div><small>1. Please choose your area of concern</small></div>
-                <select class="form-control" name="area" required>
-                    <option value="">Choose</option>
-                    <?php foreach($subject as $row): ?>
-                    <option value="<?php echo $row['subjectID'] ?>"
-                        <?php echo ($form['subjectID'] == $row['subjectID']) ? 'selected' : ''; ?>>
-                        <?php echo $row['subjectName'] ?>
-                    </option>
-                    <?php endforeach; ?>
-                </select>
-                <div id="area-error" class="error-message text-danger text-sm"></div>
-            </div>
-            <div class="col-12">
-                <div><small>2. Based on your area of concern, from whom are you expecting the technical
-                        assistance to be coming?</small></div>
-                <div class="row">
-                    <?php foreach($account as $row): ?>
-                    <div class="col-lg-6">
-                        <div class="radio-group">
-                            <label>
-                                <input type="checkbox" name="account[]" style="width:18px;height:18px;"
-                                    value="<?php echo $row['accountID'] ?>"
-                                    <?php echo ($review['accountID'] == $row['accountID']) ? 'checked' : ''; ?>>
-                                <label class="align-middle"><?php echo $row['Fullname'] ?><br /><span
-                                        style="font-size:10px;"><?php echo $row['Position'] ?></span></label>
-                            </label>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
-                    <div id="account-error" class="error-message text-danger text-sm"></div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div><small>3. Details of Technical Assistance Needed</small></div>
-                <span><small>Please provide specific details about your concerns, issues, or challenges
-                        based on your chosen area of concern/s. You may also provide data or any documents
-                        that may serve as reference for the TA providers.</small></span>
-                <textarea class="form-control" name="details" required><?=$form['Details']?></textarea>
-                <div id="details-error" class="error-message text-danger text-sm"></div>
-            </div>
-            <div class="col-12">
-                <div><small>4. Supporting Documents</small></div>
-                <span><small>Upload any supporting documents in PDF file format that will serve as reference
-                        for the TA provider in crafting his/ her technical assistance plan. Merge in one (1)
-                        file only</small></span>
-                <input type="file" class="form-control" name="file" />
-            </div>
-            <div class="col-12">
-                <div><small>5. Level of Priority for Technical Assistance</small></div>
+<form method="POST" class="row g-2" enctype="multipart/form-data" id="frmEditRequest">
+    <?= csrf_field(); ?>
+    <input type="hidden" name="formID" value="<?=$form['formID']?>" />
+    <div class="col-12">
+        <div><small>1. Please choose your area of concern</small></div>
+        <select class="form-control" name="area" required>
+            <option value="">Choose</option>
+            <?php foreach($subject as $row): ?>
+            <option value="<?php echo $row['subjectID'] ?>"
+                <?php echo ($form['subjectID'] == $row['subjectID']) ? 'selected' : ''; ?>>
+                <?php echo $row['subjectName'] ?>
+            </option>
+            <?php endforeach; ?>
+        </select>
+        <div id="area-error" class="error-message text-danger text-sm"></div>
+    </div>
+    <div class="col-12">
+        <div><small>2. Based on your area of concern, from whom are you expecting the technical
+                assistance to be coming?</small></div>
+        <div class="row">
+            <?php foreach($account as $row): ?>
+            <div class="col-lg-6">
                 <div class="radio-group">
                     <label>
-                        <?php if($form['priorityLevel']=="Low"){?>
-                        <input type="radio" name="priority" style="width:18px;height:18px;" value="Low" checked/>
-                        <?php }else { ?>
-                        <input type="radio" name="priority" style="width:18px;height:18px;" value="Low" required/>
-                        <?php } ?>
-                        <label class="align-middle">Low Priority</label>
-                    </label>
-                    <label>
-                        <?php if($form['priorityLevel']=="Medium"){?>
-                        <input type="radio" name="priority" style="width:18px;height:18px;" value="Medium" checked/>
-                        <?php }else { ?>
-                        <input type="radio" name="priority" style="width:18px;height:18px;" value="Medium" required/>
-                        <?php } ?>
-                        <label class="align-middle">Medium Priority</label>
-                    </label>
-                    <label>
-                        <?php if($form['priorityLevel']=="High"){?>
-                        <input type="radio" name="priority" style="width:18px;height:18px;" value="High" checked/>
-                        <?php }else { ?>
-                        <input type="radio" name="priority" style="width:18px;height:18px;" value="High" required/>
-                        <?php } ?>
-                        <label class="align-middle">High Priority</label>
+                        <input type="checkbox" name="account[]" style="width:18px;height:18px;"
+                            value="<?php echo $row['accountID'] ?>"
+                            <?php echo ($review['accountID'] == $row['accountID']) ? 'checked' : ''; ?>>
+                        <label class="align-middle"><?php echo $row['Fullname'] ?><br /><span
+                                style="font-size:10px;"><?php echo $row['Position'] ?></span></label>
                     </label>
                 </div>
-                <div id="priority-error" class="error-message text-danger text-sm"></div>
             </div>
-            <div class="col-12">
-                <button type="submit" class="btn btn-info save"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Save Changes
-                </button>
-            </div>
-        </form>
-        <?php
+            <?php endforeach; ?>
+            <div id="account-error" class="error-message text-danger text-sm"></div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div><small>3. Details of Technical Assistance Needed</small></div>
+        <span><small>Please provide specific details about your concerns, issues, or challenges
+                based on your chosen area of concern/s. You may also provide data or any documents
+                that may serve as reference for the TA providers.</small></span>
+        <textarea class="form-control" name="details" required><?=$form['Details']?></textarea>
+        <div id="details-error" class="error-message text-danger text-sm"></div>
+    </div>
+    <div class="col-12">
+        <div><small>4. Supporting Documents</small></div>
+        <span><small>Upload any supporting documents in PDF file format that will serve as reference
+                for the TA provider in crafting his/ her technical assistance plan. Merge in one (1)
+                file only</small></span>
+        <input type="file" class="form-control" name="file" />
+    </div>
+    <div class="col-12">
+        <div><small>5. Level of Priority for Technical Assistance</small></div>
+        <div class="radio-group">
+            <label>
+                <?php if($form['priorityLevel']=="Low"){?>
+                <input type="radio" name="priority" style="width:18px;height:18px;" value="Low" checked />
+                <?php }else { ?>
+                <input type="radio" name="priority" style="width:18px;height:18px;" value="Low" required />
+                <?php } ?>
+                <label class="align-middle">Low Priority</label>
+            </label>
+            <label>
+                <?php if($form['priorityLevel']=="Medium"){?>
+                <input type="radio" name="priority" style="width:18px;height:18px;" value="Medium" checked />
+                <?php }else { ?>
+                <input type="radio" name="priority" style="width:18px;height:18px;" value="Medium" required />
+                <?php } ?>
+                <label class="align-middle">Medium Priority</label>
+            </label>
+            <label>
+                <?php if($form['priorityLevel']=="High"){?>
+                <input type="radio" name="priority" style="width:18px;height:18px;" value="High" checked />
+                <?php }else { ?>
+                <input type="radio" name="priority" style="width:18px;height:18px;" value="High" required />
+                <?php } ?>
+                <label class="align-middle">High Priority</label>
+            </label>
+        </div>
+        <div id="priority-error" class="error-message text-danger text-sm"></div>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-info save"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Save Changes
+        </button>
+    </div>
+</form>
+<?php
         endif;
     }
 

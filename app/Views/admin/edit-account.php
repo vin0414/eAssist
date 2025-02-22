@@ -26,7 +26,7 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 "
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 "
         id="sidenav-main">
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
@@ -255,7 +255,7 @@
                                 <h6>Credentials</h6>
                                 <div class="col-lg-12 form-group">
                                     <div class="row g-3">
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-8">
                                             <label>Email Address</label>
                                             <input type="email" class="form-control" name="email"
                                                 value="<?=$account['Email']?>" required />
@@ -264,8 +264,10 @@
                                         <div class="col-lg-2">
                                             <label>Type of User</label>
                                             <select class="form-control" name="user_type" id="user_type" required>
-                                            <?php foreach($user as $row): ?>
-                                                    <option <?php echo ($account['userType'] == $row['userType']) ? 'selected' : ''; ?>><?php echo $row['userType'] ?></option>
+                                                <?php foreach($user as $row): ?>
+                                                <option
+                                                    <?php echo ($account['userType'] == $row['userType']) ? 'selected' : ''; ?>>
+                                                    <?php echo $row['userType'] ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                             <div id="user_type-error" class="error-message text-danger text-sm"></div>
@@ -285,20 +287,23 @@
                                             </select>
                                             <div id="role-error" class="error-message text-danger text-sm"></div>
                                         </div>
-                                        <div class="col-lg-2">
-                                            <label>Status</label>
-                                            <select class="form-control" name="status" id="status" required>
-                                                <option value="">Choose</option>
-                                                <option value="1"
-                                                    <?php echo ($account['Status'] == 1) ? 'selected' : ''; ?>>Active
-                                                </option>
-                                                <option value="0"
-                                                    <?php echo ($account['Status'] == 0) ? 'selected' : ''; ?>>Inactive
-                                                </option>
-                                            </select>
-                                            <div id="status-error" class="error-message text-danger text-sm"></div>
-                                        </div>
                                     </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <label>Account Status</label>
+                                    <div class="radio-group">
+                                        <label>
+                                            <input type="radio" name="status" style="width:18px;height:18px;" value="1"
+                                                <?php echo ($account['Status']==1) ? 'checked': '';?>>
+                                            <label class="align-middle">Active</label>
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="status" style="width:18px;height:18px;" value="0"
+                                                <?php echo ($account['Status']==0) ? 'checked': '';?>>
+                                            <label class="align-middle">Inactive</label>
+                                        </label>
+                                    </div>
+                                    <div id="status-error" class="error-message text-danger text-sm"></div>
                                 </div>
                                 <div class="col-lg-12 form-group">
                                     <div class="row g-3">
@@ -418,14 +423,11 @@
     $('#user_type').change(function() {
         $('#role').find("option").remove();
         let val = $(this).val();
-        if (val === "GUEST") 
-        {
+        if (val === "GUEST") {
             $('#role').append("<option>User</option>");
-        } else if (val === "ADMIN"||val === "CHIEF") {
+        } else if (val === "ADMIN" || val === "CHIEF") {
             $('#role').append("<option>Administrator</option>");
-        }
-        else if(val !== "")
-        {
+        } else if (val !== "") {
             $('#role').append("<option>Manager</option>");
         }
     });
