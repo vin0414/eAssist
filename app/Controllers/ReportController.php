@@ -161,6 +161,7 @@ class ReportController extends BaseController
         $builder->join('tblaction e','e.formID=a.formID','LEFT');
         $builder->WHERE('DATE_FORMAT(e.ImplementationDate,"%m")',$month)
                 ->WHERE('DATE_FORMAT(e.ImplementationDate,"%Y")',$year)
+                ->WHERE('a.Status',1)
                 ->groupBy('a.formID');
         $data = $builder->get()->getResult();
         foreach($data as $row)
@@ -351,6 +352,7 @@ class ReportController extends BaseController
         $builder->join('tblaction e','e.formID=a.formID','LEFT');
         $builder->WHERE('DATE_FORMAT(e.ImplementationDate,"%m")',$month)
                 ->WHERE('DATE_FORMAT(e.ImplementationDate,"%Y")',$year)
+                ->WHERE('a.Status',1)
                 ->groupBy('a.formID');
         $data = $builder->get()->getResult();
         foreach($data as $row)
@@ -542,6 +544,7 @@ class ReportController extends BaseController
         $builder->join('tblfeedback f','f.formID=a.formID','INNER');
         $builder->WHERE('DATE_FORMAT(e.ImplementationDate,"%m")',$month)
                 ->WHERE('DATE_FORMAT(e.ImplementationDate,"%Y")',$year)
+                ->WHERE('a.Status',1)
                 ->groupBy('a.formID');
         $data = $builder->get()->getResult();
         foreach($data as $row)
@@ -730,6 +733,7 @@ class ReportController extends BaseController
         $builder->join('tblaction e','e.formID=a.formID','LEFT');
         $builder->WHERE('DATE_FORMAT(e.ImplementationDate,"%m")',$month)
                 ->WHERE('DATE_FORMAT(e.ImplementationDate,"%Y")',$year)
+                ->WHERE('a.Status',1)
                 ->groupBy('a.formID');
         $data = $builder->get()->getResult();
         foreach($data as $row)

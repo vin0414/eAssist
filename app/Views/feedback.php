@@ -233,7 +233,7 @@
                     <div class="d-flex align-items-center">
                         <h6 class="mb-0">
                             <img src="<?=base_url('assets/img/logos')?>/<?=isset($about['systemLogo']) ? $about['systemLogo'] : "No Logo"?>"
-                                width="30px" />&nbsp;Feedback and Rates
+                                width="30px" />&nbsp;Feedback and Ratings
                         </h6>
                     </div>
                 </div>
