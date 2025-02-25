@@ -531,12 +531,14 @@ class ActionController extends BaseController
             //get the cluster ID and school ID
             $schoolModel = new \App\Models\schoolModel();
             $school = $schoolModel->WHERE('schoolID',$this->request->getPost('school'))->first();
+            //get the accountID of the assigned requestor in school
+            $requestor = $accountModel->WHERE('schoolID', $this->request->getPost('school'))->first();
             //approver
             $account = $accountModel->WHERE('accountID',$user)->first();
             //save the form
             if(empty($originalName))
             {
-                $data = ['DateCreated'=>$date,'Code'=>$code,'accountID'=>$user,
+                $data = ['DateCreated'=>$date,'Code'=>$code,'accountID'=>$requestor['accountID'],
                         'clusterID'=>$school['clusterID'],'schoolID'=>$this->request->getPost('school'),
                         'Agree'=>$this->request->getPost('agreement'),'subjectID'=>$this->request->getPost('area'),
                         'Details'=>$this->request->getPost('details'),
@@ -1510,7 +1512,6 @@ class ActionController extends BaseController
         $builder->join('tblaction e','e.formID=a.formID','LEFT');
         $builder->WHERE('DATE_FORMAT(e.ImplementationDate,"%m")',$month)
                 ->WHERE('DATE_FORMAT(e.ImplementationDate,"%Y")',$year)
-                ->WHERE('a.Status',1)
                 ->groupBy('a.formID');
         $data = $builder->get()->getResult();
         foreach($data as $row)

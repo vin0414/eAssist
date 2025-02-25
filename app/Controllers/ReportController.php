@@ -123,7 +123,7 @@ class ReportController extends BaseController
             }
             .footer
             {
-                position:fixed;bottom:0;width:100%;font-size:10px;
+                bottom:0;width:100%;font-size:10px;
             }
             </style>
         </head>
@@ -161,7 +161,6 @@ class ReportController extends BaseController
         $builder->join('tblaction e','e.formID=a.formID','LEFT');
         $builder->WHERE('DATE_FORMAT(e.ImplementationDate,"%m")',$month)
                 ->WHERE('DATE_FORMAT(e.ImplementationDate,"%Y")',$year)
-                ->WHERE('a.Status',1)
                 ->groupBy('a.formID');
         $data = $builder->get()->getResult();
         foreach($data as $row)
@@ -312,7 +311,7 @@ class ReportController extends BaseController
             }
             .footer
             {
-                position:fixed;bottom:0;width:100%;font-size:10px;
+                bottom:0;width:100%;font-size:10px;
             }
             </style>
         </head>
@@ -352,7 +351,6 @@ class ReportController extends BaseController
         $builder->join('tblaction e','e.formID=a.formID','LEFT');
         $builder->WHERE('DATE_FORMAT(e.ImplementationDate,"%m")',$month)
                 ->WHERE('DATE_FORMAT(e.ImplementationDate,"%Y")',$year)
-                ->WHERE('a.Status',1)
                 ->groupBy('a.formID');
         $data = $builder->get()->getResult();
         foreach($data as $row)
@@ -503,7 +501,7 @@ class ReportController extends BaseController
             }
             .footer
             {
-                position:fixed;bottom:0;width:100%;font-size:10px;
+                bottom:0;width:100%;font-size:10px;
             }
             </style>
         </head>
@@ -696,7 +694,7 @@ class ReportController extends BaseController
             }
             .footer
             {
-                position:fixed;bottom:0;width:100%;font-size:10px;
+                bottom:0;width:100%;font-size:10px;
             }
             </style>
         </head>
