@@ -874,7 +874,7 @@ class Home extends BaseController
     {
         if(session()->get('role')=="Administrator" && session()->get('user_type')=="CHIEF")
         {
-            $title = "Feedback and Rates";
+            $title = "Feedback and Ratings";
             //system
             $systemModel = new \App\Models\systemModel();
             $system = $systemModel->first();
